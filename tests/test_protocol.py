@@ -3,7 +3,7 @@
 import unittest
 
 from banking77.data import clean_training_records, normalize_text, split_training_records
-from banking77.models import MODEL_NAMES, build_model
+from banking77.naive_bayes import build_naive_bayes
 
 
 class DataProtocolTests(unittest.TestCase):
@@ -37,13 +37,11 @@ class PipelineTests(unittest.TestCase):
     def test_validation_only_word_does_not_enter_training_vocabulary(self):
         training = ["lost card stolen", "my stolen card", "transfer money account", "send money transfer"]
         labels = ["card", "card", "transfer", "transfer"]
-        for name in MODEL_NAMES:
-            with self.subTest(model=name):
-                model = build_model(name)
-                model.fit(training, labels)
-                model.predict(["unseenword card"])
-                self.assertNotIn("unseenword", model.named_steps["tfidf"].vocabulary_)
-                self.assertEqual(model.predict(["stolen card"])[0], "card")
+        model = build_naive_bayes()
+        model.fit(training, labels)
+        model.predict(["unseenword card"])
+        self.assertNotIn("unseenword", model.named_steps["tfidf"].vocabulary_)
+        self.assertEqual(model.predict(["stolen card"])[0], "card")
 
 
 if __name__ == "__main__":

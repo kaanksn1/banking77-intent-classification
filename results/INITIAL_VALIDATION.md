@@ -1,27 +1,23 @@
-# İlk validation sonuçları — 7 Ekim 2026
+# Naive Bayes ilk validation sonucu — 7 Ekim 2026
 
-Bunlar başlangıç ayarlarıyla elde edilen geliştirme sonuçlarıdır; nihai test sonucu değildir.
-Test bölümünde model değerlendirmesi henüz yapılmadı.
+Bu rapor repo sahibinin Naive Bayes başlangıcına aittir. Nihai test sonucu değildir.
+Logistic Regression ve Linear SVM ilgili ekip üyelerinin kendi geliştireceği bölümlerdir.
+Ortak model karşılaştırması, grafikler ve sunum 5. kişiye aittir.
 
-- Eğitim: 8.499; validation: 1.500; resmî test: 3.080 kayıt.
-- TF-IDF: unigram + bigram, sublinear TF; seed=42.
-- Naive Bayes alpha=1.0; Logistic Regression ve Linear SVM C=1.0.
-- Modeller aynı Windows bilgisayarda sırayla çalıştırıldı. Süreler tek ölçümdür, tekrarlı benchmark değildir.
+- Eğitim: 8,499; validation: 1,500; resmî test: 3.080 kayıt.
+- TF-IDF: unigram + bigram, sublinear TF; veri ayrımı seed=42.
+- Multinomial Naive Bayes: alpha=1.0.
+- Validation accuracy: **81.60%**.
+- Validation macro F1: **0.7872**.
 
-| Model | Validation accuracy | Validation macro F1 | Eğitim (sn) |
-| --- | ---: | ---: | ---: |
-| Naive Bayes | 81.60% | 0.7872 | 0.157 |
-| Logistic Regression | 85.80% | 0.8555 | 5.776 |
-| Linear SVM | 89.20% | 0.8935 | 0.519 |
+## Veri protokolü
 
-## Veri kontrolü
+Ortak başlangıçta resmî eğitim verisindeki 4 normalize metin tekrarı kaldırıldı.
+Train/validation örtüşmesi 0; train/resmî test örtüşmesi 7 metin.
+Resmî test değiştirilmedi. Bu sınırlama final raporunda belirtilmelidir.
+Veri analizi ve özellik deneylerini 2. kişi geliştirecektir.
 
-Resmî eğitim verisindeki 4 normalize metin tekrarı kaldırıldı. Train/validation örtüşmesi 0;
-train/resmî test örtüşmesi 7 metin. Resmî test değiştirilmedi. Son test raporunda bu sınırlama
-ve train ile örtüşmeyen altkümenin sonuçları birlikte gösterilmelidir.
+Ayarlar ve ortam: [initial_validation.json](initial_validation.json).
+Ortak veri özeti: [data_summary.json](data_summary.json).
 
-Tüm ayarlar, ortam sürümleri ve veri kimliği: [initial_validation.json](initial_validation.json).
-Veri ayrımının ayrıntıları: [data_summary.json](data_summary.json).
-
-Komutlar: `python -m banking77.train --model naive_bayes`,
-`python -m banking77.train --model logistic_regression`, `python -m banking77.train --model svm`.
+Komut: `python -m banking77.train_naive_bayes`.

@@ -1,4 +1,4 @@
-"""Run one baseline; validation is the default evaluation split."""
+"""Train and inspect the repository owner's Naive Bayes model."""
 
 import argparse
 import csv
@@ -6,7 +6,6 @@ import hashlib
 import json
 import platform
 from datetime import datetime, timezone
-from pathlib import Path
 from time import perf_counter
 
 import joblib
@@ -15,27 +14,25 @@ import sklearn
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
 
 from banking77.data import ROOT, normalize_text, read_records
-from banking77.models import MODEL_NAMES, build_model
+from banking77.naive_bayes import build_naive_bayes
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", choices=MODEL_NAMES, default="naive_bayes")
     parser.add_argument("--split", choices=("validation", "test"), default="validation")
     parser.add_argument("--ngram-max", type=int, choices=(1, 2), default=2)
     parser.add_argument("--alpha", type=float, default=1.0)
-    parser.add_argument("--c", type=float, default=1.0)
-    parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
-    if args.alpha <= 0 or args.c <= 0:
-        parser.error("--alpha and --c must be positive")
+    if args.alpha <= 0:
+        parser.error("--alpha must be positive")
     processed = ROOT / "data/processed"
     if not (processed / "summary.json").exists():
         parser.error("Run python -m banking77.data first")
     train = read_records(processed / "train.csv")
     evaluation = read_records(processed / f"{args.split}.csv")
     categories = json.loads((processed / "categories.json").read_text(encoding="utf-8"))
-    pipeline = build_model(args.model, args.ngram_max, args.alpha, args.c, args.seed)
+    data_summary = json.loads((processed / "summary.json").read_text(encoding="utf-8"))
+    pipeline = build_naive_bayes(args.ngram_max, args.alpha)
     start = perf_counter()
     pipeline.fit([row["text"] for row in train], [row["category"] for row in train])
     fit_seconds = perf_counter() - start
@@ -45,9 +42,9 @@ def main():
     actual = [row["category"] for row in evaluation]
     report = classification_report(actual, predicted, labels=categories, output_dict=True, zero_division=0)
     dataset_sha = hashlib.sha256((processed / "summary.json").read_bytes()).hexdigest()
-    settings = {"model": args.model, "ngram_max": args.ngram_max, "alpha": args.alpha if args.model == "naive_bayes" else None, "c": args.c if args.model != "naive_bayes" else None, "seed": args.seed, "tfidf_sublinear_tf": True}
+    settings = {"model": "naive_bayes", "ngram_max": args.ngram_max, "alpha": args.alpha, "seed": data_summary["seed"], "tfidf_sublinear_tf": True}
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
-    run_id = f"{args.model}_{args.split}_{stamp}"
+    run_id = f"naive_bayes_{args.split}_{stamp}"
     output = ROOT / "results/runs" / run_id
     output.mkdir(parents=True, exist_ok=False)
     metrics = {

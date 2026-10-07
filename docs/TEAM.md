@@ -6,11 +6,24 @@
 | 2. kişi | Veri analizi, kalite kontrolü, ortak bölümler; unigram/bigram deneyi | `feature/data-features` |
 | 3. kişi | Logistic Regression, C deneyleri, hata analizi | `feature/logistic-regression` |
 | 4. kişi | Linear SVM, C deneyleri, hata analizi | `feature/svm` |
-| 5. kişi | Ortak değerlendirmeyi geliştirme, grafikler, karşılaştırma, slaytları birleştirme ve sunum | `feature/evaluation` |
+| 5. kişi | Ortak değerlendirme kodunu yazma, grafikler, karşılaştırma, slaytları birleştirme ve sunum | `feature/evaluation` |
 
-Başlangıç modelleri ortak bir iskelet olarak hazırdır. Her sorumlu kendi yöntemini
-anlamalı, deneylerini yapmalı ve bulgularını yazmalıdır. Herkes kendi bölümünün
-slayt taslağını ve README açıklamasını hazırlar.
+Repo sahibinin Naive Bayes başlangıcı hazırdır. Diğer model sorumluları kendi
+kodlarını kendi branch'lerinde yazacaktır. Ortak veri kodu 2. kişinin geliştireceği
+bir başlangıçtır; veri analizi ve özellik deneyleri ona aittir. Herkes kendi
+bölümünün deneylerini, bulgularını, slayt taslağını ve README açıklamasını hazırlar.
+
+## Kod sahipliği
+
+- Repo sahibi: `src/banking77/naive_bayes.py`, `src/banking77/train_naive_bayes.py`,
+  kendi modelinin sonuçları; GitHub ve son entegrasyon.
+- 2. kişi: `src/banking77/data.py`, veri inceleme ve özellik deneyleri.
+- 3. kişi: Logistic Regression için kendi model/eğitim dosyalarını ekler.
+- 4. kişi: Linear SVM için kendi model/eğitim dosyalarını ekler.
+- 5. kişi: ortak değerlendirme ve görselleştirme dosyalarını ekler; sunumu hazırlar.
+
+Bir başkasının bölümüne değişiklik gerekiyorsa ilgili sorumluya bildirip PR üzerinden
+anlaşın. Başlangıç altyapısı o kişinin deneylerinin veya analizinin tamamlandığı anlamına gelmez.
 
 ## Teslim sözleşmesi
 
@@ -29,7 +42,7 @@ git switch main
 git pull --ff-only
 git switch -c feature/naive-bayes
 # Kendi dosyalarını düzenle ve kontrol et.
-git add src/banking77/models.py docs
+git add src/banking77/naive_bayes.py src/banking77/train_naive_bayes.py
 git commit -m "Add Naive Bayes validation experiments"
 git push -u origin feature/naive-bayes
 ```

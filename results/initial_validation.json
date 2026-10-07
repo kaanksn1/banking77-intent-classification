@@ -1,12 +1,11 @@
 [
   {
-    "run_id": "naive_bayes_validation_20261007T130717485746Z",
+    "run_id": "naive_bayes_validation_20261007T131339244177Z",
     "evaluation_split": "validation",
     "settings": {
       "model": "naive_bayes",
       "ngram_max": 2,
       "alpha": 1.0,
-      "c": null,
       "seed": 42,
       "tfidf_sublinear_tf": true
     },
@@ -15,61 +14,9 @@
     "evaluation_rows": 1500,
     "accuracy": 0.816,
     "macro_f1": 0.7872305424754604,
-    "fit_seconds": 0.15727350000815932,
-    "predict_seconds": 0.02550889999838546,
-    "prediction_ms_per_message": 0.017005933332256973,
-    "environment": {
-      "python": "3.12.0",
-      "scikit_learn": "1.9.1",
-      "numpy": "2.5.3"
-    },
-    "overlapping_evaluation_rows": 0
-  },
-  {
-    "run_id": "logistic_regression_validation_20261007T130724686835Z",
-    "evaluation_split": "validation",
-    "settings": {
-      "model": "logistic_regression",
-      "ngram_max": 2,
-      "alpha": null,
-      "c": 1.0,
-      "seed": 42,
-      "tfidf_sublinear_tf": true
-    },
-    "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
-    "training_rows": 8499,
-    "evaluation_rows": 1500,
-    "accuracy": 0.858,
-    "macro_f1": 0.8555337721000212,
-    "fit_seconds": 5.775551300001098,
-    "predict_seconds": 0.02551849999872502,
-    "prediction_ms_per_message": 0.017012333332483347,
-    "environment": {
-      "python": "3.12.0",
-      "scikit_learn": "1.9.1",
-      "numpy": "2.5.3"
-    },
-    "overlapping_evaluation_rows": 0
-  },
-  {
-    "run_id": "svm_validation_20261007T130726835392Z",
-    "evaluation_split": "validation",
-    "settings": {
-      "model": "svm",
-      "ngram_max": 2,
-      "alpha": null,
-      "c": 1.0,
-      "seed": 42,
-      "tfidf_sublinear_tf": true
-    },
-    "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
-    "training_rows": 8499,
-    "evaluation_rows": 1500,
-    "accuracy": 0.892,
-    "macro_f1": 0.893487418789585,
-    "fit_seconds": 0.5189077999966685,
-    "predict_seconds": 0.018923399999039248,
-    "prediction_ms_per_message": 0.012615599999359498,
+    "fit_seconds": 0.1765360999997938,
+    "predict_seconds": 0.025076899997657165,
+    "prediction_ms_per_message": 0.016717933331771444,
     "environment": {
       "python": "3.12.0",
       "scikit_learn": "1.9.1",

@@ -1,16 +1,19 @@
 # BANKING77 — Banka Müşteri Taleplerinin Sınıflandırılması
 
 COE025 NLP Project 1 için kısa İngilizce müşteri mesajlarını 77 talep kategorisine
-ayıran metin sınıflandırma projesi. TF-IDF + Naive Bayes, Logistic Regression ve
-Linear SVM aynı veri bölümlerinde karşılaştırılır.
+ayıran metin sınıflandırma projesi. Ekip planında TF-IDF + Naive Bayes, Logistic
+Regression ve Linear SVM aynı veri bölümlerinde karşılaştırılacaktır.
 
 Örnek: `I am still waiting on my card` → `card_arrival`.
 
 ## Durum
 
-Başlangıç altyapısı ve üç klasik model tanımlı. Geliştirme için varsayılan bölüm
-**validation**. Nihai model seçimi, hata analizi ve test raporu ekip çalışmasıyla
-tamamlanacaktır. Henüz nihai başarı iddiası yoktur.
+Bu aşamada ortak kurulum/veri altyapısı ve repo sahibinin **Naive Bayes** kodu
+hazırdır. Logistic Regression 3. kişinin, Linear SVM 4. kişinin kendi branch'inde
+geliştireceği bölümlerdir. Ortak karşılaştırma, grafikler ve sunum 5. kişinin görevidir.
+Veri analizi ve özellik deneyleri 2. kişiye aittir; mevcut veri kodu ortak başlangıçtır.
+Geliştirme için varsayılan bölüm **validation**. Nihai model seçimi, hata analizi ve
+test raporu ekip çalışmasıyla tamamlanacaktır.
 
 ## Kurulum
 
@@ -35,23 +38,21 @@ Farklı bir Python sürümünde gerekirse `requirements.txt` ile uyumlu sürüml
 Ham veri PolyAI'nin resmî GitHub deposundaki sabitlenmiş commit'ten indirilir;
 hesap, Hugging Face token'ı veya API anahtarı gerekmez.
 
-## İlk deneyler
+## Naive Bayes başlangıcı
 
 ```powershell
-.\.venv\Scripts\python.exe -m banking77.train --model naive_bayes
-.\.venv\Scripts\python.exe -m banking77.train --model naive_bayes --ngram-max 1 --alpha 0.5
-.\.venv\Scripts\python.exe -m banking77.train --model logistic_regression
-.\.venv\Scripts\python.exe -m banking77.train --model svm
+.\.venv\Scripts\python.exe -m banking77.train_naive_bayes
+.\.venv\Scripts\python.exe -m banking77.train_naive_bayes --ngram-max 1 --alpha 0.5
 ```
 
-Her çalıştırma `results/runs/` altında ayrı bir klasör ve `artifacts/` altında
+Bu komutlar yalnızca Naive Bayes modelini çalıştırır. Her çalıştırma `results/runs/` altında ayrı bir klasör ve `artifacts/` altında
 eğitilmiş model üretir. Metrikler accuracy, macro F1, eğitim ve tahmin sürelerini
 içerir. `predictions.csv` ve `confusion_matrix.csv` hata analizinde kullanılır.
 
 Parametreleri validation ile seçip dondurduktan sonra, örneğin Naive Bayes için:
 
 ```powershell
-.\.venv\Scripts\python.exe -m banking77.train --model naive_bayes --alpha 0.5 --split test
+.\.venv\Scripts\python.exe -m banking77.train_naive_bayes --alpha 0.5 --split test
 ```
 
 Buradaki alpha yalnızca komut örneğidir; en iyi ayar olduğu iddia edilmez.
@@ -68,7 +69,7 @@ Kaydedilmiş bir modelle tek mesaj tahmini:
 
 ```text
 configs/          Veri kaynağı, sabit commit ve dosya hash'leri
-src/banking77/    Veri hazırlama, modeller, eğitim ve tahmin
+src/banking77/    Ortak veri başlangıcı, Naive Bayes eğitimi ve tahmin
 tests/            Veri ayrımı ve TF-IDF sızıntısı kontrolleri
 docs/             Görev dağılımı ve deney protokolü
 data/             İndirilen ve hazırlanan veriler (Git dışında)
@@ -82,7 +83,7 @@ artifacts/        Eğitilmiş modeller (Git dışında)
 - [Görev dağılımı ve Git akışı](docs/TEAM.md)
 - [Deney planı ve değerlendirme protokolü](docs/EXPERIMENTS.md)
 - [Sonuç dosyaları](results/README.md)
-- [İlk doğrulama sonuçları](results/INITIAL_VALIDATION.md)
+- [Naive Bayes ilk doğrulama sonucu](results/INITIAL_VALIDATION.md)
 
 Veri daha önce indirilmişse ağ bağlantısı olmadan yeniden hazırlamak için
 `python -m banking77.data --offline` kullanılabilir; bu adım kaynak hash'lerini de kontrol eder.
