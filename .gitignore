@@ -11,8 +11,17 @@ __pycache__/
 .tools/
 data/raw/*
 !data/raw/.gitkeep
+!data/raw/train.csv
+!data/raw/test.csv
+!data/raw/categories.json
+!data/raw/LICENSE
 data/processed/*
 !data/processed/.gitkeep
+!data/processed/train.csv
+!data/processed/validation.csv
+!data/processed/test.csv
+!data/processed/categories.json
+!data/processed/summary.json
 artifacts/*
 !artifacts/.gitkeep
 results/runs/*

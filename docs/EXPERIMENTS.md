@@ -24,7 +24,7 @@ bölümünde uygulanmıştır; diğer yöntem ve deneyleri ilgili sorumlular gel
 | Yöntem | Başlangıç | Validation üzerinde denenecek |
 | --- | --- | --- |
 | TF-IDF | unigram + bigram, sublinear TF | `(1,1)` ile `(1,2)` karşılaştırması |
-| Multinomial Naive Bayes | alpha=1.0 | alpha: 0.1, 0.5, 1.0 |
+| Multinomial Naive Bayes | alpha=1.0 | alpha: 0.01, 0.05, 0.1, 0.5, 1.0 |
 | Logistic Regression | C=1.0 | C: 0.1, 1.0, 10.0 |
 | Linear SVM | C=1.0 | C: 0.1, 1.0, 10.0 |
 

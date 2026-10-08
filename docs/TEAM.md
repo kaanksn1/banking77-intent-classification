@@ -16,7 +16,7 @@ bölümünün deneylerini, bulgularını, slayt taslağını ve README açıklam
 ## Kod sahipliği
 
 - Repo sahibi: `src/banking77/naive_bayes.py`, `src/banking77/train_naive_bayes.py`,
-  kendi modelinin sonuçları; GitHub ve son entegrasyon.
+  `src/banking77/benchmark_naive_bayes.py`, kendi modelinin sonuçları; GitHub ve son entegrasyon.
 - 2. kişi: `src/banking77/data.py`, veri inceleme ve özellik deneyleri.
 - 3. kişi: Logistic Regression için kendi model/eğitim dosyalarını ekler.
 - 4. kişi: Linear SVM için kendi model/eğitim dosyalarını ekler.
@@ -31,9 +31,14 @@ anlaşın. Başlangıç altyapısı o kişinin deneylerinin veya analizinin tama
 - TF-IDF yalnızca eğitim verisinde öğrenilir; validation/test üzerinde `fit` yapılmaz.
 - Model/özellik/parametre seçimi validation verisinde yapılır.
 - Her model sahibi komutunu, metriklerini ve en az üç hata örneğini teslim eder.
+- Her üye `contributions/AD_SOYAD_OGRENCI_NUMARASI_GITHUB_KULLANICI_ADI.md`
+  dosyasında tamamladığı işleri ve kendi commit/PR bağlantılarını açıklar.
+  [Katkı şablonu](../contributions/README.md) kullanılabilir.
 - Tahmin dosyası sütunları: `id,text,true_label,predicted_label,correct,overlaps_training`.
 - Karşılaştırılan deneylerin `dataset_summary_sha256` değerleri aynı olmalıdır.
-- İlk sürümde BERT ve arayüz kapsam dışıdır. Sunum tarihi: 12 Ekim 2026.
+- Arayüz planlanmıyor. Ders slaytları incelenerek gerekli baseline listesi
+  doğrulanmalıdır; ek yöntemlerin kapsamı ve sorumlusu ayrıca belirlenir.
+  Sunum tarihi: 12 Ekim 2026.
 
 ## Git akışı
 
@@ -47,6 +52,10 @@ git commit -m "Add Naive Bayes validation experiments"
 git push -u origin feature/naive-bayes
 ```
 
-GitHub'da pull request açın. Repo sahibi inceleyip birleştirir. Veri, `.venv`,
-kimlik bilgileri ve büyük model dosyalarını commit etmeyin. Diğer kişiler kendi
+GitHub'da pull request açın. Repo sahibi inceleyip birleştirir. Hocanın istediği
+ham ve hazırlanmış veri dosyaları, kaynak lisansı ve atıfla teslim edilecektir;
+veri dosyalarının son entegrasyonunu repo sahibi yapar. `.venv`, kimlik bilgileri,
+geçici araçlar ve büyük model dosyalarını commit etmeyin. Diğer kişiler kendi
 branch adlarını ve değişen dosyalarını kullanmalıdır.
+
+2. kişi için adımlar ve teslim dosyaları: [veri/özellik devir talimatı](HANDOFF_DATA.md).
