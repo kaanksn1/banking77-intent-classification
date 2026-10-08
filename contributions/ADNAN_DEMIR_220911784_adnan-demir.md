@@ -154,8 +154,8 @@ py -3.12 -m venv .venv
 
 ## GitHub evidence
 
-- My commit links: not yet created (pending).
-- My pull request links: not yet created (pending).
+- My commit links: [98225d7](https://github.com/kaanksn1/banking77-intent-classification/commit/98225d705fc7806bd3997f28bcc70a4f53615e76)
+- My pull request links: [Pull request #2](https://github.com/kaanksn1/banking77-intent-classification/pull/2)
 
 ## Contribution to the presentation
 
