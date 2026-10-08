@@ -4,6 +4,7 @@ import unittest
 
 from banking77.data import clean_training_records, normalize_text, split_training_records
 from banking77.naive_bayes import build_naive_bayes
+from banking77.benchmark_naive_bayes import select_best_run
 
 
 class DataProtocolTests(unittest.TestCase):
@@ -34,6 +35,11 @@ class DataProtocolTests(unittest.TestCase):
 
 
 class PipelineTests(unittest.TestCase):
+    def test_invalid_alpha_is_rejected_before_training(self):
+        for alpha in (0, -1, float("nan"), float("inf")):
+            with self.subTest(alpha=alpha), self.assertRaises(ValueError):
+                build_naive_bayes(alpha=alpha)
+
     def test_validation_only_word_does_not_enter_training_vocabulary(self):
         training = ["lost card stolen", "my stolen card", "transfer money account", "send money transfer"]
         labels = ["card", "card", "transfer", "transfer"]
@@ -42,6 +48,19 @@ class PipelineTests(unittest.TestCase):
         model.predict(["unseenword card"])
         self.assertNotIn("unseenword", model.named_steps["tfidf"].vocabulary_)
         self.assertEqual(model.predict(["stolen card"])[0], "card")
+
+
+class BenchmarkSelectionTests(unittest.TestCase):
+    def test_macro_f1_decides_selection_even_when_accuracy_is_lower(self):
+        runs = [
+            {"evaluation_split": "validation", "macro_f1": 0.7, "accuracy": 0.95},
+            {"evaluation_split": "validation", "macro_f1": 0.8, "accuracy": 0.90},
+        ]
+        self.assertIs(select_best_run(runs), runs[1])
+
+    def test_test_results_cannot_be_used_for_selection(self):
+        with self.assertRaises(ValueError):
+            select_best_run([{"evaluation_split": "test", "macro_f1": 1.0}])
 
 
 if __name__ == "__main__":

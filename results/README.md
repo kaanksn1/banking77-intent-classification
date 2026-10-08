@@ -10,5 +10,11 @@ Validation sonuçları model seçimi içindir. Test sonuçlarını ayrı etiketl
 Eğitim/tahmin sürelerini aynı bilgisayarda, modelleri sırayla çalıştırarak ölçün;
 tahmin süresi TF-IDF dönüşümünü de içerir.
 
-Mevcut başlangıç raporu yalnızca repo sahibinin Naive Bayes sonucunu içerir.
+Mevcut alpha benchmark raporu yalnızca repo sahibinin Naive Bayes sonuçlarını içerir.
 Modellerin ortak karşılaştırmasını 5. kişi hazırlayacaktır.
+
+`python -m banking77.benchmark_naive_bayes` yalnızca repo sahibinin alpha
+deneyini tekrar çalıştırıp `NAIVE_BAYES_ALPHA.md` ve
+`naive_bayes_alpha_validation.json` dosyalarını üretir. JSON'daki seçilen run
+kimliği tam tahmin ve confusion matrix dosyalarını yerel `runs/` altında gösterir.
+Resmî test bu scriptte kullanılmaz. Hata yorumları `docs/NAIVE_BAYES.md` içindedir.

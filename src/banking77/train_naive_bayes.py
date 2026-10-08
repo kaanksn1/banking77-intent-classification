@@ -17,22 +17,24 @@ from banking77.data import ROOT, normalize_text, read_records
 from banking77.naive_bayes import build_naive_bayes
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--split", choices=("validation", "test"), default="validation")
-    parser.add_argument("--ngram-max", type=int, choices=(1, 2), default=2)
-    parser.add_argument("--alpha", type=float, default=1.0)
-    args = parser.parse_args()
-    if args.alpha <= 0:
-        parser.error("--alpha must be positive")
+def run_naive_bayes(split="validation", ngram_max=2, alpha=1.0):
+    """Train on the prepared train split and save one auditable model run."""
+    if split not in ("validation", "test"):
+        raise ValueError("split must be validation or test")
+    pipeline = build_naive_bayes(ngram_max, alpha)
     processed = ROOT / "data/processed"
     if not (processed / "summary.json").exists():
-        parser.error("Run python -m banking77.data first")
+        raise ValueError("Run python -m banking77.data first")
     train = read_records(processed / "train.csv")
-    evaluation = read_records(processed / f"{args.split}.csv")
+    evaluation = read_records(processed / f"{split}.csv")
     categories = json.loads((processed / "categories.json").read_text(encoding="utf-8"))
     data_summary = json.loads((processed / "summary.json").read_text(encoding="utf-8"))
-    pipeline = build_naive_bayes(args.ngram_max, args.alpha)
+    if not train or not evaluation:
+        raise ValueError("Training and evaluation splits must not be empty")
+    dataset_files_sha256 = {
+        name: hashlib.sha256((processed / name).read_bytes()).hexdigest()
+        for name in ("train.csv", f"{split}.csv", "categories.json", "summary.json")
+    }
     start = perf_counter()
     pipeline.fit([row["text"] for row in train], [row["category"] for row in train])
     fit_seconds = perf_counter() - start
@@ -42,16 +44,17 @@ def main():
     actual = [row["category"] for row in evaluation]
     report = classification_report(actual, predicted, labels=categories, output_dict=True, zero_division=0)
     dataset_sha = hashlib.sha256((processed / "summary.json").read_bytes()).hexdigest()
-    settings = {"model": "naive_bayes", "ngram_max": args.ngram_max, "alpha": args.alpha, "seed": data_summary["seed"], "tfidf_sublinear_tf": True}
+    settings = {"model": "naive_bayes", "ngram_max": ngram_max, "alpha": alpha, "seed": data_summary["seed"], "tfidf_sublinear_tf": True}
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
-    run_id = f"naive_bayes_{args.split}_{stamp}"
+    run_id = f"naive_bayes_{split}_{stamp}"
     output = ROOT / "results/runs" / run_id
     output.mkdir(parents=True, exist_ok=False)
     metrics = {
         "run_id": run_id,
-        "evaluation_split": args.split,
+        "evaluation_split": split,
         "settings": settings,
         "dataset_summary_sha256": dataset_sha,
+        "dataset_files_sha256": dataset_files_sha256,
         "training_rows": len(train),
         "evaluation_rows": len(evaluation),
         "accuracy": accuracy_score(actual, predicted),
@@ -72,8 +75,8 @@ def main():
             "accuracy": accuracy_score(clean_actual, clean_predicted),
             "macro_f1": f1_score(clean_actual, clean_predicted, labels=categories, average="macro", zero_division=0),
         }
-    (output / "metrics.json").write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8")
-    (output / "classification_report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    (output / "metrics.json").write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8", newline="\n")
+    (output / "classification_report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
     fields = ["id", "text", "true_label", "predicted_label", "correct", "overlaps_training"]
     with (output / "predictions.csv").open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
@@ -89,6 +92,19 @@ def main():
     artifacts = ROOT / "artifacts"
     artifacts.mkdir(exist_ok=True)
     joblib.dump(pipeline, artifacts / f"{run_id}.joblib")
+    return metrics
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--split", choices=("validation", "test"), default="validation")
+    parser.add_argument("--ngram-max", type=int, choices=(1, 2), default=2)
+    parser.add_argument("--alpha", type=float, default=1.0)
+    args = parser.parse_args()
+    try:
+        metrics = run_naive_bayes(args.split, args.ngram_max, args.alpha)
+    except ValueError as error:
+        parser.error(str(error))
     print(json.dumps(metrics, indent=2))
 
 

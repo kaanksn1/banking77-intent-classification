@@ -2,6 +2,8 @@
 
 Ne değişti ve neden?
 
+Kendi katkı dosyanızın yolu ve bu PR'da tamamladığınız işler:
+
 ## Doğrulama
 
 Çalıştırılan komutlar ve sonuçları:

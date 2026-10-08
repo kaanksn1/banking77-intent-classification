@@ -1,0 +1,223 @@
+{
+  "command": "python -m banking77.benchmark_naive_bayes",
+  "selection_metric": "validation macro_f1",
+  "tie_break": "first alpha in the scheduled order",
+  "feature_settings_unchanged": true,
+  "official_test_evaluated": false,
+  "runs": [
+    {
+      "run_id": "naive_bayes_validation_20261008T133815092129Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "naive_bayes",
+        "ngram_max": 2,
+        "alpha": 1.0,
+        "seed": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "accuracy": 0.816,
+      "macro_f1": 0.7872305424754604,
+      "fit_seconds": 0.17686070000036125,
+      "predict_seconds": 0.02287140000044019,
+      "prediction_ms_per_message": 0.01524760000029346,
+      "environment": {
+        "python": "3.12.0",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "naive_bayes_validation_20261008T133815487090Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "naive_bayes",
+        "ngram_max": 2,
+        "alpha": 0.5,
+        "seed": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "accuracy": 0.8353333333333334,
+      "macro_f1": 0.8130227414761364,
+      "fit_seconds": 0.16409030000068014,
+      "predict_seconds": 0.02612680000038381,
+      "prediction_ms_per_message": 0.01741786666692254,
+      "environment": {
+        "python": "3.12.0",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "naive_bayes_validation_20261008T133815798417Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "naive_bayes",
+        "ngram_max": 2,
+        "alpha": 0.1,
+        "seed": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "accuracy": 0.8593333333333333,
+      "macro_f1": 0.8495284496771468,
+      "fit_seconds": 0.16149529999984225,
+      "predict_seconds": 0.02415599999949336,
+      "prediction_ms_per_message": 0.01610399999966224,
+      "environment": {
+        "python": "3.12.0",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "naive_bayes_validation_20261008T133816111215Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "naive_bayes",
+        "ngram_max": 2,
+        "alpha": 0.05,
+        "seed": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "accuracy": 0.862,
+      "macro_f1": 0.8528894646169268,
+      "fit_seconds": 0.16421050000008108,
+      "predict_seconds": 0.02422850000039034,
+      "prediction_ms_per_message": 0.01615233333359356,
+      "environment": {
+        "python": "3.12.0",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "naive_bayes_validation_20261008T133816418915Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "naive_bayes",
+        "ngram_max": 2,
+        "alpha": 0.01,
+        "seed": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "accuracy": 0.852,
+      "macro_f1": 0.8459606571016873,
+      "fit_seconds": 0.16029789999993227,
+      "predict_seconds": 0.022849100000712497,
+      "prediction_ms_per_message": 0.015232733333808332,
+      "environment": {
+        "python": "3.12.0",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    }
+  ],
+  "best_tested_alpha": 0.05,
+  "selected_run_id": "naive_bayes_validation_20261008T133816111215Z",
+  "baseline_errors": 276,
+  "best_errors": 207,
+  "corrected_messages": 92,
+  "regressed_messages": 23,
+  "most_frequent_best_errors": [
+    {
+      "true_label": "card_payment_not_recognised",
+      "predicted_label": "direct_debit_payment_not_recognised",
+      "count": 5
+    },
+    {
+      "true_label": "balance_not_updated_after_bank_transfer",
+      "predicted_label": "balance_not_updated_after_cheque_or_cash_deposit",
+      "count": 4
+    },
+    {
+      "true_label": "top_up_by_bank_transfer_charge",
+      "predicted_label": "top_up_by_card_charge",
+      "count": 4
+    },
+    {
+      "true_label": "top_up_failed",
+      "predicted_label": "pending_top_up",
+      "count": 4
+    },
+    {
+      "true_label": "why_verify_identity",
+      "predicted_label": "verify_my_identity",
+      "count": 3
+    }
+  ],
+  "best_error_examples": [
+    {
+      "id": "train-08703",
+      "text": "The balance has not been updated.",
+      "true_label": "balance_not_updated_after_bank_transfer",
+      "predicted_label": "balance_not_updated_after_cheque_or_cash_deposit",
+      "correct": "False",
+      "overlaps_training": "False"
+    },
+    {
+      "id": "train-00688",
+      "text": "What does the €1 fee mean?",
+      "true_label": "extra_charge_on_statement",
+      "predicted_label": "transfer_fee_charged",
+      "correct": "False",
+      "overlaps_training": "False"
+    },
+    {
+      "id": "train-09546",
+      "text": "What is the procedure for an expired card?",
+      "true_label": "card_about_to_expire",
+      "predicted_label": "request_refund",
+      "correct": "False",
+      "overlaps_training": "False"
+    }
+  ]
+}
