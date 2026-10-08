@@ -82,8 +82,9 @@ Test mesajları ortalama olarak eğitim mesajlarından biraz kısadır.
   `"Why hasn't my top up gone through?"` ↔ `"... top-up ..."`,
   `"The disposable cards, what are they for?"` ↔ `"... cards - what are they for?"`,
   `"My top-up is still pending"` ↔ `"My top up is still pending"`.
-  Bu 4 satır validation'ın %0,27'sidir; skorları hafifçe iyimser yapabilir ama
-  model karşılaştırmalarını (A/B) sistematik olarak etkilemez, çünkü her model aynı veriyi kullanır.
+  Bu 4 satır validation'ın %0,27'sidir; skorları iyimser yapabilir.
+  Yakın tekrarların model karşılaştırmalarına (A/B) etkisi ölçülmemiştir;
+  aynı veriyi kullanmak tüm modellerin aynı ölçüde etkileneceğini garanti etmez.
 
 ## 2. Mevcut ön işleme hattı (`src/banking77/data.py`)
 
@@ -113,10 +114,10 @@ Test mesajları ortalama olarak eğitim mesajlarından biraz kısadır.
 | # | Bulgu | Karar | Gerekçe |
 | --- | --- | --- | --- |
 | 1 | `write_records` Python `csv` varsayılanı olan CRLF ile yazıyordu; `.gitattributes` ise `data/processed/*.csv` için LF istiyor. `--offline` yeniden üretimi Windows'ta CSV'leri "değişmiş" gösteriyor ve `dataset_files_sha256` değerleri platforma göre farklılaşabiliyordu. | **Düzeltildi:** `lineterminator="\n"`. Test eklendi (`tests/test_data_files.py`). | Yeniden üretim artık commit'teki dosyalarla **bayt bayt aynı** (SHA-256 doğrulandı); içerik, `summary.json` ve veri kimliği değişmedi. Model arayüzü etkilenmez. |
-| 2 | Noktalama/tire/para birimi farklı yakın tekrarlar (train/val 4, train/test 21, val/test 4). | **Değiştirilmedi**, raporlandı. | Anahtarı genişletmek satır sayılarını ve bölmeyi (dolayısıyla veri kimliğini) değiştirir; handoff sözleşmesi (`seed=42`, sabit bölme) ve diğer üç modelin sonuçlarını geçersiz kılar. Test için bu zaten yapılamaz (resmî test sabit). Etki küçüktür (validation'ın %0,27'si). Gerekirse ekip kararıyla tek seferde yapılmalıdır. |
+| 2 | Noktalama/tire/para birimi farklı yakın tekrarlar (train/val 4, train/test 21, val/test 4). | **Değiştirilmedi**, raporlandı. | Anahtarı genişletmek satır sayılarını ve bölmeyi (dolayısıyla veri kimliğini) değiştirir; handoff sözleşmesi (`seed=42`, sabit bölme) ve diğer üç modelin sonuçlarını geçersiz kılar. Test için bu zaten yapılamaz (resmî test sabit). Yakın tekrarlar validation'ın %0,27'sidir; skorlara etkisi ölçülmedi. Gerekirse ekip kararıyla tek seferde yapılmalıdır. |
 | 3 | Baş/son boşluk ve satır sonu içeren metinler (train 6, test 3); bir tekrar çiftinde satır sonlu varyant tutulmuş. | **Değiştirilmedi.** | `TfidfVectorizer` boşlukları token ayırıcı sayar: baş/son/iç boşlukları normalize etmek unigram (2.176) ve unigram+bigram (21.595) sözlüğünü **değiştirmez** (doğrulandı, sözlükler birebir aynı). Test metni değiştirilemez. Gereksiz değişiklik veri kimliğini bozardı. |
 | 4 | Varsayılan token deseni tek karakterli token'ları ve `£ € $ ? !` gibi simgeleri atar; `$1` ile `£1` aynı hale gelir. | **Değiştirilmedi**, öneri olarak not edildi. | Vectorizer model dosyasında (NB sahibi) durur ve bu görev kapsamı dışındadır. Ücret/para birimi sınıfları için denemeye değer bir özellik fikridir; ölçülmedi, etkisi bilinmiyor. |
-| 5 | Test dengeli, train/validation dengesiz; validation'da sınıf başına 5–28 örnek. | Bilgi olarak raporlandı. | Macro F1 yorumlanırken validation gürültüsü (±1,9 puan, 1.500 örnekte) hesaba katılmalı. |
+| 5 | Test dengeli, train/validation dengesiz; validation'da sınıf başına 5–28 örnek. | Bilgi olarak raporlandı. | Macro F1 yorumlanırken sınıf başına az sayıdaki validation örneğinin yarattığı belirsizlik dikkate alınmalı; Macro F1 için bir belirsizlik aralığı hesaplanmadı. |
 | 6 | Resmî test: 7 birebir train örtüşmesi, 1 iç tekrar. | Değiştirilmedi. | Test sabit tutulur ve `docs/EXPERIMENTS.md` gereği örtüşme raporlanır. |
 
 Sızıntı güvencesi: TF-IDF yalnızca eğitimde öğrenilir; model/özellik seçiminde resmî test
