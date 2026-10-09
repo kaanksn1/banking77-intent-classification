@@ -1,0 +1,727 @@
+{
+  "command": "python -m banking77.benchmark_logistic_regression",
+  "selection_metric": "validation macro_f1",
+  "tie_break": "first setting in the scheduled order (solver: lbfgs, saga, liblinear-ovr; C ascending)",
+  "c_values": [
+    0.1,
+    1.0,
+    10.0,
+    100.0,
+    1000.0
+  ],
+  "solvers": [
+    "lbfgs",
+    "saga",
+    "liblinear-ovr"
+  ],
+  "feature_settings_unchanged": true,
+  "official_test_evaluated": false,
+  "runs": [
+    {
+      "run_id": "logistic_regression_validation_20261009T121654467456Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 0.1,
+        "solver": "lbfgs",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.6666666666666666,
+      "macro_f1": 0.6126025166007544,
+      "fit_seconds": 3.7867521919999945,
+      "predict_seconds": 0.03285936599991146,
+      "prediction_ms_per_message": 0.021906243999940973,
+      "optimizer_iterations": 12,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121708443639Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 1.0,
+        "solver": "lbfgs",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.858,
+      "macro_f1": 0.8555337721000212,
+      "fit_seconds": 13.743113117000007,
+      "predict_seconds": 0.04859909599997536,
+      "prediction_ms_per_message": 0.032399397333316905,
+      "optimizer_iterations": 39,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121727456304Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 10.0,
+        "solver": "lbfgs",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.886,
+      "macro_f1": 0.8871718310987456,
+      "fit_seconds": 18.81367995400001,
+      "predict_seconds": 0.032896394999966105,
+      "prediction_ms_per_message": 0.021930929999977405,
+      "optimizer_iterations": 56,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121745342249Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 100.0,
+        "solver": "lbfgs",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8833333333333333,
+      "macro_f1": 0.8837886404079215,
+      "fit_seconds": 17.626199418000056,
+      "predict_seconds": 0.04783895799994298,
+      "prediction_ms_per_message": 0.03189263866662865,
+      "optimizer_iterations": 52,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121758471923Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 1000.0,
+        "solver": "lbfgs",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8746666666666667,
+      "macro_f1": 0.8756945418448869,
+      "fit_seconds": 12.89241091800011,
+      "predict_seconds": 0.04536358799998652,
+      "prediction_ms_per_message": 0.030242391999991014,
+      "optimizer_iterations": 38,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121759960643Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 0.1,
+        "solver": "saga",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.6673333333333333,
+      "macro_f1": 0.6135617576465253,
+      "fit_seconds": 1.2696314940000093,
+      "predict_seconds": 0.025604305999991084,
+      "prediction_ms_per_message": 0.01706953733332739,
+      "optimizer_iterations": 18,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121801527856Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 1.0,
+        "solver": "saga",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8573333333333333,
+      "macro_f1": 0.8548650641142401,
+      "fit_seconds": 1.3596028800000113,
+      "predict_seconds": 0.029171844999950736,
+      "prediction_ms_per_message": 0.019447896666633824,
+      "optimizer_iterations": 21,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121805180174Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 10.0,
+        "solver": "saga",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.886,
+      "macro_f1": 0.8868358812664493,
+      "fit_seconds": 3.4404777860000877,
+      "predict_seconds": 0.025653748000081578,
+      "prediction_ms_per_message": 0.01710249866672105,
+      "optimizer_iterations": 59,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121819847810Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 100.0,
+        "solver": "saga",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8893333333333333,
+      "macro_f1": 0.8911622651678123,
+      "fit_seconds": 14.461579786000016,
+      "predict_seconds": 0.02655211399996915,
+      "prediction_ms_per_message": 0.017701409333312768,
+      "optimizer_iterations": 270,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121850327377Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 1000.0,
+        "solver": "saga",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8893333333333333,
+      "macro_f1": 0.8907490575088286,
+      "fit_seconds": 30.287989502000073,
+      "predict_seconds": 0.02477666099991893,
+      "prediction_ms_per_message": 0.016517773999945955,
+      "optimizer_iterations": 562,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121852043219Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 0.1,
+        "solver": "liblinear-ovr",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.7066666666666667,
+      "macro_f1": 0.6582703896716512,
+      "fit_seconds": 1.4920430419999775,
+      "predict_seconds": 0.03572436899992226,
+      "prediction_ms_per_message": 0.023816245999948176,
+      "optimizer_iterations": 8,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121854281646Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 1.0,
+        "solver": "liblinear-ovr",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.852,
+      "macro_f1": 0.8475638953104065,
+      "fit_seconds": 2.0257172899999887,
+      "predict_seconds": 0.03807185899995602,
+      "prediction_ms_per_message": 0.025381239333304013,
+      "optimizer_iterations": 10,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121857247605Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 10.0,
+        "solver": "liblinear-ovr",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.89,
+      "macro_f1": 0.8916400705846216,
+      "fit_seconds": 2.7225092590000486,
+      "predict_seconds": 0.04681292800000847,
+      "prediction_ms_per_message": 0.03120861866667231,
+      "optimizer_iterations": 13,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121900569453Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 100.0,
+        "solver": "liblinear-ovr",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8906666666666667,
+      "macro_f1": 0.8920354528337908,
+      "fit_seconds": 3.0855704820000938,
+      "predict_seconds": 0.03826436399992872,
+      "prediction_ms_per_message": 0.025509575999952478,
+      "optimizer_iterations": 14,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "logistic_regression_validation_20261009T121904390498Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 1000.0,
+        "solver": "liblinear-ovr",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "2e0340354359bdc344d9d46be8e66ce2ab7e9ceb6e794e9ab96a5d59fc50eacb",
+        "validation.csv": "fa3769320f428f032994456732c70b7b85eae2d12aa688ed0b7a85d36f4aee08",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8893333333333333,
+      "macro_f1": 0.890426936886569,
+      "fit_seconds": 3.5901003230000015,
+      "predict_seconds": 0.04304964799996469,
+      "prediction_ms_per_message": 0.028699765333309795,
+      "optimizer_iterations": 16,
+      "converged": true,
+      "environment": {
+        "python": "3.13.16",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    }
+  ],
+  "baseline": {
+    "solver": "lbfgs",
+    "C": 1.0
+  },
+  "selected": {
+    "solver": "liblinear-ovr",
+    "C": 100.0
+  },
+  "selected_run_id": "logistic_regression_validation_20261009T121900569453Z",
+  "best_lbfgs": {
+    "C": 10.0,
+    "run_id": "logistic_regression_validation_20261009T121727456304Z"
+  },
+  "baseline_vs_selected": {
+    "reference_run_id": "logistic_regression_validation_20261009T121708443639Z",
+    "candidate_run_id": "logistic_regression_validation_20261009T121900569453Z",
+    "reference_errors": 213,
+    "candidate_errors": 164,
+    "corrected_messages": 66,
+    "regressed_messages": 17,
+    "mcnemar_exact_p": 5.6029313850528654e-08
+  },
+  "best_lbfgs_vs_selected": {
+    "reference_run_id": "logistic_regression_validation_20261009T121727456304Z",
+    "candidate_run_id": "logistic_regression_validation_20261009T121900569453Z",
+    "reference_errors": 171,
+    "candidate_errors": 164,
+    "corrected_messages": 20,
+    "regressed_messages": 13,
+    "mcnemar_exact_p": 0.296206368599087
+  },
+  "most_frequent_selected_errors": [
+    {
+      "true_label": "direct_debit_payment_not_recognised",
+      "predicted_label": "card_payment_not_recognised",
+      "count": 5
+    },
+    {
+      "true_label": "top_up_by_bank_transfer_charge",
+      "predicted_label": "top_up_by_card_charge",
+      "count": 4
+    },
+    {
+      "true_label": "transfer_fee_charged",
+      "predicted_label": "card_payment_fee_charged",
+      "count": 3
+    },
+    {
+      "true_label": "top_up_failed",
+      "predicted_label": "top_up_reverted",
+      "count": 3
+    },
+    {
+      "true_label": "pending_cash_withdrawal",
+      "predicted_label": "declined_cash_withdrawal",
+      "count": 3
+    }
+  ],
+  "confused_pair_examples": [
+    {
+      "id": "train-04774",
+      "text": "There is a payment in my app that I did not make.  I have not used that card all day  Please reimburse my money.",
+      "true_label": "direct_debit_payment_not_recognised",
+      "predicted_label": "card_payment_not_recognised",
+      "correct": "False",
+      "overlaps_training": "False"
+    },
+    {
+      "id": "train-01901",
+      "text": "Are there topping up fees if I have to transfer?",
+      "true_label": "top_up_by_bank_transfer_charge",
+      "predicted_label": "top_up_by_card_charge",
+      "correct": "False",
+      "overlaps_training": "False"
+    },
+    {
+      "id": "train-07166",
+      "text": "Is there a fee that comes with transfers?",
+      "true_label": "transfer_fee_charged",
+      "predicted_label": "card_payment_fee_charged",
+      "correct": "False",
+      "overlaps_training": "False"
+    }
+  ],
+  "weakest_classes": [
+    {
+      "label": "top_up_failed",
+      "precision": 0.8333333333333334,
+      "recall": 0.6818181818181818,
+      "f1-score": 0.75,
+      "support": 22.0
+    },
+    {
+      "label": "card_acceptance",
+      "precision": 0.6666666666666666,
+      "recall": 0.8888888888888888,
+      "f1-score": 0.7619047619047619,
+      "support": 9.0
+    },
+    {
+      "label": "pending_top_up",
+      "precision": 0.8,
+      "recall": 0.7272727272727273,
+      "f1-score": 0.7619047619047619,
+      "support": 22.0
+    },
+    {
+      "label": "pending_cash_withdrawal",
+      "precision": 1.0,
+      "recall": 0.6190476190476191,
+      "f1-score": 0.7647058823529411,
+      "support": 21.0
+    },
+    {
+      "label": "compromised_card",
+      "precision": 0.7333333333333333,
+      "recall": 0.8461538461538461,
+      "f1-score": 0.7857142857142857,
+      "support": 13.0
+    }
+  ]
+}
