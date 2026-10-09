@@ -31,7 +31,8 @@ def read_records(path):
 
 def write_records(path, records):
     with Path(path).open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["id", "text", "category"])
+        # LF matches .gitattributes, so regenerated files are byte-identical on every OS.
+        writer = csv.DictWriter(handle, fieldnames=["id", "text", "category"], lineterminator="\n")
         writer.writeheader()
         writer.writerows(records)
 
