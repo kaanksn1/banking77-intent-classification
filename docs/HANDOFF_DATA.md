@@ -1,7 +1,10 @@
 # 2. kişiye devir: veri ve özellikler
 
-Bu dosya beklenen işi tarif eder. Veri analizi ve özellik deneyleri henüz
-2. kişi tarafından tamamlanmış değildir.
+Bu dosya ilk veri/özellik devir talimatını saklar. 2. kişinin çalışması
+[PR #2](https://github.com/kaanksn1/banking77-intent-classification/pull/2) ile
+`main` içine alınmıştır: [veri incelemesi](DATA.md),
+[özellik deneyleri](../results/FEATURE_EXPERIMENTS.md).
+Aşağıdaki adımlar ilk teslim kapsamıdır; nihai ortak özellik kararı ekipçe verilecektir.
 
 ## Hazır başlangıç
 

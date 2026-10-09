@@ -8,10 +8,11 @@
 | 4. kişi | Linear SVM, C deneyleri, hata analizi | `feature/svm` |
 | 5. kişi | Ortak değerlendirme kodunu yazma, grafikler, karşılaştırma, slaytları birleştirme ve sunum | `feature/evaluation` |
 
-Repo sahibinin Naive Bayes başlangıcı hazırdır. Diğer model sorumluları kendi
-kodlarını kendi branch'lerinde yazacaktır. Ortak veri kodu 2. kişinin geliştireceği
-bir başlangıçtır; veri analizi ve özellik deneyleri ona aittir. Herkes kendi
-bölümünün deneylerini, bulgularını, slayt taslağını ve README açıklamasını hazırlar.
+Repo sahibinin Naive Bayes çalışması, 2. kişinin veri/özellik çalışması ve
+3. kişinin Logistic Regression çalışması kendi PR'larıyla `main` içine alınmıştır.
+Linear SVM 4. kişinin; ortak değerlendirme ve sunum 5. kişinin bekleyen işidir.
+Herkes kendi bölümünün deneylerini, bulgularını, slayt taslağını ve açıklamasını
+hazırlar. Repo sahibi ortak README ve GitHub entegrasyonunu günceller.
 
 ## Kod sahipliği
 
