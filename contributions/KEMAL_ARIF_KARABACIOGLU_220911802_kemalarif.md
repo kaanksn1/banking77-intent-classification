@@ -54,6 +54,7 @@ Ortak veri bölümleri ve diğer üyelerin dosyaları değiştirilmedi.
   - [Birim testleri](https://github.com/kaanksn1/banking77-intent-classification/commit/9314f6fb756e7a0fb0b4d09fe4175e3be166c9d0)
   - [Teknik not ve hata analizi](https://github.com/kaanksn1/banking77-intent-classification/commit/816712021c812660224b8794db77e6f43c31ff40)
   - [Validation sonuçları](https://github.com/kaanksn1/banking77-intent-classification/commit/a3947f59547bae2d8213bec2b24129ed4949f9cd)
+- Kendi PR bağlantılarım: [#5 Linear SVM](https://github.com/kaanksn1/banking77-intent-classification/pull/5)
 
 ## Sunuma katkım
 
