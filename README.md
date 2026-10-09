@@ -9,22 +9,25 @@ Bu, görevi anlatan bir örnektir; her mesajın model tarafından doğru tahmin 
 
 ## Durum
 
-Bu aşamada ortak kurulum/veri altyapısı ve repo sahibinin **Naive Bayes** kodu
-hazırdır. Logistic Regression 3. kişinin, Linear SVM 4. kişinin kendi branch'inde
-geliştireceği bölümlerdir. Ortak karşılaştırma, grafikler ve sunum 5. kişinin görevidir.
-Veri analizi ve özellik deneyleri 2. kişiye aittir; mevcut veri kodu ortak başlangıçtır.
-Geliştirme için varsayılan bölüm **validation**. Nihai model seçimi, hata analizi ve
-test raporu ekip çalışmasıyla tamamlanacaktır.
+Ortak kurulum/veri altyapısı, repo sahibinin **Naive Bayes** çalışması,
+2. kişinin veri analizi ve özellik deneyleri ile 3. kişinin **Logistic Regression**
+çalışması `main` içinde hazırdır. Linear SVM 4. kişinin; ortak karşılaştırma,
+grafikler ve sunum 5. kişinin görevidir.
+Geliştirme için varsayılan bölüm **validation**. Nihai ortak özellik ayarı ekip
+tarafından kesinleştirilecek; her model sahibi kendi nihai test çıktısını üretecektir.
+Resmî testte henüz model değerlendirmesi yapılmadı.
 
 Repo sahibinin mevcut veri sürümü için Naive Bayes devir paketi:
 [teknik açıklama ve hata analizi](docs/NAIVE_BAYES.md),
 [tekrar çalıştırılabilir alpha benchmark'ı](results/NAIVE_BAYES_ALPHA.md).
-2. kişi [veri/özellik devir talimatıyla](docs/HANDOFF_DATA.md) kendi çalışmasına başlayabilir.
+Tamamlanan veri çalışması: [ön işleme ve veri analizi](docs/DATA.md),
+[unigram/bigram deneyleri](results/FEATURE_EXPERIMENTS.md).
+Logistic Regression: [teknik açıklama ve hata analizi](docs/LOGISTIC_REGRESSION.md),
+[C/solver benchmark'ı](results/LOGISTIC_REGRESSION_C.md).
 
 Hocanın üç e-postasına göre [teslim takibi](docs/SUBMISSION.md) tutulur.
 Her üye [kişisel katkı dosyasını](contributions/README.md) kendi commit/PR'larıyla
-hazırlar. Önceki paylaşılan konuşmadaki slayt metin dökümü yeniden bulunmuştur;
-model başlıkları ve baseline kapsamına ilişkin açık nokta teslim takibinde açıklanır.
+hazırlar. Baseline kapsamına ilişkin açık nokta teslim takibinde açıklanır.
 
 ## Kurulum
 
@@ -51,6 +54,17 @@ hesap, Hugging Face token'ı veya API anahtarı gerekmez.
 Teslimde ham verinin kopyası repodadır; `--offline` mevcut kaynak dosyalarının
 hash'lerini doğrular ve bölümleri yeniden üretir. Ham veriyi kaynaktan tekrar
 indirmek için `--offline` seçeneğini kaldırın.
+
+## Veri analizi
+
+```powershell
+.\.venv\Scripts\python.exe -m banking77.analyze_data
+```
+
+Bu komut sınıf dağılımı, mesaj uzunluğu, boş/tekrar kayıt ve metin örtüşmelerini
+raporlar; veri dosyalarını değiştirmez. Ön işleme kararları [DATA.md](docs/DATA.md),
+özellik karşılaştırması [FEATURE_EXPERIMENTS.md](results/FEATURE_EXPERIMENTS.md) içindedir.
+Özellik deneyindeki öneri ortak model ayarlarını otomatik değiştirmez.
 
 ## Naive Bayes başlangıcı
 
@@ -100,14 +114,39 @@ Kaydedilmiş bir modelle tek mesaj tahmini:
 
 `MODEL_DOSYASI` yerine çalıştırmanın ürettiği gerçek dosya adını yazın.
 
+## Logistic Regression
+
+3. kişinin başlangıç ayarını ve validation ile seçtiği ayarı çalıştırmak için:
+
+```powershell
+.\.venv\Scripts\python.exe -m banking77.train_logistic_regression --split validation
+.\.venv\Scripts\python.exe -m banking77.train_logistic_regression --split validation --solver liblinear-ovr --C 100
+```
+
+Seçilen ayar `liblinear-ovr`, `C=100`: validation accuracy %89.07,
+macro F1 0.8920. Bunlar nihai test sonuçları değildir.
+Naive Bayes ile aynı `metrics.json`, `classification_report.json`,
+`predictions.csv` ve `confusion_matrix.csv` çıktı sözleşmesi kullanılır.
+
+Üç solver ve beş C değerinden oluşan 15 validation deneyini yeniden üretmek için:
+
+```powershell
+.\.venv\Scripts\python.exe -m banking77.benchmark_logistic_regression
+```
+
+Komut [C/solver raporunu](results/LOGISTIC_REGRESSION_C.md) ve
+[JSON kaydını](results/logistic_regression_validation.json) yeniden üretir.
+Yöntem, ayar seçimi ve hata analizi [teknik notta](docs/LOGISTIC_REGRESSION.md) açıklanır.
+Nihai test, ortak veri/özellik ayarı kesinleştikten sonra model sorumlusu tarafından çalıştırılacaktır.
+
 ## Yapı
 
 ```text
 configs/          Veri kaynağı, sabit commit ve dosya hash'leri
-src/banking77/    Ortak veri başlangıcı, Naive Bayes eğitimi ve tahmin
-tests/            Veri ayrımı ve TF-IDF sızıntısı kontrolleri
-docs/             Görev dağılımı ve deney protokolü
-contributions/    Kişisel katkı dosyaları için biçim ve şablon
+src/banking77/    Veri hazırlama/analiz, Naive Bayes ve Logistic Regression
+tests/            Veri, TF-IDF eğitim sınırı ve model/seçim kontrolleri
+docs/             Veri/model açıklamaları, görev dağılımı ve deney protokolü
+contributions/    Kişisel katkı dosyaları ve katkı şablonu
 data/raw/         Resmî train/test, kategori listesi ve kaynak veri lisansı
 data/processed/   Hazırlanmış train/validation/test, kategoriler ve özet
 results/          Deney sonuçları; runs/ yerelde tutulur
@@ -121,18 +160,25 @@ Mevcut scriptlerin görevleri:
 | Dosya | Görevi |
 | --- | --- |
 | `src/banking77/data.py` | Sabit kaynağı indirme, hash kontrolü, başlangıç temizliği ve veri ayrımı |
+| `src/banking77/analyze_data.py` | Veri dağılımı, mesaj uzunluğu, tekrar ve örtüşme analizi |
 | `src/banking77/naive_bayes.py` | TF-IDF + Multinomial Naive Bayes pipeline'ını oluşturma |
 | `src/banking77/train_naive_bayes.py` | Naive Bayes eğitimi, metrik/tahmin kaydı ve model kaydetme |
 | `src/banking77/benchmark_naive_bayes.py` | Beş alpha değerini validation üzerinde karşılaştırma ve NB raporlarını üretme |
+| `src/banking77/logistic_regression.py` | Aynı TF-IDF ile multinomial veya one-vs-rest Logistic Regression pipeline'ı |
+| `src/banking77/train_logistic_regression.py` | LR eğitimi, ortak metrik/tahmin çıktıları, model ve yakınsama kaydı |
+| `src/banking77/benchmark_logistic_regression.py` | 15 C/solver ayarını validation üzerinde karşılaştırma ve LR raporlarını üretme |
 | `src/banking77/predict.py` | Kaydedilmiş modelle tek mesajın kategorisini tahmin etme |
 | `tests/test_protocol.py` | Tekrar/etiket kontrollerini, veri ayrımını ve TF-IDF eğitim sınırını doğrulama |
+| `tests/test_data_files.py` | CSV'nin LF satır sonuyla yazılmasını ve metinlerin korunmasını doğrulama |
+| `tests/test_logistic_regression.py` | LR ayarları, solver'lar, TF-IDF eğitim sınırı ve validation seçim kuralı |
 
 Ham CSV'ler değiştirilmeden korunur. Hazırlanmış train/validation dosyalarında
 tekrarlardan arındırılmış resmî eğitim verisi ve satır kimlikleri bulunur;
 resmî testin metin ve etiketleri korunur. Mevcut başlangıç temizliği 4 eğitim
 tekrarını kaldırır, boş eğitim kaydı bulmaz. NFKC/casefold/boşluk normalizasyonu
 yalnızca tekrar kontrolü içindir; model orijinal mesaj metnini alır.
-Ön işleme pipeline'ının ayrıntılı incelemesi ve dokümantasyonu 2. kişinin görevidir.
+Ön işleme pipeline'ının 2. kişi tarafından hazırlanan ayrıntılı incelemesi
+[docs/DATA.md](docs/DATA.md) içindedir.
 
 ## Ekip ve deneyler
 
@@ -141,6 +187,10 @@ yalnızca tekrar kontrolü içindir; model orijinal mesaj metnini alır.
 - [Sonuç dosyaları](results/README.md)
 - [Naive Bayes alpha deneyi](results/NAIVE_BAYES_ALPHA.md)
 - [Naive Bayes teknik notu ve hata analizi](docs/NAIVE_BAYES.md)
+- [Veri analizi ve ön işleme kararları](docs/DATA.md)
+- [Unigram/bigram özellik deneyleri](results/FEATURE_EXPERIMENTS.md)
+- [Logistic Regression C/solver deneyi](results/LOGISTIC_REGRESSION_C.md)
+- [Logistic Regression teknik notu ve hata analizi](docs/LOGISTIC_REGRESSION.md)
 - [2. kişiye veri/özellik devir talimatı](docs/HANDOFF_DATA.md)
 
 Veri daha önce indirilmişse ağ bağlantısı olmadan yeniden hazırlamak için

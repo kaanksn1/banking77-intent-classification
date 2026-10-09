@@ -18,15 +18,23 @@ resmî 10.003 eğitim örneğinin tamamıyla eğitilen yayınlarla koşullar bir
 
 ## Küçük deney bütçesi
 
-Aşağıdaki tablo ekip planıdır. Şu anda yalnızca Naive Bayes kodu repo sahibinin
-bölümünde uygulanmıştır; diğer yöntem ve deneyleri ilgili sorumlular geliştirecektir.
+Aşağıdaki tablo ekip deney kapsamını gösterir. Veri/özellik çalışması, Naive Bayes
+ve Logistic Regression kendi sorumlularının PR'larıyla `main` içine alınmıştır.
+Linear SVM ve modellerin ortak karşılaştırması ilgili sorumluların bekleyen işleridir.
 
-| Yöntem | Başlangıç | Validation üzerinde denenecek |
+| Yöntem | Başlangıç | Validation deney kapsamı |
 | --- | --- | --- |
 | TF-IDF | unigram + bigram, sublinear TF | `(1,1)` ile `(1,2)` karşılaştırması |
 | Multinomial Naive Bayes | alpha=1.0 | alpha: 0.01, 0.05, 0.1, 0.5, 1.0 |
-| Logistic Regression | C=1.0 | C: 0.1, 1.0, 10.0 |
+| Logistic Regression | lbfgs, C=1.0 | C: 0.1, 1.0, 10.0, 100.0, 1000.0; lbfgs, saga, liblinear-ovr |
 | Linear SVM | C=1.0 | C: 0.1, 1.0, 10.0 |
+
+Tamamlanan çalışmalar: [özellik deneyi](../results/FEATURE_EXPERIMENTS.md),
+[NB alpha deneyi](../results/NAIVE_BAYES_ALPHA.md),
+[LR C/solver deneyi](../results/LOGISTIC_REGRESSION_C.md).
+Ortak özellik ayarı henüz ekipçe kesinleştirilmedi; mevcut NB/LR deneyleri
+unigram + bigram kullanır. Özellik raporundaki unigram önerisi alpha=1.0'lı NB
+deneyine aittir ve diğer modellerin yapılandırmasını kendiliğinden değiştirmez.
 
 Önce ortak özellik ayarıyla modelleri karşılaştırın. Özellik deneylerini ayrı
 tabloda gösterin. Ana model seçme metriği macro F1; accuracy de raporlanır.
