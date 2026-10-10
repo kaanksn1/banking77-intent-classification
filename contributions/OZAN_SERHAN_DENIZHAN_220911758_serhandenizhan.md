@@ -36,7 +36,7 @@ Responsibility: Person 5 — shared evaluation: benchmark script, comparison tab
   rejection of changed scores or datasets or data files, convergence reporting, McNemar counts, macro F1
   against scikit-learn, seeded bootstrap, near-duplicate similarity, subset scores, error example selection);
   `tests/test_benchmark_features.py` adds 5 more (selection rule, validation-only use, grids).
-  The full suite has 40 passing tests.
+  The full suite now has 62 tests (12 need PyTorch and are skipped without it).
 - `results/MODEL_COMPARISON.md`, `results/model_comparison_validation.json`, `results/figures/*.png`:
   generated report with the comparison table, the macro F1 justification, most confused pairs and real
   example errors.
@@ -83,8 +83,9 @@ I did not change the other members' model, training or data files.
   are wrong for all three models, mostly between neighbouring categories
   (for example `direct_debit_payment_not_recognised` → `card_payment_not_recognised`).
 - Limitations: one validation split of 1,500 messages with 5 to 28 messages per category; times come from
-  one machine and are not a general speed claim; these are not final test results. Final test numbers will
-  be produced by the model owners after the shared feature setting is fixed.
+  one machine and are not a general speed claim; these are validation results of the first comparison. The
+  official test results are in `results/MODEL_COMPARISON_TEST.md` (three classical models) and
+  `results/ALL_MODELS_TEST.md` (all sixteen methods).
 
 ## GitHub evidence
 
@@ -112,4 +113,6 @@ I did not change the other members' model, training or data files.
 ## Contribution to the presentation
 
 - Prepared the comparison table, figures, metric justification (why macro F1) and the real example
-  errors that the presentation is built from.
+  errors that the presentation is built from, and I give the presentation. The final slides cover all sixteen
+  methods from `results/ALL_MODELS_TEST.md`; the PPTX is delivered through the assignment system and is not
+  stored in the repository.

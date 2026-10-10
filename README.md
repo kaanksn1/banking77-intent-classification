@@ -21,7 +21,10 @@ Naive Bayes'in testten önce sabitlenen ayarıyla nihai test sonucu:
 **accuracy %84.74, macro F1 0.8458**. [Test raporu ve çıktıları](results/NAIVE_BAYES_TEST.md)
 hazırdır. 5. kişinin LR/SVM dahil [nihai klasik model karşılaştırması](results/MODEL_COMPARISON_TEST.md)
 PR #11 ile ana dala alınmıştır; entegrasyonda skorlar ve istatistikler yeniden
-doğrulanmıştır. PPTX ve yeni modelleri içeren genişletilmiş karşılaştırma beklemektedir.
+doğrulanmıştır. On altı yöntemin (üç klasik, sekiz kelime/sinir ağı, dört Transformer ve NB + CNN)
+ortak test karşılaştırması [results/ALL_MODELS_TEST.md](results/ALL_MODELS_TEST.md) içindedir:
+RoBERTa-base en yüksek macro F1'e sahiptir ve diğer 15 yöntemden ayrışır; NB + CNN
+BERT-base, DistilBERT ve ALBERT'ten ayrışmaz.
 
 Repo sahibine ayrıca atanan yeni kapsamda CNN, RNN, LSTM, BiLSTM, GloVe,
 Word2Vec CBOW/Skip-gram ve FastText'in tam validation deneyleri tamamlandı.
@@ -37,7 +40,8 @@ ve resmî testleri tamamlandı. Seçilmiş checkpoint protokolleri
 [testten önceki `1e4ff66` commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/1e4ff66d49e7d184d3dbe1548fa7b038b79833c2)
 ile sabitlendi. Dört Transformer içinde en yüksek test skoru RoBERTa-base'te:
 **accuracy %93.02, macro F1 0.9301**. [Nihai test raporu ve hata örnekleri](results/TRANSFORMER_TEST.md),
-[tam metrik kaydı](results/transformer_test.json). Eşleştirilmiş anlamlılık testi henüz yapılmadı.
+[tam metrik kaydı](results/transformer_test.json). Eşleştirilmiş anlamlılık testleri
+[on altı yöntemlik karşılaştırmadadır](results/ALL_MODELS_TEST.md).
 Windows yeniden başlatıldı; Ubuntu 24.04.5 WSL2 üzerinde ROCm 7.2.1,
 ROCDXG 1.2.0 ve AMD PyTorch 2.9.1 ortamı kuruldu. RX 7800 XT'de GPU matris
 forward/backward kontrolü hem root hem normal `serda` kullanıcısıyla geçti.

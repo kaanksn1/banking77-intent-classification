@@ -306,5 +306,5 @@ ve [resmî test değerlendirmeleri](../results/TRANSFORMER_TEST.md) tamamlandı;
 seçilmiş checkpoint protokolleri testten önce `1e4ff66` commit'iyle sabitlendi.
 Kısa geliştirme kontrolü benchmark sonucu olarak sunulmaz.
 Tek seed sonuçları genelleme veya istatistiksel üstünlük
-kanıtı değildir. Yeni modellerin dahil olduğu eşleştirilmiş karşılaştırma henüz yapılmadı.
-Ortak grafikler, genişletilmiş karşılaştırma ve PPTX 5. kişinin sorumluluğundadır.
+kanıtı değildir. Yeni modellerin dahil olduğu eşleştirilmiş karşılaştırma
+[results/ALL_MODELS_TEST.md](../results/ALL_MODELS_TEST.md) içindedir; PPTX 5. kişinin sorumluluğundadır.

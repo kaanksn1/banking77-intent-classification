@@ -61,7 +61,7 @@ Sunum: 12 Ekim 2026 Pazartesi. Notun %50'si sunum, %50'si implementation repo.
   [Nihai test raporu](../results/TRANSFORMER_TEST.md) ve
   [tam metrik kaydı](../results/transformer_test.json) hazırdır. RoBERTa-base:
   accuracy %93.02, macro F1 0.9301. Standart çıktılar doğrulandı;
-  eşleştirilmiş anlamlılık testi henüz yapılmadı.
+  eşleştirilmiş karşılaştırma [on altı yöntemlik raporda](../results/ALL_MODELS_TEST.md).
 
 ## Kalan işler ve sorumlular
 
