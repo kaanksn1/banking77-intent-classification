@@ -1,0 +1,527 @@
+{
+  "command": "python -m banking77.benchmark_models",
+  "evaluation_split": "validation",
+  "official_test_evaluated": false,
+  "repeats": 3,
+  "timing": "median over repeats; fit includes TF-IDF, predict includes TF-IDF transform; one machine, models run sequentially",
+  "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+  "models": {
+    "nb_initial": {
+      "model": "Naive Bayes",
+      "stage": "initial",
+      "label": "alpha=1",
+      "settings": {
+        "model": "naive_bayes",
+        "ngram_max": 2,
+        "alpha": 1.0,
+        "seed": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "run_id": "naive_bayes_validation_20261010T104155175969Z",
+      "repeat_run_ids": [
+        "naive_bayes_validation_20261010T104155175969Z",
+        "naive_bayes_validation_20261010T104200391546Z",
+        "naive_bayes_validation_20261010T104205516030Z"
+      ],
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "accuracy": 0.816,
+      "macro_f1": 0.7872305424754604,
+      "fit_seconds": 0.07508170901564881,
+      "predict_seconds": 0.010223874996881932,
+      "prediction_ms_per_message": 0.006815916664587955,
+      "fit_seconds_all": [
+        0.08410791598726064,
+        0.07438300002831966,
+        0.07508170901564881
+      ],
+      "predict_seconds_all": [
+        0.010470583045389503,
+        0.009989583981223404,
+        0.010223874996881932
+      ],
+      "matches_reported_macro_f1": null
+    },
+    "nb_selected": {
+      "model": "Naive Bayes",
+      "stage": "selected",
+      "label": "alpha=0.05",
+      "settings": {
+        "model": "naive_bayes",
+        "ngram_max": 2,
+        "alpha": 0.05,
+        "seed": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "run_id": "naive_bayes_validation_20261010T104155318525Z",
+      "repeat_run_ids": [
+        "naive_bayes_validation_20261010T104155318525Z",
+        "naive_bayes_validation_20261010T104200538361Z",
+        "naive_bayes_validation_20261010T104205663160Z"
+      ],
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "accuracy": 0.862,
+      "macro_f1": 0.8528894646169268,
+      "fit_seconds": 0.07315779099008068,
+      "predict_seconds": 0.009698958951048553,
+      "prediction_ms_per_message": 0.006465972634032369,
+      "fit_seconds_all": [
+        0.07270791701739654,
+        0.07315779099008068,
+        0.07445520797045901
+      ],
+      "predict_seconds_all": [
+        0.009312208043411374,
+        0.009788749972358346,
+        0.009698958951048553
+      ],
+      "matches_reported_macro_f1": true
+    },
+    "lr_initial": {
+      "model": "Logistic Regression",
+      "stage": "initial",
+      "label": "lbfgs, C=1",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 1.0,
+        "solver": "lbfgs",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "run_id": "logistic_regression_validation_20261010T104158528171Z",
+      "repeat_run_ids": [
+        "logistic_regression_validation_20261010T104158528171Z",
+        "logistic_regression_validation_20261010T104203686127Z",
+        "logistic_regression_validation_20261010T104208854393Z"
+      ],
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "accuracy": 0.858,
+      "macro_f1": 0.8555337721000212,
+      "fit_seconds": 3.0930141249555163,
+      "predict_seconds": 0.009471125027630478,
+      "prediction_ms_per_message": 0.006314083351753652,
+      "fit_seconds_all": [
+        3.0930141249555163,
+        3.0748240830143914,
+        3.1027362080058083
+      ],
+      "predict_seconds_all": [
+        0.009471125027630478,
+        0.009312500013038516,
+        0.009522792010102421
+      ],
+      "matches_reported_macro_f1": null
+    },
+    "lr_selected": {
+      "model": "Logistic Regression",
+      "stage": "selected",
+      "label": "liblinear-ovr, C=100",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 100.0,
+        "solver": "liblinear-ovr",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "run_id": "logistic_regression_validation_20261010T104159864668Z",
+      "repeat_run_ids": [
+        "logistic_regression_validation_20261010T104159864668Z",
+        "logistic_regression_validation_20261010T104204981721Z",
+        "logistic_regression_validation_20261010T104210161681Z"
+      ],
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "accuracy": 0.8906666666666667,
+      "macro_f1": 0.8920354528337908,
+      "fit_seconds": 1.22324333403958,
+      "predict_seconds": 0.013067999971099198,
+      "prediction_ms_per_message": 0.008711999980732799,
+      "fit_seconds_all": [
+        1.2231350420042872,
+        1.22324333403958,
+        1.2325321669923142
+      ],
+      "predict_seconds_all": [
+        0.013240207976195961,
+        0.013067999971099198,
+        0.012862542003858835
+      ],
+      "matches_reported_macro_f1": true
+    },
+    "svm": {
+      "model": "Linear SVM",
+      "stage": "initial = selected",
+      "label": "squared_hinge, C=1",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 1.0,
+        "loss": "squared_hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "run_id": "linear_svm_validation_20261010T104200248384Z",
+      "repeat_run_ids": [
+        "linear_svm_validation_20261010T104200248384Z",
+        "linear_svm_validation_20261010T104205370614Z",
+        "linear_svm_validation_20261010T104210547698Z"
+      ],
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "accuracy": 0.892,
+      "macro_f1": 0.893487418789585,
+      "fit_seconds": 0.3120457910117693,
+      "predict_seconds": 0.009113957989029586,
+      "prediction_ms_per_message": 0.006075971992686391,
+      "fit_seconds_all": [
+        0.3093892920296639,
+        0.31457533402135596,
+        0.3120457910117693
+      ],
+      "predict_seconds_all": [
+        0.009243250009603798,
+        0.009071624954231083,
+        0.009113957989029586
+      ],
+      "matches_reported_macro_f1": true
+    }
+  },
+  "class_balance": {
+    "classes": 77,
+    "train_min": 30,
+    "train_max": 159,
+    "train_min_class": "contactless_not_working",
+    "train_max_class": "card_payment_fee_charged",
+    "validation_min": 5,
+    "validation_max": 28
+  },
+  "comparisons": [
+    {
+      "reference": "nb_selected",
+      "candidate": "lr_selected",
+      "reference_only_correct": 41,
+      "candidate_only_correct": 84,
+      "mcnemar_exact_p": 0.00015013342257028423,
+      "macro_f1_difference": {
+        "observed": 0.03914598821686399,
+        "ci95_low": 0.022562668642252866,
+        "ci95_high": 0.05893945490299171,
+        "resamples": 1000,
+        "seed": 42
+      }
+    },
+    {
+      "reference": "nb_selected",
+      "candidate": "svm",
+      "reference_only_correct": 42,
+      "candidate_only_correct": 87,
+      "mcnemar_exact_p": 9.206613802682567e-05,
+      "macro_f1_difference": {
+        "observed": 0.04059795417265821,
+        "ci95_low": 0.023525909712831503,
+        "ci95_high": 0.06073376393401596,
+        "resamples": 1000,
+        "seed": 42
+      }
+    },
+    {
+      "reference": "lr_selected",
+      "candidate": "svm",
+      "reference_only_correct": 11,
+      "candidate_only_correct": 13,
+      "mcnemar_exact_p": 0.8388197422027588,
+      "macro_f1_difference": {
+        "observed": 0.001451965955794221,
+        "ci95_low": -0.005950660884945502,
+        "ci95_high": 0.008863150974694218,
+        "resamples": 1000,
+        "seed": 42
+      }
+    }
+  ],
+  "top_confusions": {
+    "nb_selected": [
+      {
+        "true_label": "card_payment_not_recognised",
+        "predicted_label": "direct_debit_payment_not_recognised",
+        "count": 5
+      },
+      {
+        "true_label": "balance_not_updated_after_bank_transfer",
+        "predicted_label": "balance_not_updated_after_cheque_or_cash_deposit",
+        "count": 4
+      },
+      {
+        "true_label": "top_up_by_bank_transfer_charge",
+        "predicted_label": "top_up_by_card_charge",
+        "count": 4
+      },
+      {
+        "true_label": "top_up_failed",
+        "predicted_label": "pending_top_up",
+        "count": 4
+      },
+      {
+        "true_label": "why_verify_identity",
+        "predicted_label": "verify_my_identity",
+        "count": 3
+      }
+    ],
+    "lr_selected": [
+      {
+        "true_label": "direct_debit_payment_not_recognised",
+        "predicted_label": "card_payment_not_recognised",
+        "count": 5
+      },
+      {
+        "true_label": "top_up_by_bank_transfer_charge",
+        "predicted_label": "top_up_by_card_charge",
+        "count": 4
+      },
+      {
+        "true_label": "transfer_fee_charged",
+        "predicted_label": "card_payment_fee_charged",
+        "count": 3
+      },
+      {
+        "true_label": "top_up_failed",
+        "predicted_label": "top_up_reverted",
+        "count": 3
+      },
+      {
+        "true_label": "pending_cash_withdrawal",
+        "predicted_label": "declined_cash_withdrawal",
+        "count": 3
+      }
+    ],
+    "svm": [
+      {
+        "true_label": "direct_debit_payment_not_recognised",
+        "predicted_label": "card_payment_not_recognised",
+        "count": 6
+      },
+      {
+        "true_label": "top_up_by_bank_transfer_charge",
+        "predicted_label": "top_up_by_card_charge",
+        "count": 4
+      },
+      {
+        "true_label": "top_up_failed",
+        "predicted_label": "top_up_reverted",
+        "count": 3
+      },
+      {
+        "true_label": "pending_cash_withdrawal",
+        "predicted_label": "declined_cash_withdrawal",
+        "count": 3
+      },
+      {
+        "true_label": "get_disposable_virtual_card",
+        "predicted_label": "disposable_card_limits",
+        "count": 3
+      }
+    ]
+  },
+  "confusion_pair_table": [
+    {
+      "true_label": "direct_debit_payment_not_recognised",
+      "predicted_label": "card_payment_not_recognised",
+      "counts": {
+        "nb_selected": 2,
+        "lr_selected": 5,
+        "svm": 6
+      }
+    },
+    {
+      "true_label": "top_up_by_bank_transfer_charge",
+      "predicted_label": "top_up_by_card_charge",
+      "counts": {
+        "nb_selected": 4,
+        "lr_selected": 4,
+        "svm": 4
+      }
+    },
+    {
+      "true_label": "top_up_failed",
+      "predicted_label": "pending_top_up",
+      "counts": {
+        "nb_selected": 4,
+        "lr_selected": 3,
+        "svm": 3
+      }
+    },
+    {
+      "true_label": "pending_cash_withdrawal",
+      "predicted_label": "declined_cash_withdrawal",
+      "counts": {
+        "nb_selected": 2,
+        "lr_selected": 3,
+        "svm": 3
+      }
+    },
+    {
+      "true_label": "top_up_failed",
+      "predicted_label": "top_up_reverted",
+      "counts": {
+        "nb_selected": 2,
+        "lr_selected": 3,
+        "svm": 3
+      }
+    },
+    {
+      "true_label": "balance_not_updated_after_bank_transfer",
+      "predicted_label": "balance_not_updated_after_cheque_or_cash_deposit",
+      "counts": {
+        "nb_selected": 4,
+        "lr_selected": 1,
+        "svm": 1
+      }
+    },
+    {
+      "true_label": "transfer_fee_charged",
+      "predicted_label": "card_payment_fee_charged",
+      "counts": {
+        "nb_selected": 1,
+        "lr_selected": 3,
+        "svm": 2
+      }
+    },
+    {
+      "true_label": "why_verify_identity",
+      "predicted_label": "verify_my_identity",
+      "counts": {
+        "nb_selected": 3,
+        "lr_selected": 1,
+        "svm": 2
+      }
+    },
+    {
+      "true_label": "card_payment_not_recognised",
+      "predicted_label": "direct_debit_payment_not_recognised",
+      "counts": {
+        "nb_selected": 5,
+        "lr_selected": 0,
+        "svm": 0
+      }
+    },
+    {
+      "true_label": "get_disposable_virtual_card",
+      "predicted_label": "disposable_card_limits",
+      "counts": {
+        "nb_selected": 1,
+        "lr_selected": 1,
+        "svm": 3
+      }
+    }
+  ],
+  "examples": {
+    "all_models_wrong_count": 117,
+    "all_models_wrong": [
+      {
+        "id": "train-04735",
+        "text": "Please help! I was looking at my account and saw a transaction with a seller I don't remember. Is it possible for you to track the sale, because I really don't think I made a payment to them.",
+        "true_label": "direct_debit_payment_not_recognised",
+        "predictions": {
+          "nb_selected": "card_payment_not_recognised",
+          "lr_selected": "cancel_transfer",
+          "svm": "card_payment_not_recognised"
+        }
+      },
+      {
+        "id": "train-04755",
+        "text": "Purchases I did not make are appearing in my bank statement?",
+        "true_label": "direct_debit_payment_not_recognised",
+        "predictions": {
+          "nb_selected": "cash_withdrawal_not_recognised",
+          "lr_selected": "card_payment_not_recognised",
+          "svm": "card_payment_not_recognised"
+        }
+      },
+      {
+        "id": "train-04812",
+        "text": "There is a payment showing on my app that I didn't do. Will you please cancel this payment and refund my money ?",
+        "true_label": "direct_debit_payment_not_recognised",
+        "predictions": {
+          "nb_selected": "card_payment_not_recognised",
+          "lr_selected": "card_payment_not_recognised",
+          "svm": "card_payment_not_recognised"
+        }
+      },
+      {
+        "id": "train-01832",
+        "text": "Is there a charge for using transfers for top ups?",
+        "true_label": "top_up_by_bank_transfer_charge",
+        "predictions": {
+          "nb_selected": "top_up_by_card_charge",
+          "lr_selected": "top_up_by_card_charge",
+          "svm": "top_up_by_card_charge"
+        }
+      },
+      {
+        "id": "train-01853",
+        "text": "Does it cost anything to transfer money for a top-up?",
+        "true_label": "top_up_by_bank_transfer_charge",
+        "predictions": {
+          "nb_selected": "top_up_by_card_charge",
+          "lr_selected": "top_up_by_card_charge",
+          "svm": "top_up_by_card_charge"
+        }
+      }
+    ],
+    "disagreement_count": 139,
+    "disagreement": [
+      {
+        "id": "train-00032",
+        "text": "Has my card been lost in delivery?",
+        "true_label": "card_arrival",
+        "predictions": {
+          "nb_selected": "card_arrival",
+          "lr_selected": "card_arrival",
+          "svm": "card_delivery_estimate"
+        }
+      },
+      {
+        "id": "train-00057",
+        "text": "I don't have my card after 1 week. What are my next steps?",
+        "true_label": "card_arrival",
+        "predictions": {
+          "nb_selected": "lost_or_stolen_card",
+          "lr_selected": "card_arrival",
+          "svm": "card_arrival"
+        }
+      },
+      {
+        "id": "train-00331",
+        "text": "Where can I find the exchange rate for my transfer?",
+        "true_label": "exchange_rate",
+        "predictions": {
+          "nb_selected": "exchange_rate",
+          "lr_selected": "exchange_rate",
+          "svm": "wrong_exchange_rate_for_cash_withdrawal"
+        }
+      }
+    ]
+  }
+}
