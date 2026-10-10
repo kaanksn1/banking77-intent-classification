@@ -24,9 +24,10 @@ Yerel kaynaklar: `COE025 - Natural Language Processing - W02.pptx` ve
 Slayt 37'deki belirli modeller `bert-base-uncased`, `distilbert-base-uncased`,
 `roberta-base`, `albert-base-v2` olarak yazılıdır. Hepsi
 `configs/neural_models.json` içinde kaynak repository, sabit commit ve lisansla
-kaydedilmiştir. Eğitim komutunun bir modeli desteklemesi, onun tam deneyinin
-tamamlandığı anlamına gelmez; durum ve gerçek skorlar
-[NEURAL_VALIDATION.md](../results/NEURAL_VALIDATION.md) içinde tutulur.
+kaydedilmiştir. Kelime/embedding baseline'larının gerçek skorları
+[NEURAL_VALIDATION.md](../results/NEURAL_VALIDATION.md), dört Transformer'ın
+tam validation sonuçları [TRANSFORMER_VALIDATION.md](../results/TRANSFORMER_VALIDATION.md)
+içinde tutulur. Dört Transformer'ın resmî testleri henüz başlamadı.
 
 ## Ortak deney protokolü
 
@@ -84,8 +85,10 @@ ve korundu. Linux GPU kurulumu tamamlandı: ROCm paketi
 RX 7800 XT (`gfx1101`, yaklaşık 16 GB) üzerinde GPU matris forward/backward
 kontrolü hem root hem normal `serda` kullanıcısıyla geçti. Linux'ta 52 test ve
 Naive Bayes validation kontrolü geçti: accuracy `0.862`, macro F1
-`0.8528894646`. Dört Transformer'ın tam validation deneyleri ve resmî testleri
-henüz yapılmadı; küçük GPU geliştirme kontrolü tam deney yerine geçmez.
+`0.8528894646`. Dört Transformer'ın ortak beş epoch bütçesiyle tam validation
+deneyleri tamamlandı; [sonuç raporu](../results/TRANSFORMER_VALIDATION.md) ve
+[JSON kaydı](../results/transformer_validation.json) hazırdır. Resmî Transformer
+testleri henüz başlamadı. Küçük GPU geliştirme kontrolü tam deney yerine geçmez.
 
 [AMD'nin ROCm 7.2.1 WSL yönergesi](https://rocm.docs.amd.com/projects/radeon-ryzen/en/docs-7.2.1/docs/install/installrad/wsl/howto_wsl.html)
 ROCDXG köprüsünü kullanır. Bu yöntem Adrenalin 26.2.2 ile sunulmuştur;
@@ -149,9 +152,25 @@ wsl.exe --distribution Ubuntu-24.04 --user serda --cd '/mnt/c/Users/serda/OneDri
 İlk tam DistilBERT ve BERT denemeleri üç epoch'ta hâlâ iyileşiyordu.
 [Validation bütçesi kararı](../results/transformer_budget_decision.json) bu nedenle
 dört model için ortak beş epoch bütçesine geçişi kaydeder. Tüm modeller ön
-eğitimli ağırlıklardan yeniden başlatılır; her model için ayrı üç/beş epoch
-seçimi yapılmaz. Beş epoch yakınsama garantisi değildir. Tam validation
-sonuçları seçilip protokol commit edilmeden bu yeni modellerin resmî testi çalıştırılmaz.
+eğitimli ağırlıklardan yeniden başlatıldı; her model için ayrı üç/beş epoch
+seçimi yapılmadı. Beş epoch yakınsama garantisi değildir.
+
+Tam validation deneyleri dört model için de tamamlandı; seçilen checkpoint'ler
+validation macro F1'e göre belirlendi ve her modelde beşinci epoch seçildi:
+
+| Model | Validation accuracy (%) | Validation macro F1 |
+| --- | ---: | ---: |
+| BERT-base-uncased | 90.60 | 0.9010 |
+| DistilBERT-base-uncased | 89.87 | 0.8961 |
+| RoBERTa-base | 92.33 | 0.9264 |
+| ALBERT-base-v2 | 89.87 | 0.8989 |
+
+[Tam rapor](../results/TRANSFORMER_VALIDATION.md) ayarları, süreleri ve
+sınırlılıkları; [JSON kaydı](../results/transformer_validation.json) tam metrikleri,
+komutları, ortam ve çıktı kimliklerini içerir. Dört seçilmiş checkpoint'in
+`<model>_final_protocol.json` dosyaları hazırlandı; resmî testten önce ayrı
+commit'e alınır. Bu commit tamamlanmadan test çalıştırılmaz. Dört Transformer'ın
+resmî testleri henüz başlamadı.
 
 ## Eğitim ve nihai değerlendirme
 
@@ -236,6 +255,24 @@ Validation ağırlık tablosu [raporda](../results/NEURAL_VALIDATION.md) bulunur
 Bu, proje için geliştirilmiş bir birleştirme deneyidir; yeni bir mimari veya
 literatürde ilk kez önerilen bir algoritma olduğu iddia edilmez.
 
+## Literatür bağlamı
+
+Aşağıdaki değerler BANKING77 için yayımlanmış **test accuracy** sonuçlarıdır.
+Validation accuracy veya macro F1 ile aynı sütunda karşılaştırılmaz.
+
+| Birincil kaynak | Belirli yöntem | Test accuracy (%) | Karşılaştırma sınırı |
+| --- | --- | ---: | --- |
+| [Casanueva vd., 2020, tablo 3](https://aclanthology.org/2020.nlp4convai-1.5.pdf#page=4) | BERT-TUNED: cased BERT-Large | 93.66 | 10.003 eğitim örneğinin tamamı; ayrı validation yok. Bizim BERT-base modelimizden daha büyük. |
+| [Mehri vd., 2020, DialoGLUE tablo 1](https://arxiv.org/pdf/2009.13570#page=6) | BERT-base | 93.02 | Train'den validation ayırıyor; kullanılan ayrım bizim sabit ayrımımızla aynı değil. |
+| [Mehri ve Eric, 2021, tablo 1](https://aclanthology.org/2021.naacl-main.237.pdf#page=6) | ConvBERT + MLM + Example | 94.06 | Ek konuşma ön eğitimi, MLM ve örnek tabanlı karar yöntemi içeriyor; sıradan sınıflandırma başlığından farklı. |
+
+Bu projede 8.499 train / 1.500 validation / 3.080 resmî test mesajı kullanılır.
+Ortak veri seti adı, eşit eğitim verisi veya protokol anlamına gelmez. Model boyutu,
+ön eğitim, ayrım, checkpoint seçimi ve eğitim bütçesi farkları nedeniyle bu tablo
+kontrollü bir üstünlük kıyası veya geçilmesi gereken sabit bir accuracy eşiği değildir.
+Proje içindeki yöntemler kendi ortak bölümlerimizde değerlendirilir; literatür
+değerleri beklenen performansın bağlamını ve farklı deney koşullarını açıklar.
+
 ## Lisanslar ve kalan işler
 
 Kod projenin MIT lisansı altındadır. BANKING77 verisinin CC BY 4.0 lisansı ve
@@ -248,7 +285,9 @@ Bu dosyadaki vanilla RNN/CNN/LSTM/Transformer'lar ders baseline'larıdır.
 NB + CNN katkısının validation deneyi ve iki uç ablation'ı tamamlandı.
 Sekiz baseline ve NB + CNN ayarları `2425ccc` ile testten önce sabitlendi;
 [nihai test ve gerçek hata örnekleri](../results/NEURAL_TEST.md) teslim edildi.
-Dört Transformer'ın tam eğitimleri bekliyor; kısa geliştirme kontrolü benchmark
-sonucu olarak sunulmaz. Tek seed sonuçları genelleme veya istatistiksel üstünlük
+Dört Transformer'ın [tam validation deneyleri](../results/TRANSFORMER_VALIDATION.md)
+tamamlandı; protokollerin testten önce commit edilmesi ve resmî test değerlendirmesi
+bekliyor. Kısa geliştirme kontrolü benchmark sonucu olarak sunulmaz.
+Tek seed sonuçları genelleme veya istatistiksel üstünlük
 kanıtı değildir. Yeni modellerin dahil olduğu eşleştirilmiş karşılaştırma henüz yapılmadı.
 Ortak grafikler, genişletilmiş karşılaştırma ve PPTX 5. kişinin sorumluluğundadır.

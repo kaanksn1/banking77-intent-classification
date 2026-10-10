@@ -11,7 +11,7 @@ Veri, mevcut LR/SVM uygulamaları ve ortak benchmark kodları değiştirilmemiş
 | Seçilmiş klasik NB/LR/SVM | [Klasik test raporu](../results/MODEL_COMPARISON_TEST.md) | Mevcut klasik test çıktıları; NB için `results/naive_bayes_test/` |
 | RNN, CNN, LSTM, BiLSTM, GloVe, Word2Vec CBOW/Skip-gram, FastText | [Validation](../results/NEURAL_VALIDATION.md), [test](../results/NEURAL_TEST.md) | `results/neural_test/<model>/` |
 | Ekip katkısı: NB + CNN soft voting | Aynı neural raporlar; `results/nb_cnn_final_protocol.json` | `results/neural_test/nb_cnn/` |
-| BERT-base-uncased, DistilBERT-base-uncased, RoBERTa-base, ALBERT-base-v2 | Tam validation ve test değerlendirmesi devam ediyor | Tamamlanınca `results/transformer_test/<model>/` |
+| BERT-base-uncased, DistilBERT-base-uncased, RoBERTa-base, ALBERT-base-v2 | [Tam validation](../results/TRANSFORMER_VALIDATION.md) hazır; resmî test henüz başlamadı | Test tamamlanınca `results/transformer_test/<model>/` |
 
 Her yayımlanan yeni model klasöründe `metrics.json`, `classification_report.json`,
 `predictions.csv` ve `confusion_matrix.csv` bulunur. Büyük checkpoint'ler ve yerel
@@ -48,8 +48,10 @@ resmî değerlendirmelerinden önce commit edilir.
 ## Teslim
 
 Ortak değerlendirme, grafikler ve PPTX değişikliklerini kendi branch/PR'ında yap;
-kendi katkı dosyanı gerçek commit/PR bağlantılarınla güncelle. Mevcut test raporu
-ve JSON'daki komut alanının `--split test` içerdiğini de kontrol et.
+kendi katkı dosyanı gerçek commit/PR bağlantılarınla güncelle. Klasik model raporu
+`results/MODEL_COMPARISON_TEST.md` ve `results/model_comparison_test.json`
+içindeki komut alanının `--split test` içerdiğini de kontrol et. Neural ve
+Transformer çalıştırıcıları ise `test --protocol ...` alt komutunu kullanır.
 Hocaya teslimde hem PPTX hem public GitHub URL'si gerekir. Sunumu iki dakikanın
 altına sığdırmak için prova yap; model listesini okumak yerine problem, deney
 protokolü, sonuç ve katkıyı teknik olarak açıkla.

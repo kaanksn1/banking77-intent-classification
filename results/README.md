@@ -7,8 +7,10 @@ Yeni neural/embedding baseline'ları ve repo sahibinin NB + CNN katkısı için
 [NEURAL_VALIDATION.md](NEURAL_VALIDATION.md) ve `neural_validation.json` bulunur.
 Sabitlenen sekiz baseline ve NB + CNN'nin nihai testleri [NEURAL_TEST.md](NEURAL_TEST.md),
 `neural_test.json` ve `neural_test/<yöntem>/` altında dört standart çıktı ile teslim edilir.
-Dört Transformer'ın tam eğitimi beklemektedir. `runs/` klasöründeki tekrarlı
-yerel çıktılar Git'e eklenmez.
+Dört Transformer'ın tam validation deneyleri [TRANSFORMER_VALIDATION.md](TRANSFORMER_VALIDATION.md)
+ve `transformer_validation.json` içinde hazırdır; `<model>_final_protocol.json`
+dosyaları seçilmiş checkpoint'leri testten önce sabitler. Resmî Transformer testleri
+henüz başlamadı. `runs/` klasöründeki tekrarlı yerel çıktılar Git'e eklenmez.
 Naive Bayes, Logistic Regression ve Linear SVM çalıştırıcıları `metrics.json`,
 `classification_report.json`, `predictions.csv` ve `confusion_matrix.csv` üretir.
 Diğer model sorumluları da aynı çıktı sözleşmesini kullanır.
@@ -28,7 +30,10 @@ Mevcut raporlar:
   `classification_report.json`, `predictions.csv` ve `confusion_matrix.csv` dosyalarını içerir.
 - [Yeni baseline ve NB + CNN validation deneyleri](NEURAL_VALIDATION.md): repo sahibine sonradan atanan kapsam.
 - [Sabitlenen yeni modellerin nihai testi](NEURAL_TEST.md): `2425ccc` ile testten
-  önce dondurulmuş checkpoint'ler. Dört Transformer'ın tam deneyleri henüz dahil değildir.
+  önce dondurulmuş checkpoint'ler. Dört Transformer bu raporun kapsamına dahil değildir.
+- [Dört Transformer'ın validation deneyleri](TRANSFORMER_VALIDATION.md): ortak beş
+  epoch bütçesi, model/kaynak/ortam kayıtları ve test öncesi checkpoint protokolleri.
+  İlk üç epoch denemelerinin ardından alınan bütçe kararı `transformer_budget_decision.json` içindedir.
 - [Unigram/bigram özellik deneyleri](FEATURE_EXPERIMENTS.md): 2. kişinin çalışması.
 - [Logistic Regression C/solver deneyi](LOGISTIC_REGRESSION_C.md): 3. kişinin çalışması.
 - [Linear SVM C/loss deneyi](LINEAR_SVM_C.md): 4. kişinin çalışması.

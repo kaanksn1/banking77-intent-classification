@@ -51,12 +51,16 @@ Sunum: 12 Ekim 2026 Pazartesi. Notun %50'si sunum, %50'si implementation repo.
 - [x] WSL2 üzerinde Ubuntu 24.04.5, ROCm 7.2.1, ROCDXG 1.2.0 ve AMD PyTorch kurulumu.
   RX 7800 XT ile gerçek forward/backward ve kısa DistilBERT GPU eğitimi geçti.
   Linux ortamında 52 test ve NB validation da geçti; geliştirme kontrolü benchmark sayılmadı.
+- [x] BERT-base, DistilBERT, RoBERTa-base ve ALBERT-base-v2'nin ortak beş epoch
+  bütçesiyle tam validation deneyleri tamamlandı. [Sonuç raporu](../results/TRANSFORMER_VALIDATION.md)
+  ve [tam metrik/ortam kaydı](../results/transformer_validation.json) hazırdır;
+  seçilmiş checkpoint'ler için dört nihai protokol dosyası oluşturuldu.
 
 ## Kalan işler ve sorumlular
 
-- [ ] Repo sahibi: dört Transformer'ın tam validation eğitimi; seçilmiş ayarları
-  testten önce commit etme ve nihai test değerlendirmesi. Eğitim kodu hazır
-  olması, bu deneylerin tamamlandığı anlamına gelmez.
+- [ ] Repo sahibi: dört Transformer'ın seçilmiş checkpoint protokollerini resmî
+  testten önce ayrı commit'e alma ve ardından nihai test değerlendirmesi.
+  Dört Transformer'ın resmî testleri henüz başlamadı.
 - [ ] 4. kişi: teknik nottaki Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme.
 - [ ] 5. kişi: özellik raporunda bigram-only ablation'ı ve seçilmeyen unigram
   SVM (`hinge`, `C=10`) adayının 10.000 iterasyon sınırına ulaştığını açıklama.

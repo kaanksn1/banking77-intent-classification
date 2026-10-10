@@ -31,13 +31,25 @@ Ekip katkısı olarak NB + CNN soft voting'in ağırlığı validation'da seçil
 Bu sekiz baseline ve NB + CNN, [testten önceki commit](https://github.com/kaanksn1/banking77-intent-classification/commit/2425ccc)
 ile sabitlenip resmî testte değerlendirildi: **NB + CNN accuracy %90.65,
 macro F1 0.9061**. [Nihai yeni-model çıktıları ve hata örnekleri](results/NEURAL_TEST.md).
-Slaytlarda adı geçen BERT-base, DistilBERT, RoBERTa-base ve ALBERT-base-v2
-için eğitim kodu hazır; dördünün tam validation deneyleri ve resmî testleri
-bekliyor. Windows yeniden başlatıldı; Ubuntu 24.04.5 WSL2 üzerinde ROCm 7.2.1,
+Slaytlarda adı geçen BERT-base, DistilBERT, RoBERTa-base ve ALBERT-base-v2'nin
+ortak beş epoch bütçesiyle tam validation deneyleri tamamlandı:
+
+| Model | Validation accuracy (%) | Validation macro F1 |
+| --- | ---: | ---: |
+| BERT-base-uncased | 90.60 | 0.9010 |
+| DistilBERT-base-uncased | 89.87 | 0.8961 |
+| RoBERTa-base | 92.33 | 0.9264 |
+| ALBERT-base-v2 | 89.87 | 0.8989 |
+
+[Transformer validation raporu](results/TRANSFORMER_VALIDATION.md) ve
+[tam metrik/ortam kaydı](results/transformer_validation.json) hazırdır.
+Seçilmiş checkpoint protokolleri resmî testten önce ayrı commit'e alınır;
+dört Transformer'ın resmî testleri henüz başlamadı.
+Windows yeniden başlatıldı; Ubuntu 24.04.5 WSL2 üzerinde ROCm 7.2.1,
 ROCDXG 1.2.0 ve AMD PyTorch 2.9.1 ortamı kuruldu. RX 7800 XT'de GPU matris
 forward/backward kontrolü hem root hem normal `serda` kullanıcısıyla geçti.
 Linux'ta 52 test ve Naive Bayes validation kontrolü de geçti (accuracy 0.862,
-macro F1 0.8529). Bu altyapı kontrolleri tam Transformer deneyi sayılmaz.
+macro F1 0.8529). Yukarıdaki Transformer skorları tam validation deneylerine aittir.
 
 Repo sahibinin mevcut veri sürümü için Naive Bayes devir paketi:
 [teknik açıklama ve hata analizi](docs/NAIVE_BAYES.md),
@@ -210,8 +222,8 @@ Naive Bayes ile aynı `metrics.json`, `classification_report.json`,
 Komut [C/solver raporunu](results/LOGISTIC_REGRESSION_C.md) ve
 [JSON kaydını](results/logistic_regression_validation.json) yeniden üretir.
 Yöntem, ayar seçimi ve hata analizi [teknik notta](docs/LOGISTIC_REGRESSION.md) açıklanır.
-Mevcut veri ve ortak TF-IDF temsili korunur; LR'nin nihai ayar kaydı ve test
-çalıştırması model sorumlusunun bekleyen işidir.
+Mevcut veri ve ortak TF-IDF temsili korunur. Seçilen LR ayarının nihai testi
+[ortak klasik test raporunda](results/MODEL_COMPARISON_TEST.md) tamamlanmıştır.
 
 ## Linear SVM
 
@@ -236,8 +248,8 @@ Komut [C/loss raporunu](results/LINEAR_SVM_C.md) ve
 [JSON kaydını](results/linear_svm_validation.json) yeniden üretir.
 Yöntem, seçim gerekçesi ve örnek hataların kelime katkıları
 [teknik notta](docs/LINEAR_SVM.md) açıklanır.
-Bu skorlar nihai test sonucu değildir; mevcut veri ve ortak TF-IDF temsiliyle
-SVM'nin nihai ayar kaydını ve test çalıştırmasını model sorumlusu tamamlayacaktır.
+Bu bölümdeki skorlar validation'a aittir. Seçilen SVM ayarının nihai testi
+[ortak klasik test raporunda](results/MODEL_COMPARISON_TEST.md) tamamlanmıştır.
 
 ## Ortak model karşılaştırması
 
@@ -355,6 +367,7 @@ yalnızca tekrar kontrolü içindir; model orijinal mesaj metnini alır.
 - [Klasik modellerin nihai test karşılaştırması](results/MODEL_COMPARISON_TEST.md)
 - [Neural/embedding yöntemleri ve GPU kurulum durumu](docs/NEURAL_BASELINES.md)
 - [Yeni baseline ve NB + CNN validation sonuçları](results/NEURAL_VALIDATION.md)
+- [Dört Transformer'ın tam validation sonuçları](results/TRANSFORMER_VALIDATION.md)
 - [Yeni baseline ve NB + CNN nihai test sonuçları](results/NEURAL_TEST.md)
 - [Unigram / bigram özellik karşılaştırması (üç model)](results/FEATURE_COMPARISON.md)
 - [2. kişiye veri/özellik devir talimatı](docs/HANDOFF_DATA.md)
