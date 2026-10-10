@@ -61,19 +61,22 @@ Sunum: 12 Ekim 2026 Pazartesi. Notun %50'si sunum, %50'si implementation repo.
   [Nihai test raporu](../results/TRANSFORMER_TEST.md) ve
   [tam metrik kaydı](../results/transformer_test.json) hazırdır. RoBERTa-base:
   accuracy %93.02, macro F1 0.9301. Standart çıktılar doğrulandı;
-  eşleştirilmiş anlamlılık testi henüz yapılmadı.
+  eşleştirilmiş karşılaştırma [on altı yöntemlik raporda](../results/ALL_MODELS_TEST.md).
 
 ## Kalan işler ve sorumlular
 
 - [ ] 4. kişi: teknik nottaki Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme.
-- [ ] 5. kişi: özellik raporunda bigram-only ablation'ı ve seçilmeyen unigram
-  SVM (`hinge`, `C=10`) adayının 10.000 iterasyon sınırına ulaştığını açıklama.
+- [x] 5. kişi: özellik raporunda bigram-only ablation'ın tanı amaçlı olduğu ve seçilmeyen
+  unigram SVM (`hinge`, `C=10`) adayının 10.000 iterasyon sınırına ulaştığı açıklandı.
   Seçilen modeller yakınsamıştır; bu not nihai NB ayarını değiştirmez.
-- [ ] 5. kişi: test raporu/JSON'daki komut alanına `--split test` ekleme.
-  Rapordaki sonuçlar test verisinde doğrulandı; eksik olan komutun yazımıdır.
-- [ ] 5. kişi: yeni modeller ve katkı için ortak karşılaştırma, eşleştirilmiş
-  istatistikler ve grafikler. [Çıktı sözleşmesi](NEURAL_BASELINES.md) aynı kalır;
-  [yeni modellerin devir talimatı](HANDOFF_NEURAL.md) hazırdır.
+- [x] 5. kişi: test raporu/JSON'daki komut alanına `--split test` eklendi; benchmark kodu
+  komutu artık split'e göre yazar (`command_line`) ve testle korunur.
+- [x] 5. kişi: on altı yöntemin ortak test karşılaştırması, eşleştirilmiş istatistikler
+  (McNemar + Holm, seed'li bootstrap) ve grafikler:
+  [rapor](../results/ALL_MODELS_TEST.md), [tam kayıt](../results/all_models_test.json).
+  RoBERTa-base en yüksek macro F1 (0.9301) ve diğer 15 yöntemden Holm düzeltmesiyle ayrışır;
+  NB + CNN (0.9061) CNN, LR ve SVM'den ayrışır; BERT, DistilBERT ve ALBERT'ten ayrışmaz,
+  RoBERTa-base'in altındadır. Yeni bir mimari veya Transformer üstünlüğü iddia edilmez.
 - [ ] 5. kişi: PPTX, sunum provası ve süre kontrolü.
 - [ ] Tüm üyeler: kendi katkı dosyalarını son gerçek işleri ve kendi commit/PR'larıyla güncelleme.
 - [ ] Ödev sistemine hem PPTX hem public GitHub URL'sini yükleme.

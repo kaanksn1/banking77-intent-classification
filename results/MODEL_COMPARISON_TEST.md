@@ -2,7 +2,7 @@
 
 All models use the same prepared data and the same TF-IDF features (unigram + bigram, sublinear TF).
 The settings were frozen on validation before this run; the test set was not used to select anything.
-Command: `python -m banking77.benchmark_models`. Dataset summary SHA-256: `468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5`.
+Command: `python -m banking77.benchmark_models --split test`. Dataset summary SHA-256: `468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5`.
 Training rows: 8499, test rows: 3080.
 
 ## Models

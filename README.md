@@ -21,7 +21,10 @@ Naive Bayes'in testten önce sabitlenen ayarıyla nihai test sonucu:
 **accuracy %84.74, macro F1 0.8458**. [Test raporu ve çıktıları](results/NAIVE_BAYES_TEST.md)
 hazırdır. 5. kişinin LR/SVM dahil [nihai klasik model karşılaştırması](results/MODEL_COMPARISON_TEST.md)
 PR #11 ile ana dala alınmıştır; entegrasyonda skorlar ve istatistikler yeniden
-doğrulanmıştır. PPTX ve yeni modelleri içeren genişletilmiş karşılaştırma beklemektedir.
+doğrulanmıştır. On altı yöntemin (üç klasik, sekiz kelime/sinir ağı, dört Transformer ve NB + CNN)
+ortak test karşılaştırması [results/ALL_MODELS_TEST.md](results/ALL_MODELS_TEST.md) içindedir:
+RoBERTa-base en yüksek macro F1'e sahiptir ve diğer 15 yöntemden ayrışır; NB + CNN
+BERT-base, DistilBERT ve ALBERT'ten ayrışmaz.
 
 Repo sahibine ayrıca atanan yeni kapsamda CNN, RNN, LSTM, BiLSTM, GloVe,
 Word2Vec CBOW/Skip-gram ve FastText'in tam validation deneyleri tamamlandı.
@@ -37,7 +40,8 @@ ve resmî testleri tamamlandı. Seçilmiş checkpoint protokolleri
 [testten önceki `1e4ff66` commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/1e4ff66d49e7d184d3dbe1548fa7b038b79833c2)
 ile sabitlendi. Dört Transformer içinde en yüksek test skoru RoBERTa-base'te:
 **accuracy %93.02, macro F1 0.9301**. [Nihai test raporu ve hata örnekleri](results/TRANSFORMER_TEST.md),
-[tam metrik kaydı](results/transformer_test.json). Eşleştirilmiş anlamlılık testi henüz yapılmadı.
+[tam metrik kaydı](results/transformer_test.json). Eşleştirilmiş anlamlılık testleri
+[on altı yöntemlik karşılaştırmadadır](results/ALL_MODELS_TEST.md).
 Windows yeniden başlatıldı; Ubuntu 24.04.5 WSL2 üzerinde ROCm 7.2.1,
 ROCDXG 1.2.0 ve AMD PyTorch 2.9.1 ortamı kuruldu. RX 7800 XT'de GPU matris
 forward/backward kontrolü hem root hem normal `serda` kullanıcısıyla geçti.
@@ -281,6 +285,18 @@ Ayarlar dondurulduktan sonra aynı karşılaştırmanın resmî test üzerindeki
 Nihai özellik ayarı unigram + bigram'dır; gerekçe için
 [özellik karşılaştırması](results/FEATURE_COMPARISON.md).
 
+On altı yöntemin (üç klasik, sekiz kelime/sinir ağı, dört Transformer ve NB + CNN)
+resmî test tahminlerini tek tabloda karşılaştırmak için:
+
+```powershell
+.\.venv\Scripts\python.exe -m banking77.compare_all_models
+```
+
+Komut hiçbir model eğitmez ve ayar seçmez (birkaç saniye): `results/` altındaki kayıtlı
+`predictions.csv` dosyalarını okur, mesaj kimlik/metin/etiketlerini ve dosya hash'lerini
+doğrular, skorları yeniden hesaplar. [results/ALL_MODELS_TEST.md](results/ALL_MODELS_TEST.md),
+`results/all_models_test.json` ve `results/figures/all_*.png` dosyalarını üretir.
+
 ## Yapı
 
 ```text
@@ -316,6 +332,8 @@ Mevcut scriptlerin görevleri:
 | `src/banking77/benchmark_models.py` | NB/LR/SVM başlangıç ve seçilen ayarlarını sırayla çalıştırma, karşılaştırma raporu ve eşleştirilmiş testler |
 | `src/banking77/benchmark_features.py` | Unigram, unigram + bigram ve yalnızca bigram'ı üç modelde yeniden ayarlayarak karşılaştırma |
 | `src/banking77/plot_comparison.py` | Karşılaştırma grafikleri (skor, süre, karışan çiftler) |
+| `src/banking77/compare_all_models.py` | 16 yöntemin kayıtlı test tahminlerini hizalama, yeniden hesaplama, McNemar/Holm, bootstrap ve NB + CNN ablation |
+| `src/banking77/plot_all_models.py` | 16 yöntemlik karşılaştırma grafikleri (skor aralıkları, maliyet, NB + CNN ağırlığı) |
 | `src/banking77/predict.py` | Kaydedilmiş modelle tek mesajın kategorisini tahmin etme |
 | `src/banking77/neural_models.py` | Train sözlüğü, maskeli pooling, CNN/RNN/LSTM/BiLSTM mimarileri |
 | `src/banking77/train_neural.py` | Kelime/Transformer eğitimi, validation checkpoint seçimi, protokol sabitleme ve test |
@@ -331,6 +349,7 @@ Mevcut scriptlerin görevleri:
 | `tests/test_data_files.py` | CSV'nin LF satır sonuyla yazılmasını ve metinlerin korunmasını doğrulama |
 | `tests/test_logistic_regression.py` | LR ayarları, solver'lar, TF-IDF eğitim sınırı ve validation seçim kuralı |
 | `tests/test_benchmark_models.py` | Benchmark ayarları, yalnızca validation kullanımı, medyan süre, McNemar ve bootstrap kontrolleri |
+| `tests/test_compare_all_models.py` | 16 yöntemin hizalama/hash/skor doğrulaması, Holm düzeltmesi, seed'li bootstrap ve özet tutarlılığı |
 | `tests/test_benchmark_features.py` | Özellik karşılaştırmasının seçim kuralı, validation-only kullanımı ve ızgaraları |
 | `tests/test_linear_svm.py` | SVM ayarları, loss'lar, TF-IDF eğitim sınırı, seçim kuralı ve kelime katkıları |
 
