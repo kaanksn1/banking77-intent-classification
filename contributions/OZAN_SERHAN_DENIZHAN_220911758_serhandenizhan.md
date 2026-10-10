@@ -109,6 +109,7 @@ I did not change the other members' model, training or data files.
   - [#8 Shared model benchmark and validation comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/8) (merged)
   - [#9 Three-model unigram/bigram feature comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/9) (merged)
   - [#11 Final test comparison of NB, LR and Linear SVM](https://github.com/kaanksn1/banking77-intent-classification/pull/11) (merged)
+  - [#14 Add the 16-method official test comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/14)
 
 ## Contribution to the presentation
 
