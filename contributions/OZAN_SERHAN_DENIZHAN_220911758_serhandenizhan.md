@@ -44,6 +44,26 @@ Responsibility: Person 5 — shared evaluation: benchmark script, comparison tab
   point to the comparison and to describe its status. `pyproject.toml` and `requirements-lock.txt` now list
   `scipy` and `matplotlib`.
 
+- All-method official test comparison (`python -m banking77.compare_all_models`): the 15 baselines and the
+  NB + CNN contribution on the same 3,080 test messages, built only from the committed predictions of each
+  method (it trains nothing and selects nothing). It aligns message ids, texts and labels, recomputes
+  accuracy and macro F1, checks the file hashes recorded when the predictions were produced, and reports
+  paired bootstrap intervals, exact McNemar tests for all 120 pairs with Holm correction, ten pre-specified
+  comparisons, the NB + CNN ablation, cost and device, error analysis and near-duplicate sensitivity
+  (`results/ALL_MODELS_TEST.md`, `results/all_models_test.json`, `results/figures/all_*.png`).
+  Findings: RoBERTa-base (macro F1 0.9301) is separable from all 15 other methods; NB + CNN (0.9061) is better
+  than CNN, Logistic Regression and Linear SVM and not separable from BERT-base, DistilBERT-base and
+  ALBERT-base-v2; it is below RoBERTa-base. It is not presented as a new architecture.
+- Published the official test outputs of Logistic Regression and Linear SVM (`results/logistic_regression_test/`,
+  `results/linear_svm_test/`, the runs listed in `results/model_comparison_test.json`) so that the comparison
+  can be reproduced from the repository alone.
+- Report fixes: the final test report records `--split test` in its command (and the benchmark writes it
+  from the split), and the feature report explains the non-converged unigram SVM candidate
+  (`hinge`, `C=10`, 10,000 iterations, not selected) and the diagnostic role of the bigram-only ablation.
+- `tests/test_compare_all_models.py`: 9 tests (unique methods and committed outputs, Holm adjustment,
+  pair direction, seeded bootstrap, rejection of mismatched messages and of changed predictions, summary
+  consistency).
+
 I did not change the other members' model, training or data files.
 
 ## Verification and experiments
@@ -78,10 +98,16 @@ I did not change the other members' model, training or data files.
   - [Feature comparison report and documentation](https://github.com/kaanksn1/banking77-intent-classification/commit/fb7d2339566793431917df7941fccfd9ca8dd91e)
   - [`--split test` mode and overlap report](https://github.com/kaanksn1/banking77-intent-classification/commit/9474cb47c0dd038b7adcf245b72512050560cc23)
   - [Final test comparison of the three models](https://github.com/kaanksn1/banking77-intent-classification/commit/6053fd2e0f8c526e8dead5978b9803052f4dde61)
+  - [Record `--split test` in the final test report command](https://github.com/kaanksn1/banking77-intent-classification/commit/7f652bcca3fa37aa26c902a8436beae006575197)
+  - [Explain the non-converged SVM candidate and the bigram-only ablation](https://github.com/kaanksn1/banking77-intent-classification/commit/7804865d96d434fa7d9dedaee95e9e5eec339c2d)
+  - [Publish the LR and SVM official test outputs](https://github.com/kaanksn1/banking77-intent-classification/commit/086c1eca5b31e70e75b34a8545ec96f442f5dd8e)
+  - [Add the 16-method official test comparison](https://github.com/kaanksn1/banking77-intent-classification/commit/9f31b32b67518b0c494115d22fb82b2cc763f68b)
+  - [Document the all-method comparison and update submission tracking](https://github.com/kaanksn1/banking77-intent-classification/commit/b922801f35923f55118fb2b428cb7e0952834004)
+  - [Keep the published LR and SVM test CSV bytes unchanged](https://github.com/kaanksn1/banking77-intent-classification/commit/cc540a689979f70b8d01ff31af0b3b27f054b476)
 - My pull request links:
   - [#8 Shared model benchmark and validation comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/8) (merged)
   - [#9 Three-model unigram/bigram feature comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/9) (merged)
-  - [#11 Final test comparison of NB, LR and Linear SVM](https://github.com/kaanksn1/banking77-intent-classification/pull/11)
+  - [#11 Final test comparison of NB, LR and Linear SVM](https://github.com/kaanksn1/banking77-intent-classification/pull/11) (merged)
 
 ## Contribution to the presentation
 
