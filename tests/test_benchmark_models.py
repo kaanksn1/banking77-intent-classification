@@ -6,11 +6,12 @@ from sklearn.metrics import f1_score
 from banking77 import benchmark_models as bm
 
 
-def fake_run(accuracy=0.9, macro_f1=0.89, fit=1.0, sha="abc"):
+def fake_run(accuracy=0.9, macro_f1=0.89, fit=1.0, sha="abc", files="f1"):
     return {
         "accuracy": accuracy, "macro_f1": macro_f1, "fit_seconds": fit, "predict_seconds": 0.01,
         "prediction_ms_per_message": 0.007, "dataset_summary_sha256": sha, "settings": {}, "run_id": "r",
         "training_rows": 10, "evaluation_rows": 5,
+        "dataset_files_sha256": {"train.csv": files}, "converged": True,
     }
 
 
@@ -56,6 +57,35 @@ class BenchmarkModelsTest(unittest.TestCase):
         rounds[0]["svm"] = fake_run(sha="other")
         with self.assertRaises(ValueError):
             bm.aggregate(rounds)
+
+    def test_aggregate_rejects_different_data_files(self):
+        keys = [c.key for c in bm.CONFIGS]
+        rounds = [{k: fake_run() for k in keys}]
+        rounds[0]["svm"] = fake_run(files="other")
+        with self.assertRaises(ValueError):
+            bm.aggregate(rounds)
+
+    def test_aggregate_exposes_convergence(self):
+        keys = [c.key for c in bm.CONFIGS]
+        rounds = [{k: fake_run() for k in keys}]
+        rounds[0]["lr_selected"]["converged"] = False
+        models = bm.aggregate(rounds)
+        self.assertFalse(models["lr_selected"]["converged"])
+        self.assertTrue(models["svm"]["converged"])
+
+    def test_nearest_similarity_flags_reordered_copy(self):
+        train = ["How is the exchange rate calculated?", "I lost my card yesterday"]
+        evaluation = ["How is an exchange rate calculated?", "Where is the nearest ATM"]
+        similarity = bm.nearest_train_similarity(train, evaluation)
+        self.assertGreater(similarity[0], 0.8)
+        self.assertLess(similarity[1], similarity[0])
+
+    def test_subset_scores_use_only_present_categories(self):
+        result = bm.subset_scores(["a", "a", "b"], ["a", "b", "b"])
+        self.assertEqual(result["categories"], 2)
+        self.assertAlmostEqual(result["accuracy"], 2 / 3)
+        expected = f1_score(["a", "a", "b"], ["a", "b", "b"], average="macro")
+        self.assertAlmostEqual(result["macro_f1"], expected)
 
     def test_mcnemar_counts_and_symmetry(self):
         reference = [True, True, False, False, False, True]

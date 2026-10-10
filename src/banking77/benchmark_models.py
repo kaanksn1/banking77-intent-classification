@@ -14,8 +14,10 @@ from pathlib import Path
 
 import numpy as np
 from scipy.stats import binomtest
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import accuracy_score, f1_score
 
-from banking77.data import ROOT
+from banking77.data import ROOT, read_records
 from banking77.train_linear_svm import run_linear_svm
 from banking77.train_logistic_regression import run_logistic_regression
 from banking77.train_naive_bayes import run_naive_bayes
@@ -23,6 +25,7 @@ from banking77.train_naive_bayes import run_naive_bayes
 REPEATS = 3
 BOOTSTRAP_RESAMPLES = 1000
 BOOTSTRAP_SEED = 42
+NEAR_DUPLICATE_THRESHOLDS = (0.95, 0.90)
 RESULTS = ROOT / "results"
 
 
@@ -48,6 +51,11 @@ CONFIGS = (
            {"loss": "squared_hinge", "C": 1.0}, "squared_hinge, C=1", 0.8935),
 )
 SELECTED_KEYS = ("nb_selected", "lr_selected", "svm")
+IMPLEMENTATIONS = {
+    "Naive Bayes": "TF-IDF + MultinomialNB (scikit-learn)",
+    "Logistic Regression": "TF-IDF + LogisticRegression (scikit-learn)",
+    "Linear SVM": "TF-IDF + LinearSVC (scikit-learn)",
+}
 MODEL_LABELS = {"nb_selected": "Naive Bayes", "lr_selected": "Logistic Regression", "svm": "Linear SVM"}
 
 
@@ -70,6 +78,8 @@ def aggregate(rounds):
                 raise ValueError(f"{config.key}: scores changed between repeats")
             if run["dataset_summary_sha256"] != first["dataset_summary_sha256"]:
                 raise ValueError(f"{config.key}: data changed between repeats")
+            if run["dataset_files_sha256"] != first["dataset_files_sha256"]:
+                raise ValueError(f"{config.key}: data files changed between repeats")
         result[config.key] = {
             "model": config.model,
             "stage": config.stage,
@@ -78,6 +88,9 @@ def aggregate(rounds):
             "run_id": first["run_id"],
             "repeat_run_ids": [run["run_id"] for run in runs],
             "dataset_summary_sha256": first["dataset_summary_sha256"],
+            "dataset_files_sha256": first["dataset_files_sha256"],
+            "converged": first.get("converged"),
+            "optimizer_iterations": first.get("optimizer_iterations"),
             "training_rows": first["training_rows"],
             "evaluation_rows": first["evaluation_rows"],
             "accuracy": first["accuracy"],
@@ -95,6 +108,9 @@ def aggregate(rounds):
     hashes = {entry["dataset_summary_sha256"] for entry in result.values()}
     if len(hashes) != 1:
         raise ValueError("Compared runs use different dataset_summary_sha256 values")
+    files = {json.dumps(entry["dataset_files_sha256"], sort_keys=True) for entry in result.values()}
+    if len(files) != 1:
+        raise ValueError("Compared runs use different prepared data files")
     return result
 
 
@@ -201,10 +217,69 @@ def error_examples(predictions, all_wrong_limit=5, disagreement_limit=3):
     }
 
 
+def nearest_train_similarity(train_texts, eval_texts, chunk=500):
+    """Her değerlendirme mesajının train'deki en benzer mesaja karakter n-gram kosinüs benzerliği."""
+    vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5))
+    train_matrix = vectorizer.fit_transform(train_texts)  # yalnızca train üzerinde öğrenilir
+    eval_matrix = vectorizer.transform(eval_texts)
+    best = np.empty(len(eval_texts))
+    for start in range(0, len(eval_texts), chunk):
+        block = (eval_matrix[start:start + chunk] @ train_matrix.T).toarray()
+        best[start:start + chunk] = block.max(axis=1)
+    return best
+
+
+def subset_scores(true_labels, predicted_labels):
+    """Alt küme skorları; macro F1 yalnızca alt kümede bulunan gerçek etiketler üzerinden."""
+    labels = sorted(set(true_labels))
+    return {
+        "rows": len(true_labels),
+        "accuracy": float(accuracy_score(true_labels, predicted_labels)),
+        "macro_f1": float(f1_score(true_labels, predicted_labels, labels=labels, average="macro", zero_division=0)),
+        "categories": len(labels),
+    }
+
+
+def near_duplicate_sensitivity(models, thresholds=NEAR_DUPLICATE_THRESHOLDS):
+    """Train'e çok benzeyen validation mesajları çıkarılınca skorlar nasıl değişir."""
+    processed = ROOT / "data/processed"
+    train = read_records(processed / "train.csv")
+    validation = read_records(processed / "validation.csv")
+    similarity = {
+        row["id"]: score
+        for row, score in zip(validation, nearest_train_similarity(
+            [r["text"] for r in train], [r["text"] for r in validation]))
+    }
+    predictions = {key: read_predictions(entry["run_id"]) for key, entry in models.items()}
+    result = {}
+    for threshold in thresholds:
+        flagged = {message_id for message_id, score in similarity.items() if score >= threshold}
+        per_model = {}
+        for key, rows in predictions.items():
+            kept = [row for row in rows if row["id"] not in flagged]
+            per_model[key] = {
+                "all": subset_scores([r["true_label"] for r in rows], [r["predicted_label"] for r in rows]),
+                "without_near_duplicates": subset_scores(
+                    [r["true_label"] for r in kept], [r["predicted_label"] for r in kept]),
+            }
+        result[f"{threshold:.2f}"] = {
+            "flagged_messages": len(flagged),
+            "flagged_share": len(flagged) / len(similarity),
+            "models": per_model,
+        }
+    return {
+        "method": "max cosine similarity of character 3-5-gram TF-IDF (fitted on train) to any training "
+                  "message; validation messages at or above the threshold are removed",
+        "thresholds": result,
+    }
+
+
 def class_balance():
     summary = json.loads((ROOT / "data/processed/summary.json").read_text(encoding="utf-8"))
     with (ROOT / "data/processed/validation.csv").open(encoding="utf-8", newline="") as handle:
         validation = Counter(row["category"] for row in csv.DictReader(handle))
+    with (ROOT / "data/processed/test.csv").open(encoding="utf-8", newline="") as handle:
+        test = Counter(row["category"] for row in csv.DictReader(handle))
     train = summary["class_counts"]["train"]
     return {
         "classes": len(train),
@@ -214,6 +289,8 @@ def class_balance():
         "train_max_class": max(train, key=train.get),
         "validation_min": min(validation.values()),
         "validation_max": max(validation.values()),
+        "test_min": min(test.values()),
+        "test_max": max(test.values()),
     }
 
 
@@ -246,6 +323,7 @@ def build_summary(rounds):
         "models": models,
         "class_balance": class_balance(),
         "comparisons": comparisons,
+        "near_duplicate_sensitivity": near_duplicate_sensitivity(models),
         "top_confusions": {key: top_confusions(predictions[key]) for key in SELECTED_KEYS},
         "confusion_pair_table": pair_table(predictions),
         "examples": error_examples(predictions),
@@ -279,16 +357,30 @@ def render_markdown(summary):
         f"Training rows: {next(iter(models.values()))['training_rows']}, "
         f"validation rows: {next(iter(models.values()))['evaluation_rows']}.",
         "",
+        "## Models",
+        "",
+        "| Model | Implementation | Learned from |",
+        "| --- | --- | --- |",
+    ]
+    for name, implementation in IMPLEMENTATIONS.items():
+        lines.append(f"| {name} | {implementation} | our training split, no pretrained weights |")
+    lines += [
+        "",
+        "All three are the vanilla course methods used as baselines. The selected settings are tuned "
+        "versions of the same baselines, not new methods. We use scikit-learn implementations: the "
+        "algorithms are not coded from scratch, but all parameters are learned from our own training data.",
+        "",
         "## Results",
         "",
-        "| Model | Stage | Settings | Accuracy | Macro F1 | Fit (s) | Predict (s) | Predict (ms/msg) |",
-        "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |",
+        "| Model | Stage | Settings | Accuracy | Macro F1 | Fit (s) | Predict (s) | Predict (ms/msg) | Converged |",
+        "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | :---: |",
     ]
     for entry in models.values():
+        converged = {True: "yes", False: "no", None: "n/a"}[entry["converged"]]
         lines.append(
             f"| {entry['model']} | {entry['stage']} | {entry['label']} | {_pct(entry['accuracy'])} "
             f"| {entry['macro_f1']:.4f} | {entry['fit_seconds']:.2f} | {entry['predict_seconds']:.4f} "
-            f"| {entry['prediction_ms_per_message']:.3f} |"
+            f"| {entry['prediction_ms_per_message']:.3f} | {converged} |"
         )
     lines += [
         "",
@@ -310,7 +402,12 @@ def render_markdown(summary):
         "",
         f"Category sizes are not equal: in training, from {balance['train_min']} messages "
         f"(`{balance['train_min_class']}`) to {balance['train_max']} (`{balance['train_max_class']}`); "
-        f"in validation, from {balance['validation_min']} to {balance['validation_max']}.",
+        f"in validation, from {balance['validation_min']} to {balance['validation_max']}. "
+        "The official test set is balanced ("
+        + (f"{balance['test_min']} messages in every category" if balance["test_min"] == balance["test_max"]
+           else f"{balance['test_min']} to {balance['test_max']} messages per category")
+        + "), so accuracy and macro F1 are expected to be closer there. We still rank by macro F1 "
+        "because the reason for choosing it, equal importance of every category, does not depend on the split.",
         "",
         "## Paired comparison of the selected settings",
         "",
@@ -319,6 +416,32 @@ def render_markdown(summary):
         "",
     ]
     lines += [_comparison_sentence(item) for item in summary["comparisons"]]
+    sensitivity = summary["near_duplicate_sensitivity"]
+    lines += [
+        "",
+        "## Sensitivity to near-duplicate messages",
+        "",
+        "Some validation messages are near-copies of training messages (reordered sentences, one added word). "
+        "They are mostly easy and keep the same label, so they can raise the scores slightly. We did not "
+        "change the split; instead the scores are recomputed without those messages.",
+        "",
+        f"Method: {sensitivity['method']}. Macro F1 in the reduced sets uses only the categories that remain.",
+        "",
+        "| Threshold | Removed | Model | Setting | Accuracy (all → reduced) | Macro F1 (all → reduced) |",
+        "| --- | ---: | --- | --- | ---: | ---: |",
+    ]
+    for threshold, block in sensitivity["thresholds"].items():
+        first = True
+        for key, entry in models.items():
+            scores = block["models"][key]
+            lines.append(
+                f"| {'≥ ' + threshold if first else ''} "
+                f"| {str(block['flagged_messages']) + ' (' + format(100 * block['flagged_share'], '.1f') + '%)' if first else ''} "
+                f"| {entry['model']} | {entry['label']} "
+                f"| {_pct(scores['all']['accuracy'])} → {_pct(scores['without_near_duplicates']['accuracy'])} "
+                f"| {scores['all']['macro_f1']:.4f} → {scores['without_near_duplicates']['macro_f1']:.4f} |"
+            )
+            first = False
     lines += ["", "## Most confused category pairs (selected settings)", ""]
     for key, pairs in summary["top_confusions"].items():
         lines.append(f"**{MODEL_LABELS[key]}**")
@@ -365,6 +488,7 @@ def render_markdown(summary):
         "- One validation split of 1,500 messages; scores are not final test results.",
         "- Final test numbers will be produced by the model owners after the shared feature setting is fixed.",
         "- Timings come from one machine and are not a general speed claim.",
+        "- Near-duplicate detection is a similarity heuristic with an arbitrary threshold, not a proof of leakage.",
         "",
     ]
     return "\n".join(lines)
