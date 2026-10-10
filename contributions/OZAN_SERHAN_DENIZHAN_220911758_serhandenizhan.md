@@ -20,6 +20,11 @@ Responsibility: Person 5 — shared evaluation: benchmark script, comparison tab
 - Near-duplicate sensitivity: validation scores are recomputed without validation messages that are
   near-copies of training messages (character n-gram TF-IDF cosine >= 0.95 and >= 0.90). The split was not
   changed; the model ordering is unchanged and the scores drop by about 0.4 to 0.5 points at 0.95.
+- `src/banking77/benchmark_features.py` and `results/FEATURE_COMPARISON.md`: unigram vs unigram + bigram
+  on all three models, each re-tuned with the owners' own hyperparameter grids and selection rule
+  (validation only), with exact McNemar and paired bootstrap, plus a bigram-only ablation. Findings:
+  unigram vs unigram + bigram is not separable for any model (p = 0.08 to 0.75, NB slightly favours
+  bigrams); bigram only is clearly worse (macro F1 down 0.046 to 0.063, p < 1e-13).
 - Final test comparison (`python -m banking77.benchmark_models --split test`): the same benchmark on the
   official test split with the settings frozen on validation and the agreed shared feature setting
   (unigram + bigram), producing `results/MODEL_COMPARISON_TEST.md`, `results/model_comparison_test.json`
@@ -27,10 +32,11 @@ Responsibility: Person 5 — shared evaluation: benchmark script, comparison tab
   `docs/EXPERIMENTS.md`. Test scores: Naive Bayes 0.8458, Logistic Regression 0.8878, Linear SVM 0.8865
   macro F1; Logistic Regression and Linear SVM are again not separable (p = 0.68). The LR and SVM final
   runs were executed centrally by me with the owners' frozen settings and their agreement.
-- `tests/test_benchmark_models.py`: 14 unit tests (agreed settings, validation-only use, median timing,
+- `tests/test_benchmark_models.py`: 14 unit tests (agreed settings, validation-only use, split passing, median timing,
   rejection of changed scores or datasets or data files, convergence reporting, McNemar counts, macro F1
-  against scikit-learn, seeded bootstrap, near-duplicate similarity, subset scores, error example selection).
-  The full suite has 35 passing tests on this branch.
+  against scikit-learn, seeded bootstrap, near-duplicate similarity, subset scores, error example selection);
+  `tests/test_benchmark_features.py` adds 5 more (selection rule, validation-only use, grids).
+  The full suite has 40 passing tests.
 - `results/MODEL_COMPARISON.md`, `results/model_comparison_validation.json`, `results/figures/*.png`:
   generated report with the comparison table, the macro F1 justification, most confused pairs and real
   example errors.
@@ -66,10 +72,15 @@ I did not change the other members' model, training or data files.
   - [Shared benchmark, plots and tests](https://github.com/kaanksn1/banking77-intent-classification/commit/cdb5d6f3238efd649d6a1908fb4320a9acfeea3f)
   - [Validation comparison report and figures](https://github.com/kaanksn1/banking77-intent-classification/commit/00132870e5e2bdfd5e43d6cb91dbe9e280021e53)
   - [Documentation and submission tracking](https://github.com/kaanksn1/banking77-intent-classification/commit/9733efcd63c9ca02450fe4e46eed1f6a681e006a)
+  - [Data-file, convergence and near-duplicate checks](https://github.com/kaanksn1/banking77-intent-classification/commit/0f1358d5d561a71b820336b97821d8e0a5768492)
+  - [Regenerated report and contribution file](https://github.com/kaanksn1/banking77-intent-classification/commit/1a019b6adcd9d0f4f612de9ea7d42f8170e96cf7)
+  - [Three-model feature comparison with bigram-only ablation](https://github.com/kaanksn1/banking77-intent-classification/commit/f6e77b74a9e9b5aa601a2c07018050c7997dba49)
+  - [Feature comparison report and documentation](https://github.com/kaanksn1/banking77-intent-classification/commit/fb7d2339566793431917df7941fccfd9ca8dd91e)
   - [`--split test` mode and overlap report](https://github.com/kaanksn1/banking77-intent-classification/commit/9474cb47c0dd038b7adcf245b72512050560cc23)
   - [Final test comparison of the three models](https://github.com/kaanksn1/banking77-intent-classification/commit/6053fd2e0f8c526e8dead5978b9803052f4dde61)
 - My pull request links:
   - [#8 Shared model benchmark and validation comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/8) (merged)
+  - [#9 Three-model unigram/bigram feature comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/9) (merged)
   - [#11 Final test comparison of NB, LR and Linear SVM](https://github.com/kaanksn1/banking77-intent-classification/pull/11)
 
 ## Contribution to the presentation

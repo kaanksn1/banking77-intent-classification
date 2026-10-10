@@ -35,11 +35,12 @@ Notun %50'si sunum, %50'si implementation repo.
 - [x] 2. kişinin kendi çalışması için devir adımları docs/HANDOFF_DATA.md'de.
 - [x] PR #2, #3 ve #5 main'e alındı; ortak README ve çalıştırma bağlantıları güncellendi.
 - [x] PR #7 ve #8 ana dala alındı; son benchmark revizyonundaki 15 validation çalıştırmasının skorları ve istatistikleri doğrulandı.
-- [x] Birleşik kodda 33 yerel kontrol geçti; Naive Bayes validation çalışması doğrulandı.
+- [x] Birleşik kodda 38 yerel kontrol geçti; Naive Bayes validation çalışması doğrulandı.
+- [x] PR #9'un 90 validation denemesindeki skorlar ve karşılaştırma istatistikleri entegrasyonda doğrulandı; resmî test bu özellik incelemesinde kullanılmadı.
 - [x] Logistic Regression'ın 15 validation deneyi ve raporlanan skorları entegrasyonda doğrulandı.
 - [x] Linear SVM'nin 10 validation deneyi, veri hash'leri ve hata katkıları incelemede doğrulandı.
 - [x] Üç modelin seçilen ayarları aynı veriyle validation üzerinde çalıştırıldı; tek mesaj tahmin komutu NB ve SVM ile doğrulandı.
-- [x] Beş üyenin kendi gerçek katkı dosyaları ve GitHub kanıtları mevcut; repo sahibinin dosyası bu teslim PR'ında eklendi.
+- [x] Beş üyenin kendi gerçek katkı dosyaları ve GitHub kanıtları mevcut; repo sahibinin dosyası ve nihai NB çıktıları PR #10 ile ana dala alındı.
 - [x] 2. kişi: veri analizi, veri ön işleme pipeline dokümantasyonu, özellik deneyleri ve katkı dosyası.
 - [x] 3. kişi: Logistic Regression kodu, validation deneyleri ve katkı dosyası.
 - [x] Repo sahibi: mevcut veri ve ortak unigram + bigram temsilini koruma kararını deney protokolünde kaydetme.
@@ -49,6 +50,7 @@ Notun %50'si sunum, %50'si implementation repo.
 - [x] Repo sahibi: NB ayarlarını testten önce ayrı commit ile sabitleme ve nihai test çıktısını yayımlama (`results/NAIVE_BAYES_TEST.md`).
 - [ ] 3. ve 4. kişi: kendi nihai ayar kayıtlarını ve test çıktılarını teslim etme.
 - [x] 5. kişi: ortak benchmark, metrik gerekçesi, validation karşılaştırması ve grafikler (`results/MODEL_COMPARISON.md`).
+- [ ] 5. kişi: özellik raporunun sınırlılıklarında bigram-only ablation'ı da sayma ve seçilmeyen unigram SVM (`hinge`, `C=10`) denemesinin 10.000 iterasyon sınırına ulaştığını belirtme. Seçilen modeller yakınsamıştır; bu not nihai NB ayarını değiştirmez.
 - [ ] 5. kişi: nihai test karşılaştırması ve PPTX sunum.
 - [x] Bu entegrasyonun repo kontrolü: testler ve NB validation geçti; nihai NB tahminleri/metrikleri doğrulandı, geçici araçlar ve modeller Git dışında.
 
