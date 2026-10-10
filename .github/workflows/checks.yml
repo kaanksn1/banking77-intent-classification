@@ -18,3 +18,16 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - run: python -m banking77.data --offline
       - run: python -m banking77.train_naive_bayes --alpha 0.05
+  neural-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements-lock.txt
+      - run: python -m pip install torch==2.9.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -r requirements-neural.txt
+      - run: python -m unittest discover -s tests -v
+      - run: python -m banking77.neural_preflight

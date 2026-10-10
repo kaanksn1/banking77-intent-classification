@@ -2,7 +2,7 @@
 
 | Sorumlu | Kapsam | Önerilen branch |
 | --- | --- | --- |
-| Repo sahibi (sen) | Naive Bayes, alpha deneyleri, hata analizi; GitHub ve son entegrasyon | `feature/naive-bayes` |
+| Repo sahibi (sen) | Naive Bayes, alpha deneyleri, hata analizi; GitHub/entegrasyon; sonradan açıkça atanan neural baseline ve NB + CNN çalışması | `feature/neural-baselines` |
 | 2. kişi | Veri analizi, kalite kontrolü, ortak bölümler; unigram/bigram deneyi | `feature/data-features` |
 | 3. kişi | Logistic Regression, C deneyleri, hata analizi | `feature/logistic-regression` |
 | 4. kişi | Linear SVM, C deneyleri, hata analizi | `feature/svm` |
@@ -11,8 +11,10 @@
 Repo sahibinin Naive Bayes çalışması, 2. kişinin veri/özellik çalışması,
 3. kişinin Logistic Regression ve 4. kişinin Linear SVM çalışması kendi PR'larıyla
 `main` içine alınmıştır. 5. kişinin ortak validation değerlendirmesi ve
-grafikleri PR #8 ile birleştirilmiştir. Nihai test karşılaştırması, PPTX ve
-sunum provası henüz tamamlanmış sayılmaz.
+grafikleri PR #8, klasik modellerin nihai test karşılaştırması PR #11 ile
+birleştirilmiştir. Yeni modelleri kapsayan karşılaştırma, PPTX ve sunum provası
+beklemektedir. Hocanın son e-postasındaki ek baseline işi repo sahibine açıkça
+atanmıştır; [kapsam ve durum](NEURAL_BASELINES.md) ayrı takip edilir.
 Herkes kendi bölümünün deneylerini, bulgularını, slayt taslağını ve açıklamasını
 hazırlar. Repo sahibi ortak README ve GitHub entegrasyonunu günceller.
 
@@ -20,6 +22,8 @@ hazırlar. Repo sahibi ortak README ve GitHub entegrasyonunu günceller.
 
 - Repo sahibi: `src/banking77/naive_bayes.py`, `src/banking77/train_naive_bayes.py`,
   `src/banking77/benchmark_naive_bayes.py`, kendi modelinin sonuçları; GitHub ve son entegrasyon.
+  Ek kapsam: `neural_models.py`, `train_neural.py`, `train_embeddings.py`,
+  `prepare_embeddings.py`, `train_ensemble.py`, GPU hazırlığı ve bunların deneyleri.
 - 2. kişi: `src/banking77/data.py`, veri inceleme ve özellik deneyleri.
 - 3. kişi: Logistic Regression için kendi model/eğitim dosyalarını ekler.
 - 4. kişi: Linear SVM için kendi model/eğitim dosyalarını ekler.
@@ -31,8 +35,9 @@ anlaşın. Başlangıç altyapısı o kişinin deneylerinin veya analizinin tama
 ## Teslim sözleşmesi
 
 - Aynı hazırlanmış veri ve `seed=42` kullanılır. Veri değişirse herkes yeniden çalıştırır.
-- Teslim entegrasyonunda mevcut unigram + bigram, sublinear TF temsili korunur;
+- Klasik modellerde mevcut unigram + bigram, sublinear TF temsili korunur;
   [NB test öncesi kayıt ve deney protokolü](EXPERIMENTS.md) uygulanır.
+  Yeni modeller aynı mesaj bölümlerinde kendi token/embedding temsilini kullanır.
 - TF-IDF yalnızca eğitim verisinde öğrenilir; validation/test üzerinde `fit` yapılmaz.
 - Model/özellik/parametre seçimi validation verisinde yapılır.
 - Her model sahibi komutunu, metriklerini ve en az üç hata örneğini teslim eder.
@@ -41,8 +46,9 @@ anlaşın. Başlangıç altyapısı o kişinin deneylerinin veya analizinin tama
   [Katkı şablonu](../contributions/README.md) kullanılabilir.
 - Tahmin dosyası sütunları: `id,text,true_label,predicted_label,correct,overlaps_training`.
 - Karşılaştırılan deneylerin `dataset_summary_sha256` değerleri aynı olmalıdır.
-- Arayüz planlanmıyor. Ders slaytları incelenerek gerekli baseline listesi
-  doğrulanmalıdır. Repo sahibi yeni veri ve JEV/Laya/AnyJev ekleme planını iptal etmiştir.
+- Arayüz planlanmıyor. Ders slaytlarının metin ve resimleri incelendi;
+  [baseline eşleştirmesi](NEURAL_BASELINES.md) hazır. Repo sahibi yeni veri ve
+  JEV/Laya/AnyJev ekleme planını iptal etmiştir.
   Sunum tarihi: 12 Ekim 2026.
 
 ## Git akışı

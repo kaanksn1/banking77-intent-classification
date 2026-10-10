@@ -1,0 +1,253 @@
+{
+  "frozen_at_utc": "2026-10-10T15:22:38.857631+00:00",
+  "official_test_evaluated_at_freeze": false,
+  "validation_run": {
+    "run_id": "rnn_validation_20261010T145326861275Z",
+    "evaluation_split": "validation",
+    "settings": {
+      "model": "rnn",
+      "seed": 42,
+      "max_length": 64,
+      "batch_size": 64,
+      "learning_rate": 0.001,
+      "epochs_budget": 15,
+      "patience": 3,
+      "weight_decay": 0.01,
+      "gradient_clip": 1.0,
+      "amp": false,
+      "selection_metric": "validation_macro_f1",
+      "training_rows": 8499,
+      "validation_rows": 1500,
+      "embedding": {
+        "initialization": "random",
+        "dimension": 100,
+        "matched_words": 0
+      },
+      "vocabulary_size": 2218,
+      "hidden_size": 128,
+      "dropout": 0.3,
+      "freeze_embeddings": false
+    },
+    "categories": [
+      "card_arrival",
+      "card_linking",
+      "exchange_rate",
+      "card_payment_wrong_exchange_rate",
+      "extra_charge_on_statement",
+      "pending_cash_withdrawal",
+      "fiat_currency_support",
+      "card_delivery_estimate",
+      "automatic_top_up",
+      "card_not_working",
+      "exchange_via_app",
+      "lost_or_stolen_card",
+      "age_limit",
+      "pin_blocked",
+      "contactless_not_working",
+      "top_up_by_bank_transfer_charge",
+      "pending_top_up",
+      "cancel_transfer",
+      "top_up_limits",
+      "wrong_amount_of_cash_received",
+      "card_payment_fee_charged",
+      "transfer_not_received_by_recipient",
+      "supported_cards_and_currencies",
+      "getting_virtual_card",
+      "card_acceptance",
+      "top_up_reverted",
+      "balance_not_updated_after_cheque_or_cash_deposit",
+      "card_payment_not_recognised",
+      "edit_personal_details",
+      "why_verify_identity",
+      "unable_to_verify_identity",
+      "get_physical_card",
+      "visa_or_mastercard",
+      "topping_up_by_card",
+      "disposable_card_limits",
+      "compromised_card",
+      "atm_support",
+      "direct_debit_payment_not_recognised",
+      "passcode_forgotten",
+      "declined_cash_withdrawal",
+      "pending_card_payment",
+      "lost_or_stolen_phone",
+      "request_refund",
+      "declined_transfer",
+      "Refund_not_showing_up",
+      "declined_card_payment",
+      "pending_transfer",
+      "terminate_account",
+      "card_swallowed",
+      "transaction_charged_twice",
+      "verify_source_of_funds",
+      "transfer_timing",
+      "reverted_card_payment?",
+      "change_pin",
+      "beneficiary_not_allowed",
+      "transfer_fee_charged",
+      "receiving_money",
+      "failed_transfer",
+      "transfer_into_account",
+      "verify_top_up",
+      "getting_spare_card",
+      "top_up_by_cash_or_cheque",
+      "order_physical_card",
+      "virtual_card_not_working",
+      "wrong_exchange_rate_for_cash_withdrawal",
+      "get_disposable_virtual_card",
+      "top_up_failed",
+      "balance_not_updated_after_bank_transfer",
+      "cash_withdrawal_not_recognised",
+      "exchange_charge",
+      "top_up_by_card_charge",
+      "activate_my_card",
+      "cash_withdrawal_charge",
+      "card_about_to_expire",
+      "apple_pay_or_google_pay",
+      "verify_my_identity",
+      "country_support"
+    ],
+    "best_epoch": 15,
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 4.136516070306995,
+        "accuracy": 0.07866666666666666,
+        "macro_f1": 0.043196127442660354
+      },
+      {
+        "epoch": 2,
+        "train_loss": 3.2653360935446374,
+        "accuracy": 0.224,
+        "macro_f1": 0.15913640364847845
+      },
+      {
+        "epoch": 3,
+        "train_loss": 2.663998912202427,
+        "accuracy": 0.3313333333333333,
+        "macro_f1": 0.2876263517228848
+      },
+      {
+        "epoch": 4,
+        "train_loss": 2.2597137710209076,
+        "accuracy": 0.41933333333333334,
+        "macro_f1": 0.37977272407115614
+      },
+      {
+        "epoch": 5,
+        "train_loss": 1.9215941299395163,
+        "accuracy": 0.4746666666666667,
+        "macro_f1": 0.4391437232857255
+      },
+      {
+        "epoch": 6,
+        "train_loss": 1.6397490490884103,
+        "accuracy": 0.5493333333333333,
+        "macro_f1": 0.5156024578848
+      },
+      {
+        "epoch": 7,
+        "train_loss": 1.4322486366155722,
+        "accuracy": 0.5846666666666667,
+        "macro_f1": 0.5545056258000952
+      },
+      {
+        "epoch": 8,
+        "train_loss": 1.305897761070107,
+        "accuracy": 0.59,
+        "macro_f1": 0.5657627017108537
+      },
+      {
+        "epoch": 9,
+        "train_loss": 1.161497502498647,
+        "accuracy": 0.6246666666666667,
+        "macro_f1": 0.6086507161285829
+      },
+      {
+        "epoch": 10,
+        "train_loss": 1.0654473030815435,
+        "accuracy": 0.614,
+        "macro_f1": 0.6003732830253914
+      },
+      {
+        "epoch": 11,
+        "train_loss": 0.9540999740526976,
+        "accuracy": 0.6293333333333333,
+        "macro_f1": 0.6244455074193115
+      },
+      {
+        "epoch": 12,
+        "train_loss": 0.9075968853444657,
+        "accuracy": 0.6433333333333333,
+        "macro_f1": 0.6381113816931582
+      },
+      {
+        "epoch": 13,
+        "train_loss": 0.8320955896268158,
+        "accuracy": 0.668,
+        "macro_f1": 0.6646561592709205
+      },
+      {
+        "epoch": 14,
+        "train_loss": 0.7801585990003255,
+        "accuracy": 0.664,
+        "macro_f1": 0.6544703953555482
+      },
+      {
+        "epoch": 15,
+        "train_loss": 0.721771799637186,
+        "accuracy": 0.6766666666666666,
+        "macro_f1": 0.674501031448781
+      }
+    ],
+    "development_subset": false,
+    "artifact_directory": "artifacts/rnn_validation_20261010T145326861275Z",
+    "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+    "dataset_files_sha256": {
+      "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+      "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+      "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+      "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+    },
+    "source_sha256": {
+      "src/banking77/train_neural.py": "7c48f348e64a3c368769c87b68eab43e2774f18c1f951605807812952ff8d6e2",
+      "src/banking77/neural_models.py": "57c61178c9569a8486ed3e3280524d8c2bd4aa9cec40511f7abe6303efb68cf9",
+      "configs/neural_models.json": "3ad4dd910e8035e5a0ffc7d94446b3a2aaea9f7a9e94499ddd7ae0ebb220b22b"
+    },
+    "training_rows": 8499,
+    "evaluation_rows": 1500,
+    "fit_seconds": 17.61926669999957,
+    "tokenization_seconds": 0.10503979999703006,
+    "predict_seconds": 0.05044110000017099,
+    "prediction_ms_per_message": 0.033627400000113994,
+    "environment": {
+      "python": "3.12.0",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "torch": "2.9.1+cpu",
+      "numpy": "2.5.3",
+      "device": "cpu",
+      "gpu": null,
+      "hip": null,
+      "cuda": null,
+      "threads": 4,
+      "deterministic_algorithms": "enabled, warning on unavailable deterministic kernels"
+    },
+    "official_test_evaluated": false,
+    "accuracy": 0.6766666666666666,
+    "macro_f1": 0.674501031448781,
+    "overlapping_evaluation_rows": 0
+  },
+  "dataset_files_sha256": {
+    "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+    "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+    "test.csv": "6afa67795116b25a1c1df4fcf70a4f8a7446b2a9bed1a1447461d49b857da163",
+    "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+    "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+  },
+  "artifact_sha256": {
+    "metadata.json": "d2d4754095989423d16950defd88658d472431e03aede11d58d216f111f2f52a",
+    "vocabulary.json": "1cf7cd3af9e50603e039840224b0127ad57ec12b8dc909c93946dd2c6b884dfd",
+    "weights.pt": "03f2202a0943dbfd07b686e887738b18daf75e879401d86c9c958059839f93df"
+  },
+  "policy": "Commit this protocol before test; no test-based parameter selection or retraining."
+}

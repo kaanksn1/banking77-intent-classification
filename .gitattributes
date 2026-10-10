@@ -11,3 +11,6 @@
 
 # Keep the published final NB outputs byte-identical to the training runner.
 /results/naive_bayes_test/*.csv -text whitespace=cr-at-eol
+
+# Preserve official-message bytes in the selected new-model outputs as well.
+/results/neural_test/*/*.csv -text whitespace=cr-at-eol

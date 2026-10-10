@@ -70,6 +70,31 @@ eklenmez. Tam resmî test ve normalize anahtara göre train ile örtüşmeyen
 altküme ayrı raporlanır. Bu altküme, yakın tekrarların tamamen giderildiği
 anlamına gelmez. Test sonucu görüldükten sonra ayarlar değiştirilmez.
 
-LR ve SVM'nin nihai test çalıştırması kendi model sahiplerine aittir.
-Üç modelin nihai test karşılaştırması ve sunum 5. kişinin bekleyen işidir.
+LR ve SVM'nin sabitlenmiş ayarlarla nihai testleri 5. kişinin ortak benchmark'ında
+çalıştırılmış ve PR #11 ile teslim edilmiştir. Model uygulamaları 3. ve 4. kişinin;
+karşılaştırma kodu ve raporu 5. kişinin katkısıdır. Repo sahibi yalnız entegrasyon
+için bu çıktıları yeniden üretip doğrulamıştır.
 Yeni veri veya JEV/Laya/AnyJev ekleme planı, repo sahibinin kararıyla iptal edilmiştir.
+
+## Son e-postayla genişleyen baseline kapsamı
+
+Hocanın 10 Ekim'de paylaşılan açıklaması tüm ders yöntemlerini baseline olarak
+istiyor. [Slayt eşleştirmesi ve ayrıntılı neural protokol](NEURAL_BASELINES.md)
+Word2Vec CBOW/Skip-gram, GloVe, FastText, CNN, RNN, LSTM, BiLSTM ve slayt 37'deki
+dört Transformer modelini kapsar. Yeni kodun yazılmış olması tam deneyin bittiği
+anlamına gelmez; [gerçek validation sonuçları](../results/NEURAL_VALIDATION.md)
+ile bekleyen deneyler ayrıdır. Vanilla ve ayarlanmış modeller yeni mimari diye sunulmaz.
+
+Veri ve kategori listesi değişmez. Kelime sözlüğü ve train'den öğrenilen embedding'ler
+heldout mesajları kullanmaz; dış ön eğitimli GloVe/Transformer kaynakları ayrıca
+kaydedilir. Transformer ince ayarı 8.499 train mesajında yapılır.
+Kelime modellerinde checkpoint validation macro F1 ile seçilir; Word2Vec/FastText
+sabit 20 epoch bütçesi kullanır. Yeni model protokolleri testten önce ayrı commit'e
+alınır; seçilmiş checkpoint'ler yeniden eğitilmeden test edilir.
+
+Repo sahibinin proje katkısı NB + CNN soft voting'dir. 11 ağırlık yalnız validation
+macro F1 ile karşılaştırılır; yalnız NB ve yalnız CNN uçları ablation olarak korunur.
+Bu katkı yeni bir araştırma algoritması iddiası taşımaz. Tek seed ve aynı validation'da
+birden fazla seçim yapılması, sonuçların belirsizliğidir. Klasik test sonuçları kapsam
+genişlemesinden önce görülmüştür; tüm araştırmanın kör test kullandığı iddia edilmez.
+Yeni modellerin ortak karşılaştırması ve sunum 5. kişide kalır.

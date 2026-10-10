@@ -1,78 +1,88 @@
 # Project 1 teslim takibi
 
-Kaynak: hocanın paylaşılan Project Instructions, About benchmarks ve
-About JEV as a baseline e-postaları. Sunum tarihi: 12 Ekim 2026 Pazartesi.
-Notun %50'si sunum, %50'si implementation repo.
+Kaynak: hocanın Project Instructions, About benchmarks, About JEV as a baseline
+e-postaları ve 10 Ekim'de paylaşılan son baseline açıklaması.
+Sunum: 12 Ekim 2026 Pazartesi. Notun %50'si sunum, %50'si implementation repo.
 
-## Konu ve baseline kapsamı
+## Kesinleşen kapsam
 
-- Proje: BANKING77 bankacılık talep sınıflandırması, 77 sınıf.
-- 8 Ekim'de repo sahibi BANKING77'yi başka grubun seçmediğini bildirdi.
-- Hazır veri kullanımı ve mevcut temizlik miktarı veri özgünlüğünden tam puan
-  alındığı anlamına gelmez. Gerçek temizlik işlemleri ve sayıları raporlanmalıdır.
-- Ders slaytlarının mevcut metin dökümünde Week 2 için Naive Bayes, Logistic
-  Regression ve SVM; Week 3 için GloVe embeddings, CNN, BiLSTM ve BERT başlıkları
-  vardır. GloVe bir temsil yöntemidir.
-- Hocanın yeni benchmark mailine göre ders yöntemlerinin standart biçimleri
-  baseline'dır; standart BERT'i yeni yöntem olarak adlandırmamalıyız. Mailin
-  ders yöntemlerinin tamamının uygulanmasını zorunlu kılıp kılmadığı açık
-  değildir; NB/LR/SVM planının tüm zorunlu kapsamı tamamladığı varsayılmaz.
-- JEV/Laya/AnyJev gibi yöntemler hocanın son mailinde isteğe bağlı yeni yöntem
-  olarak kabul edilmiştir. Repo sahibi 10 Ekim'de bu ekleri ve yeni veri ekleme
-  planını iptal etmiştir; mevcut BANKING77 ve üç baseline ile devam edilir.
-  Bu yöntemlere ilişkin ek puan iddiasında bulunulmaz.
+- BANKING77, 77 bankacılık talep kategorisi. Veri ve mevcut bölümler değişmez.
+- Repo sahibi, BANKING77'yi başka grubun seçmediğini bildirdi. Yeni veri/CLINC
+  ve isteğe bağlı JEV/Laya/AnyJev ekleme planları iptal edilmiştir.
+- Hoca son yanıtında sunumlarda adı geçen tüm yöntemlerin baseline olmasını,
+  RNN/CNN/LSTM/Transformer dahil, ve bunların üzerine ekip katkısı istedi.
+  Önceki üç klasik baseline'ın tüm zorunlu kapsamı karşıladığı varsayılmaz.
+- Slaytların metinleri ve gömülü resimleri incelendi:
+  [yöntem ve model eşleştirmesi](NEURAL_BASELINES.md).
+- NB/LR/SVM, Word2Vec CBOW/Skip-gram, GloVe, FastText, CNN/RNN/LSTM/BiLSTM
+  ve BERT-base/DistilBERT/RoBERTa-base/ALBERT-base-v2 baseline listesindedir.
+  Standart veya ayarlanmış baseline yeni mimari diye adlandırılmaz.
+- Repo sahibinin ek katkısı NB + CNN soft voting deneyidir; validation'da
+  ağırlık seçimi ve tek model ablation'ları vardır. Yeni bir araştırma algoritması
+  veya ek puan garantisi iddia edilmez.
+- Hazır veri ve dört mükerrer kaydın temizlenmesi veri özgünlüğünden tam puan
+  alındığı anlamına gelmez. İşlem miktarı olduğu gibi raporlanır.
 
-## Repo kontrolü
+## Tamamlanan işler
 
-- [x] Public repo: https://github.com/kaanksn1/banking77-intent-classification
-- [x] Kurulum, klasörler ve mevcut script açıklamaları README'de.
-- [x] Ortak indirme/hazırlama başlangıcı ve Naive Bayes eğitim scripti mevcut.
-- [x] Ham ve hazırlanmış veri dosyaları, kaynak lisansı ve atıfla teslim paketinde.
-- [x] Proje kodu için MIT LICENSE, veri için upstream CC BY 4.0 lisansı ve atıf mevcut.
-- [x] Kişisel katkı dosyası biçimi ve şablonu contributions/README.md'de.
-- [x] Naive Bayes alpha benchmark'ı tek komutla tekrar çalıştırılabilir.
-- [x] Naive Bayes teknik açıklaması ve üç gerçek validation hatasının yorumu mevcut.
-- [x] 2. kişinin kendi çalışması için devir adımları docs/HANDOFF_DATA.md'de.
-- [x] PR #2, #3 ve #5 main'e alındı; ortak README ve çalıştırma bağlantıları güncellendi.
-- [x] PR #7 ve #8 ana dala alındı; son benchmark revizyonundaki 15 validation çalıştırmasının skorları ve istatistikleri doğrulandı.
-- [x] Birleşik kodda 38 yerel kontrol geçti; Naive Bayes validation çalışması doğrulandı.
-- [x] PR #9'un 90 validation denemesindeki skorlar ve karşılaştırma istatistikleri entegrasyonda doğrulandı; resmî test bu özellik incelemesinde kullanılmadı.
-- [x] Logistic Regression'ın 15 validation deneyi ve raporlanan skorları entegrasyonda doğrulandı.
-- [x] Linear SVM'nin 10 validation deneyi, veri hash'leri ve hata katkıları incelemede doğrulandı.
-- [x] Üç modelin seçilen ayarları aynı veriyle validation üzerinde çalıştırıldı; tek mesaj tahmin komutu NB ve SVM ile doğrulandı.
-- [x] Beş üyenin kendi gerçek katkı dosyaları ve GitHub kanıtları mevcut; repo sahibinin dosyası ve nihai NB çıktıları PR #10 ile ana dala alındı.
-- [x] 2. kişi: veri analizi, veri ön işleme pipeline dokümantasyonu, özellik deneyleri ve katkı dosyası.
-- [x] 3. kişi: Logistic Regression kodu, validation deneyleri ve katkı dosyası.
-- [x] Repo sahibi: mevcut veri ve ortak unigram + bigram temsilini koruma kararını deney protokolünde kaydetme.
-- [x] 3. kişi: Macro F1 ve train/validation örtüşme açıklamalarını PR #7 ile düzeltme.
-- [x] 4. kişi: Linear SVM kodu, validation deneyleri ve katkı dosyası.
-- [ ] 4. kişi: teknik notta Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme.
-- [x] Repo sahibi: NB ayarlarını testten önce ayrı commit ile sabitleme ve nihai test çıktısını yayımlama (`results/NAIVE_BAYES_TEST.md`).
-- [ ] 3. ve 4. kişi: kendi nihai ayar kayıtlarını ve test çıktılarını teslim etme.
-- [x] 5. kişi: ortak benchmark, metrik gerekçesi, validation karşılaştırması ve grafikler (`results/MODEL_COMPARISON.md`).
-- [ ] 5. kişi: özellik raporunun sınırlılıklarında bigram-only ablation'ı da sayma ve seçilmeyen unigram SVM (`hinge`, `C=10`) denemesinin 10.000 iterasyon sınırına ulaştığını belirtme. Seçilen modeller yakınsamıştır; bu not nihai NB ayarını değiştirmez.
-- [ ] 5. kişi: nihai test karşılaştırması ve PPTX sunum.
-- [x] Bu entegrasyonun repo kontrolü: testler ve NB validation geçti; nihai NB tahminleri/metrikleri doğrulandı, geçici araçlar ve modeller Git dışında.
+- [x] Public GitHub repo, README, script/klasör açıklamaları, kurulum ve CI.
+- [x] Ham ve hazırlanmış veri, yeniden üretilebilir hazırlama scripti, kaynak hash'leri.
+- [x] Kod için MIT; BANKING77 için upstream CC BY 4.0 lisansı ve atıf.
+- [x] Beş kişisel katkı dosyası ve GitHub katkı kanıtları.
+- [x] 2. kişinin veri analizi/ön işleme ve özellik deneyleri (PR #2).
+- [x] 3. kişinin LR kodu ve 15 validation ayarı (PR #3, açıklama düzeltmesi #7).
+- [x] 4. kişinin SVM kodu ve 10 validation ayarı (PR #5).
+- [x] Repo sahibinin NB alpha benchmark'ı, teknik notu ve hata analizi.
+- [x] NB ayarlarının testten önce commit edilmesi ve nihai test teslimi (PR #10).
+- [x] 5. kişinin ortak validation benchmark'ı, istatistikleri ve grafikleri (PR #8).
+- [x] 5. kişinin üç modelde 90 özellik deneyi (PR #9), entegrasyonda doğrulandı.
+- [x] 5. kişinin klasik nihai test karşılaştırması (PR #11). Sabit NB/LR/SVM
+  skorları, eşleştirilmiş istatistikler ve örtüşme sonuçları entegrasyonda doğrulandı.
+- [x] Yeni kapsamın neural/embedding eğitim, sabitleme ve test scriptleri.
+- [x] Sekiz yeni baseline'ın tam train/validation deneyleri; NB + CNN validation
+  ağırlık taraması. [Kaydedilmiş sonuçlar](../results/NEURAL_VALIDATION.md).
+- [x] Sekiz baseline ve NB + CNN protokolleri testten önce `2425ccc` commit'inde
+  sabitlendi; seçilen checkpoint'lerle resmî test çalıştırıldı. [Yeni test çıktıları](../results/NEURAL_TEST.md).
+  NB + CNN: accuracy %90.65, macro F1 0.9061. Tahminler ve metrikler yeniden hesaplanarak doğrulandı.
+- [x] GloVe kaynak arşivi/vektör hash'leri; dört Transformer'ın sabit model
+  repository/commit/lisans kayıtları. Büyük ağırlıklar Git dışında tutulur.
+- [x] CPU forward/backward, kısa Transformer geliştirme kontrolü; 52 yerel test
+  ve NB validation geçti. Geliştirme kontrolü tam benchmark diye sunulmaz.
+- [x] Kullanıcı onayıyla WSL 3.0.1 kurulumu ve VirtualMachinePlatform etkinleştirme.
+  Kurulum Windows'un yeniden başlatılmasını istiyor; otomatik başlatılmadı.
 
-Kişisel raporların ve başkalarının deneylerinin ilgili üye tarafından hazırlanması
-gerekir. Test seti ayar seçiminde kullanılmaz; örtüşme raporlama sözleşmesi
-[EXPERIMENTS.md](EXPERIMENTS.md) içinde tanımlıdır.
+## Kalan işler ve sorumlular
 
-## Benchmark teslim sözleşmesi
+- [ ] Repo sahibi: Windows yeniden başlatıldıktan sonra Ubuntu ilk kurulumu,
+  uyumlu AMD runtime/PyTorch ve gerçek GPU preflight.
+- [ ] Repo sahibi: dört Transformer'ın tam validation eğitimi; seçilmiş ayarları
+  testten önce commit etme ve nihai test değerlendirmesi. Eğitim kodu hazır
+  olması, bu deneylerin tamamlandığı anlamına gelmez.
+- [ ] 4. kişi: teknik nottaki Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme.
+- [ ] 5. kişi: özellik raporunda bigram-only ablation'ı ve seçilmeyen unigram
+  SVM (`hinge`, `C=10`) adayının 10.000 iterasyon sınırına ulaştığını açıklama.
+  Seçilen modeller yakınsamıştır; bu not nihai NB ayarını değiştirmez.
+- [ ] 5. kişi: test raporu/JSON'daki komut alanına `--split test` ekleme.
+  Rapordaki sonuçlar test verisinde doğrulandı; eksik olan komutun yazımıdır.
+- [ ] 5. kişi: yeni modeller ve katkı için ortak karşılaştırma, eşleştirilmiş
+  istatistikler ve grafikler. [Çıktı sözleşmesi](NEURAL_BASELINES.md) aynı kalır.
+- [ ] 5. kişi: PPTX, sunum provası ve süre kontrolü.
+- [ ] Tüm üyeler: kendi katkı dosyalarını son gerçek işleri ve kendi commit/PR'larıyla güncelleme.
+- [ ] Ödev sistemine hem PPTX hem public GitHub URL'sini yükleme.
 
-Her model sahibi aynı veri kimliğiyle değerlendirme bölümü, model/özellik ayarları,
-komut, accuracy, macro F1, eğitim/tahmin süreleri ve tahmin dosyasını teslim eder.
-Baseline ve ayarlanmış sürümler ayrı adlandırılır. Ortak değerlendirme sorumlusu
-metrik seçimini sınıf dağılımı ve görev amacıyla gerekçelendirir; ana sıralama
-metriğimiz macro F1, destekleyici metriğimiz accuracy'dir.
+Başka üyelerin uygulama, deney veya kişisel raporları repo sahibi tarafından
+sahiplenilmez. Veri hazırlama, LR/SVM ve ortak grafik/rapor kodları bu ek kapsamda
+değiştirilmedi. Klasik test sonuçları yeni kapsamdan önce görülmüştür; tüm
+araştırma için tamamen kör test iddiası kurulmaz. Yeni ayarlar validation'da seçilir.
 
-## Sunum ve ödev yükleme
+## Benchmark ve sunum
 
-- [ ] PPTX sunum hazır ve prova edilmiş.
-- [ ] Sunucu okumadan teknik açıklama yapabiliyor; hedef süre 2 dakikanın altı.
-- [ ] Ödev sistemine hem PPTX hem public GitHub URL'si yüklenmiş.
+Ana metrik macro F1, destekleyici metrik accuracy. Macro F1 her talep kategorisine
+eşit önem vermek için kullanılır; resmî testin dengeli olduğu açıkça belirtilir.
+Her deney veri kimliği, bölüm, tam model/özellik ayarları, eğitim/tahmin süreleri,
+tahminler ve örtüşme raporunu içerir. Ön eğitim ve donanım farkları açıklanır.
+Tek seed veya validation iyileşmesi istatistiksel üstünlük kanıtı sayılmaz.
 
-Sunum puanında teknik derinlik %50, akıcılık %25, süre %25 ağırlıktadır.
-Mailde 2 dakikanın altı 6; 2–3 dakika 5; 3:00–3:15 arası 3;
-3:30'da 0 puan ve sunumun kesilmesi belirtilmiştir. Soru cevap ayrı ağırlık
-taşımaz; teknik derinlik puanını artırabilir veya azaltabilir.
+Sunumda teknik derinlik %50, akıcılık %25, süre %25. Hedef iki dakikanın altı;
+mailde bu süre 6, 2–3 dakika 5, 3:00–3:15 arası 3, 3:30'da 0 ve kesilme olarak
+belirtilmiştir. Okumadan anlatım gerekir. Soru cevap teknik derinliği etkileyebilir.
