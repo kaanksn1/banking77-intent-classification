@@ -48,6 +48,11 @@ Mevcut raporlar:
 - [Nihai test karşılaştırması](MODEL_COMPARISON_TEST.md): 5. kişinin çalışması;
   `python -m banking77.benchmark_models --split test`. Ayarlar validation'da seçilip
   dondurulduktan sonra resmî testte bir kez değerlendirilir; hiçbir seçim test sonucuna bağlı değildir.
+- [On altı yöntemin nihai test karşılaştırması](ALL_MODELS_TEST.md): 5. kişinin çalışması;
+  `python -m banking77.compare_all_models`. Eğitim yapmaz; kayıtlı test tahminlerini okur.
+  Klasik LR ve SVM'in test tahminleri bu karşılaştırma için `logistic_regression_test/` ve
+  `linear_svm_test/` altına, `naive_bayes_test/` ile aynı dört standart dosyayla eklendi
+  (`model_comparison_test.json` içindeki run kimlikleriyle aynı çalıştırmalar).
 - [Ortak model karşılaştırması](MODEL_COMPARISON.md): 5. kişinin çalışması;
   `python -m banking77.benchmark_models` ile üretilir, grafikler `figures/` altındadır.
 
