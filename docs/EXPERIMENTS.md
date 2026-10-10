@@ -18,21 +18,22 @@ resmî 10.003 eğitim örneğinin tamamıyla eğitilen yayınlarla koşullar bir
 
 ## Küçük deney bütçesi
 
-Aşağıdaki tablo ekip deney kapsamını gösterir. Veri/özellik çalışması, Naive Bayes
-ve Logistic Regression kendi sorumlularının PR'larıyla `main` içine alınmıştır.
-Linear SVM ve modellerin ortak karşılaştırması ilgili sorumluların bekleyen işleridir.
+Aşağıdaki tablo ekip deney kapsamını gösterir. Veri/özellik çalışması, Naive Bayes,
+Logistic Regression ve Linear SVM kendi sorumlularının PR'larıyla `main` içine alınmıştır.
+Modellerin ortak karşılaştırması 5. kişinin bekleyen işidir.
 
 | Yöntem | Başlangıç | Validation deney kapsamı |
 | --- | --- | --- |
 | TF-IDF | unigram + bigram, sublinear TF | `(1,1)` ile `(1,2)` karşılaştırması |
 | Multinomial Naive Bayes | alpha=1.0 | alpha: 0.01, 0.05, 0.1, 0.5, 1.0 |
 | Logistic Regression | lbfgs, C=1.0 | C: 0.1, 1.0, 10.0, 100.0, 1000.0; lbfgs, saga, liblinear-ovr |
-| Linear SVM | C=1.0 | C: 0.1, 1.0, 10.0 |
+| Linear SVM | squared_hinge, C=1.0 | C: 0.01, 0.1, 1.0, 10.0, 100.0; squared_hinge, hinge |
 
 Tamamlanan çalışmalar: [özellik deneyi](../results/FEATURE_EXPERIMENTS.md),
 [NB alpha deneyi](../results/NAIVE_BAYES_ALPHA.md),
-[LR C/solver deneyi](../results/LOGISTIC_REGRESSION_C.md).
-Ortak özellik ayarı henüz ekipçe kesinleştirilmedi; mevcut NB/LR deneyleri
+[LR C/solver deneyi](../results/LOGISTIC_REGRESSION_C.md),
+[SVM C/loss deneyi](../results/LINEAR_SVM_C.md).
+Ortak özellik ayarı henüz ekipçe kesinleştirilmedi; mevcut NB/LR/SVM deneyleri
 unigram + bigram kullanır. Özellik raporundaki unigram önerisi alpha=1.0'lı NB
 deneyine aittir ve diğer modellerin yapılandırmasını kendiliğinden değiştirmez.
 

@@ -10,9 +10,9 @@ Bu, görevi anlatan bir örnektir; her mesajın model tarafından doğru tahmin 
 ## Durum
 
 Ortak kurulum/veri altyapısı, repo sahibinin **Naive Bayes** çalışması,
-2. kişinin veri analizi ve özellik deneyleri ile 3. kişinin **Logistic Regression**
-çalışması `main` içinde hazırdır. Linear SVM 4. kişinin; ortak karşılaştırma,
-grafikler ve sunum 5. kişinin görevidir.
+2. kişinin veri analizi ve özellik deneyleri, 3. kişinin **Logistic Regression**
+ve 4. kişinin **Linear SVM** çalışması `main` içinde hazırdır.
+Ortak karşılaştırma, grafikler ve sunum 5. kişinin görevidir.
 Geliştirme için varsayılan bölüm **validation**. Nihai ortak özellik ayarı ekip
 tarafından kesinleştirilecek; her model sahibi kendi nihai test çıktısını üretecektir.
 Resmî testte henüz model değerlendirmesi yapılmadı.
@@ -24,6 +24,8 @@ Tamamlanan veri çalışması: [ön işleme ve veri analizi](docs/DATA.md),
 [unigram/bigram deneyleri](results/FEATURE_EXPERIMENTS.md).
 Logistic Regression: [teknik açıklama ve hata analizi](docs/LOGISTIC_REGRESSION.md),
 [C/solver benchmark'ı](results/LOGISTIC_REGRESSION_C.md).
+Linear SVM: [teknik açıklama ve hata analizi](docs/LINEAR_SVM.md),
+[C/loss benchmark'ı](results/LINEAR_SVM_C.md).
 
 Hocanın üç e-postasına göre [teslim takibi](docs/SUBMISSION.md) tutulur.
 Her üye [kişisel katkı dosyasını](contributions/README.md) kendi commit/PR'larıyla
@@ -54,6 +56,45 @@ hesap, Hugging Face token'ı veya API anahtarı gerekmez.
 Teslimde ham verinin kopyası repodadır; `--offline` mevcut kaynak dosyalarının
 hash'lerini doğrular ve bölümleri yeniden üretir. Ham veriyi kaynaktan tekrar
 indirmek için `--offline` seçeneğini kaldırın.
+
+## Çalıştığını nasıl kontrol ederim?
+
+Kurulumdan sonra proje klasöründe PowerShell terminalini açın.
+
+1. Kod ve veri protokolü kontrollerini çalıştırın:
+
+   ```powershell
+   .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+   ```
+
+   Sonunda `OK` görünmesi kontrollerin geçtiğini gösterir. Bu kontroller veri ayrımı,
+   TF-IDF'in eğitim sınırı, model ayarları ve validation ile seçim kurallarını doğrular.
+
+2. Naive Bayes'i eğitip 1.500 validation mesajında değerlendirin:
+
+   ```powershell
+   .\.venv\Scripts\python.exe -m banking77.train_naive_bayes --split validation --alpha 0.05
+   ```
+
+   Mevcut veri ve ayarla beklenen `accuracy` 0.862, `macro_f1` yaklaşık 0.8529'dur.
+   Ekrandaki `run_id`, `results/runs/` altındaki o çalıştırmanın sonuç klasörünü ve
+   `artifacts/` altındaki model dosyasını belirtir. `predictions.csv` içinde gerçek
+   etiket, model tahmini ve tahminin doğru olup olmadığı satır satır görülebilir.
+
+3. Az önce kaydedilen Naive Bayes modeliyle kendi İngilizce mesajınızı deneyin:
+
+   ```powershell
+   $nbModel = Get-ChildItem -LiteralPath artifacts -Filter 'naive_bayes_validation_*.joblib' | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+   .\.venv\Scripts\python.exe -m banking77.predict --model-path $nbModel.FullName --text "I lost my card"
+   ```
+
+   Doğrulanan çıktı: `lost_or_stolen_card` (kayıp veya çalıntı kart).
+   `--text` içindeki mesajı değiştirerek farklı talepler deneyebilirsiniz.
+   Tek bir doğru örnek genel başarıyı göstermez; bunun için validation metriklerine
+   ve yanlış tahminlere birlikte bakılır. `predict` aynı biçimde kaydedilmiş LR ve
+   SVM modelleriyle de çalışır; ilgili `.joblib` yolunu kullanın.
+
+Bu adımlar validation ve tek mesaj tahmini kullanır; resmî testte model değerlendirmesi yapmaz.
 
 ## Veri analizi
 
@@ -139,11 +180,37 @@ Komut [C/solver raporunu](results/LOGISTIC_REGRESSION_C.md) ve
 Yöntem, ayar seçimi ve hata analizi [teknik notta](docs/LOGISTIC_REGRESSION.md) açıklanır.
 Nihai test, ortak veri/özellik ayarı kesinleştikten sonra model sorumlusu tarafından çalıştırılacaktır.
 
+## Linear SVM
+
+4. kişinin validation ile doğruladığı ayarı çalıştırmak için:
+
+```powershell
+.\.venv\Scripts\python.exe -m banking77.train_linear_svm --split validation --loss squared_hinge --C 1
+```
+
+Seçilen ayar `squared_hinge`, `C=1`: validation accuracy %89.20, macro F1 0.8935.
+Bu ayar başlangıç ayarıyla aynıdır; C/loss deneyi başlangıç skorunu yükseltmemiştir.
+TF-IDF ve `metrics.json`, `classification_report.json`, `predictions.csv`,
+`confusion_matrix.csv` çıktı sözleşmesi NB/LR ile aynıdır.
+
+İki loss ve beş C değerinden oluşan 10 validation deneyini yeniden üretmek için:
+
+```powershell
+.\.venv\Scripts\python.exe -m banking77.benchmark_linear_svm
+```
+
+Komut [C/loss raporunu](results/LINEAR_SVM_C.md) ve
+[JSON kaydını](results/linear_svm_validation.json) yeniden üretir.
+Yöntem, seçim gerekçesi ve örnek hataların kelime katkıları
+[teknik notta](docs/LINEAR_SVM.md) açıklanır.
+Bu skorlar nihai test sonucu değildir; nihai testi ortak özellik ayarı
+kesinleşince model sorumlusu çalıştıracaktır.
+
 ## Yapı
 
 ```text
 configs/          Veri kaynağı, sabit commit ve dosya hash'leri
-src/banking77/    Veri hazırlama/analiz, Naive Bayes ve Logistic Regression
+src/banking77/    Veri hazırlama/analiz, Naive Bayes, Logistic Regression ve Linear SVM
 tests/            Veri, TF-IDF eğitim sınırı ve model/seçim kontrolleri
 docs/             Veri/model açıklamaları, görev dağılımı ve deney protokolü
 contributions/    Kişisel katkı dosyaları ve katkı şablonu
@@ -167,10 +234,14 @@ Mevcut scriptlerin görevleri:
 | `src/banking77/logistic_regression.py` | Aynı TF-IDF ile multinomial veya one-vs-rest Logistic Regression pipeline'ı |
 | `src/banking77/train_logistic_regression.py` | LR eğitimi, ortak metrik/tahmin çıktıları, model ve yakınsama kaydı |
 | `src/banking77/benchmark_logistic_regression.py` | 15 C/solver ayarını validation üzerinde karşılaştırma ve LR raporlarını üretme |
+| `src/banking77/linear_svm.py` | Aynı TF-IDF ile L2 düzenlileştirmeli one-vs-rest Linear SVM pipeline'ı |
+| `src/banking77/train_linear_svm.py` | SVM eğitimi, ortak metrik/tahmin çıktıları, model ve yakınsama kaydı |
+| `src/banking77/benchmark_linear_svm.py` | 10 C/loss ayarını validation üzerinde karşılaştırma, SVM raporu ve kelime katkılarını üretme |
 | `src/banking77/predict.py` | Kaydedilmiş modelle tek mesajın kategorisini tahmin etme |
 | `tests/test_protocol.py` | Tekrar/etiket kontrollerini, veri ayrımını ve TF-IDF eğitim sınırını doğrulama |
 | `tests/test_data_files.py` | CSV'nin LF satır sonuyla yazılmasını ve metinlerin korunmasını doğrulama |
 | `tests/test_logistic_regression.py` | LR ayarları, solver'lar, TF-IDF eğitim sınırı ve validation seçim kuralı |
+| `tests/test_linear_svm.py` | SVM ayarları, loss'lar, TF-IDF eğitim sınırı, seçim kuralı ve kelime katkıları |
 
 Ham CSV'ler değiştirilmeden korunur. Hazırlanmış train/validation dosyalarında
 tekrarlardan arındırılmış resmî eğitim verisi ve satır kimlikleri bulunur;
@@ -191,6 +262,8 @@ yalnızca tekrar kontrolü içindir; model orijinal mesaj metnini alır.
 - [Unigram/bigram özellik deneyleri](results/FEATURE_EXPERIMENTS.md)
 - [Logistic Regression C/solver deneyi](results/LOGISTIC_REGRESSION_C.md)
 - [Logistic Regression teknik notu ve hata analizi](docs/LOGISTIC_REGRESSION.md)
+- [Linear SVM C/loss deneyi](results/LINEAR_SVM_C.md)
+- [Linear SVM teknik notu ve hata analizi](docs/LINEAR_SVM.md)
 - [2. kişiye veri/özellik devir talimatı](docs/HANDOFF_DATA.md)
 
 Veri daha önce indirilmişse ağ bağlantısı olmadan yeniden hazırlamak için
