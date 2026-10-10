@@ -43,6 +43,30 @@ class BenchmarkModelsTest(unittest.TestCase):
         self.assertEqual(set(splits), {"validation"})
         self.assertEqual(len(splits), 2 * len(originals))
 
+    def test_run_all_passes_requested_split(self):
+        splits = []
+
+        def recorder(split, **kwargs):
+            splits.append(split)
+            return fake_run()
+
+        originals = bm.CONFIGS
+        try:
+            bm.CONFIGS = tuple(
+                bm.Config(c.key, c.model, c.stage, recorder, c.kwargs, c.label, c.reported_macro_f1)
+                for c in originals
+            )
+            bm.run_all(repeats=1, split="test")
+        finally:
+            bm.CONFIGS = originals
+        self.assertEqual(set(splits), {"test"})
+
+    def test_reported_value_check_applies_to_validation_only(self):
+        keys = [c.key for c in bm.CONFIGS]
+        rounds = [{k: fake_run(macro_f1=0.8935) for k in keys}]
+        self.assertTrue(bm.aggregate(rounds, "validation")["svm"]["matches_reported_macro_f1"])
+        self.assertIsNone(bm.aggregate(rounds, "test")["svm"]["matches_reported_macro_f1"])
+
     def test_aggregate_uses_median_time_and_rejects_changed_scores(self):
         keys = [c.key for c in bm.CONFIGS]
         rounds = [{k: fake_run(fit=t) for k in keys} for t in (3.0, 1.0, 2.0)]

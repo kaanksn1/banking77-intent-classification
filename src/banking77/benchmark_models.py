@@ -1,7 +1,8 @@
 """Ortak benchmark: NB, LR ve Linear SVM'i sırayla çalıştırıp karşılaştırır.
 
 Takım arkadaşlarının mevcut eğitim fonksiyonları değiştirilmeden kullanılır.
-Yalnızca validation bölümü değerlendirilir; resmî test kümesine dokunulmaz.
+Varsayılan olarak yalnızca validation değerlendirilir. `--split test` yalnızca ayarlar
+dondurulduktan sonra nihai rapor içindir; hiçbir seçim test sonucuna göre yapılmaz.
 """
 
 import argparse
@@ -59,15 +60,15 @@ IMPLEMENTATIONS = {
 MODEL_LABELS = {"nb_selected": "Naive Bayes", "lr_selected": "Logistic Regression", "svm": "Linear SVM"}
 
 
-def run_all(repeats=REPEATS):
+def run_all(repeats=REPEATS, split="validation"):
     """Her turda tüm ayarları bir kez çalıştırır; süreler için turlar tekrarlanır."""
     rounds = []
     for _ in range(repeats):
-        rounds.append({config.key: config.runner("validation", **config.kwargs) for config in CONFIGS})
+        rounds.append({config.key: config.runner(split, **config.kwargs) for config in CONFIGS})
     return rounds
 
 
-def aggregate(rounds):
+def aggregate(rounds, split="validation"):
     """Tekrarları birleştirir: skorlar birebir aynı olmalı, süreler için medyan alınır."""
     result = {}
     for config in CONFIGS:
@@ -101,9 +102,11 @@ def aggregate(rounds):
             "fit_seconds_all": [run["fit_seconds"] for run in runs],
             "predict_seconds_all": [run["predict_seconds"] for run in runs],
             "matches_reported_macro_f1": (
-                None if config.reported_macro_f1 is None
+                None if config.reported_macro_f1 is None or split != "validation"
                 else round(first["macro_f1"], 4) == config.reported_macro_f1
             ),
+            "overlapping_evaluation_rows": first.get("overlapping_evaluation_rows"),
+            "nonoverlapping_subset": first.get("nonoverlapping_subset"),
         }
     hashes = {entry["dataset_summary_sha256"] for entry in result.values()}
     if len(hashes) != 1:
@@ -240,11 +243,11 @@ def subset_scores(true_labels, predicted_labels):
     }
 
 
-def near_duplicate_sensitivity(models, thresholds=NEAR_DUPLICATE_THRESHOLDS):
-    """Train'e çok benzeyen validation mesajları çıkarılınca skorlar nasıl değişir."""
+def near_duplicate_sensitivity(models, split="validation", thresholds=NEAR_DUPLICATE_THRESHOLDS):
+    """Train'e çok benzeyen değerlendirme mesajları çıkarılınca skorlar nasıl değişir."""
     processed = ROOT / "data/processed"
     train = read_records(processed / "train.csv")
-    validation = read_records(processed / "validation.csv")
+    validation = read_records(processed / f"{split}.csv")
     similarity = {
         row["id"]: score
         for row, score in zip(validation, nearest_train_similarity(
@@ -269,7 +272,7 @@ def near_duplicate_sensitivity(models, thresholds=NEAR_DUPLICATE_THRESHOLDS):
         }
     return {
         "method": "max cosine similarity of character 3-5-gram TF-IDF (fitted on train) to any training "
-                  "message; validation messages at or above the threshold are removed",
+                  "message; evaluation messages at or above the threshold are removed",
         "thresholds": result,
     }
 
@@ -294,8 +297,8 @@ def class_balance():
     }
 
 
-def build_summary(rounds):
-    models = aggregate(rounds)
+def build_summary(rounds, split="validation"):
+    models = aggregate(rounds, split)
     predictions = {key: read_predictions(models[key]["run_id"]) for key in SELECTED_KEYS}
     categories = json.loads((ROOT / "data/processed/categories.json").read_text(encoding="utf-8"))
     index = {name: i for i, name in enumerate(categories)}
@@ -314,8 +317,8 @@ def build_summary(rounds):
         comparisons.append(entry)
     return {
         "command": "python -m banking77.benchmark_models",
-        "evaluation_split": "validation",
-        "official_test_evaluated": False,
+        "evaluation_split": split,
+        "official_test_evaluated": split == "test",
         "repeats": len(rounds),
         "timing": "median over repeats; fit includes TF-IDF, predict includes TF-IDF transform; "
                   "one machine, models run sequentially",
@@ -323,7 +326,7 @@ def build_summary(rounds):
         "models": models,
         "class_balance": class_balance(),
         "comparisons": comparisons,
-        "near_duplicate_sensitivity": near_duplicate_sensitivity(models),
+        "near_duplicate_sensitivity": near_duplicate_sensitivity(models, split),
         "top_confusions": {key: top_confusions(predictions[key]) for key in SELECTED_KEYS},
         "confusion_pair_table": pair_table(predictions),
         "examples": error_examples(predictions),
@@ -348,14 +351,18 @@ def _comparison_sentence(item):
 
 def render_markdown(summary):
     models, balance = summary["models"], summary["class_balance"]
+    split = summary["evaluation_split"]
+    final = split == "test"
     lines = [
-        "# Model comparison (validation)",
+        f"# Model comparison ({'official test, final' if final else 'validation'})",
         "",
-        "All models use the same prepared data, the same TF-IDF features (unigram + bigram, sublinear TF)",
-        "and run on the validation split only. The official test set was not evaluated.",
+        "All models use the same prepared data and the same TF-IDF features (unigram + bigram, sublinear TF).",
+        "The settings were frozen on validation before this run; the test set was not used to select anything."
+        if final else
+        "They run on the validation split only. The official test set was not evaluated.",
         f"Command: `{summary['command']}`. Dataset summary SHA-256: `{summary['dataset_summary_sha256']}`.",
         f"Training rows: {next(iter(models.values()))['training_rows']}, "
-        f"validation rows: {next(iter(models.values()))['evaluation_rows']}.",
+        f"{split} rows: {next(iter(models.values()))['evaluation_rows']}.",
         "",
         "## Models",
         "",
@@ -411,17 +418,30 @@ def render_markdown(summary):
         "",
         "## Paired comparison of the selected settings",
         "",
-        "Score differences between models are small, so each pair is compared on the same validation "
-        "messages. A single validation split does not allow a firm ranking when the interval includes 0.",
+        f"Score differences between models are small, so each pair is compared on the same {split} "
+        f"messages. A single {split} split does not allow a firm ranking when the interval includes 0.",
         "",
     ]
     lines += [_comparison_sentence(item) for item in summary["comparisons"]]
+    if final:
+        lines += ["", "## Overlap with training data (official test)", "",
+                  "Per `docs/EXPERIMENTS.md`, test messages whose normalized text also appears in training are reported "
+                  "separately; the test set is not claimed to be a perfectly clean holdout.", "",
+                  "| Model | Setting | Overlapping rows | Non-overlapping rows | Accuracy (non-overlapping) | Macro F1 (non-overlapping) |",
+                  "| --- | --- | ---: | ---: | ---: | ---: |"]
+        for entry in models.values():
+            subset = entry["nonoverlapping_subset"]
+            if subset:
+                lines.append(f"| {entry['model']} | {entry['label']} | {entry['overlapping_evaluation_rows']} "
+                             f"| {subset['rows']} | {_pct(subset['accuracy'])} | {subset['macro_f1']:.4f} |")
+            else:
+                lines.append(f"| {entry['model']} | {entry['label']} | {entry['overlapping_evaluation_rows']} | - | - | - |")
     sensitivity = summary["near_duplicate_sensitivity"]
     lines += [
         "",
         "## Sensitivity to near-duplicate messages",
         "",
-        "Some validation messages are near-copies of training messages (reordered sentences, one added word). "
+        f"Some {split} messages are near-copies of training messages (reordered sentences, one added word). "
         "They are mostly easy and keep the same label, so they can raise the scores slightly. We did not "
         "change the split; instead the scores are recomputed without those messages.",
         "",
@@ -452,7 +472,7 @@ def render_markdown(summary):
     lines += [
         "## Example errors (selected settings)",
         "",
-        f"{examples['all_models_wrong_count']} validation messages are wrong for all three models; "
+        f"{examples['all_models_wrong_count']} {split} messages are wrong for all three models; "
         f"{examples['disagreement_count']} are right for some models and wrong for others.",
         "",
         "Wrong for all three models:",
@@ -479,14 +499,26 @@ def render_markdown(summary):
         "",
         "## Figures",
         "",
-        "- `results/figures/scores.png`: macro F1 and accuracy, initial vs selected",
-        "- `results/figures/timing.png`: fit and prediction time",
-        "- `results/figures/confusions.png`: most confused category pairs",
+        f"- `results/figures/{'test_' if final else ''}scores.png`: macro F1 and accuracy, initial vs selected",
+        f"- `results/figures/{'test_' if final else ''}timing.png`: fit and prediction time",
+        f"- `results/figures/{'test_' if final else ''}confusions.png`: most confused category pairs",
         "",
         "## Limitations",
         "",
-        "- One validation split of 1,500 messages; scores are not final test results.",
-        "- Final test numbers will be produced by the model owners after the shared feature setting is fixed.",
+        *(
+            [
+                "- One official test split; the settings were chosen on validation, no choice depends on test results "
+                "(the 3 repeats only measure time; scores are identical).",
+                "- The official test set has a few normalized-text overlaps with training (see the overlap "
+                "section), so it is not claimed to be a perfectly clean holdout.",
+                "- The Logistic Regression and Linear SVM final runs were executed centrally by Person 5 "
+                "with the owners' frozen settings; Naive Bayes was frozen and run by its owner "
+                "(`results/NAIVE_BAYES_TEST.md`) with the same result.",
+            ] if final else [
+                "- One validation split of 1,500 messages; scores are not final test results.",
+                "- Final test numbers are reported separately after the shared feature setting is fixed.",
+            ]
+        ),
         "- Timings come from one machine and are not a general speed claim.",
         "- Near-duplicate detection is a similarity heuristic with an arbitrary threshold, not a proof of leakage.",
         "",
@@ -496,23 +528,27 @@ def render_markdown(summary):
 
 def write_outputs(summary):
     RESULTS.mkdir(exist_ok=True)
-    (RESULTS / "model_comparison_validation.json").write_text(
-        json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
-    (RESULTS / "MODEL_COMPARISON.md").write_text(render_markdown(summary), encoding="utf-8", newline="\n")
+    final = summary["evaluation_split"] == "test"
+    json_name = "model_comparison_test.json" if final else "model_comparison_validation.json"
+    markdown_name = "MODEL_COMPARISON_TEST.md" if final else "MODEL_COMPARISON.md"
+    (RESULTS / json_name).write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
+    (RESULTS / markdown_name).write_text(render_markdown(summary), encoding="utf-8", newline="\n")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repeats", type=int, default=REPEATS)
+    parser.add_argument("--split", choices=("validation", "test"), default="validation",
+                        help="test yalnızca ayarlar dondurulduktan sonra nihai rapor için kullanılır")
     parser.add_argument("--no-figures", action="store_true")
     args = parser.parse_args()
     if args.repeats < 1:
         parser.error("--repeats must be positive")
-    summary = build_summary(run_all(args.repeats))
+    summary = build_summary(run_all(args.repeats, args.split), args.split)
     write_outputs(summary)
     if not args.no_figures:
         from banking77.plot_comparison import make_figures
-        make_figures(summary, Path(RESULTS / "figures"))
+        make_figures(summary, Path(RESULTS / "figures"), prefix="test_" if args.split == "test" else "")
     for entry in summary["models"].values():
         print(f"{entry['model']:<20} {entry['label']:<22} acc={entry['accuracy']:.4f} "
               f"macro_f1={entry['macro_f1']:.4f} fit={entry['fit_seconds']:.2f}s "

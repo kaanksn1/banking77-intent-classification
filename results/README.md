@@ -27,6 +27,9 @@ Mevcut raporlar:
 - [Üç modelde özellik karşılaştırması](FEATURE_COMPARISON.md): 5. kişinin çalışması;
   `python -m banking77.benchmark_features`. Unigram, unigram + bigram ve yalnızca bigram,
   her model için kendi ızgarasıyla yeniden ayarlanarak karşılaştırılır.
+- [Nihai test karşılaştırması](MODEL_COMPARISON_TEST.md): 5. kişinin çalışması;
+  `python -m banking77.benchmark_models --split test`. Ayarlar validation'da seçilip
+  dondurulduktan sonra resmî testte bir kez değerlendirilir; hiçbir seçim test sonucuna bağlı değildir.
 - [Ortak model karşılaştırması](MODEL_COMPARISON.md): 5. kişinin çalışması;
   `python -m banking77.benchmark_models` ile üretilir, grafikler `figures/` altındadır.
 

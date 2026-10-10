@@ -25,11 +25,18 @@ Responsibility: Person 5 — shared evaluation: benchmark script, comparison tab
   (validation only), with exact McNemar and paired bootstrap, plus a bigram-only ablation. Findings:
   unigram vs unigram + bigram is not separable for any model (p = 0.08 to 0.75, NB slightly favours
   bigrams); bigram only is clearly worse (macro F1 down 0.046 to 0.063, p < 1e-13).
-- `tests/test_benchmark_models.py`: 12 unit tests (agreed settings, validation-only use, median timing,
+- Final test comparison (`python -m banking77.benchmark_models --split test`): the same benchmark on the
+  official test split with the settings frozen on validation and the agreed shared feature setting
+  (unigram + bigram), producing `results/MODEL_COMPARISON_TEST.md`, `results/model_comparison_test.json`
+  and `results/figures/test_*.png`, including the train/test overlap report required by
+  `docs/EXPERIMENTS.md`. Test scores: Naive Bayes 0.8458, Logistic Regression 0.8878, Linear SVM 0.8865
+  macro F1; Logistic Regression and Linear SVM are again not separable (p = 0.68). The LR and SVM final
+  runs were executed centrally by me with the owners' frozen settings and their agreement.
+- `tests/test_benchmark_models.py`: 14 unit tests (agreed settings, validation-only use, split passing, median timing,
   rejection of changed scores or datasets or data files, convergence reporting, McNemar counts, macro F1
-  against scikit-learn, seeded bootstrap, near-duplicate similarity, subset scores, error example selection).
+  against scikit-learn, seeded bootstrap, near-duplicate similarity, subset scores, error example selection);
   `tests/test_benchmark_features.py` adds 5 more (selection rule, validation-only use, grids).
-  The full suite has 38 passing tests.
+  The full suite has 40 passing tests.
 - `results/MODEL_COMPARISON.md`, `results/model_comparison_validation.json`, `results/figures/*.png`:
   generated report with the comparison table, the macro F1 justification, most confused pairs and real
   example errors.
@@ -69,9 +76,12 @@ I did not change the other members' model, training or data files.
   - [Regenerated report and contribution file](https://github.com/kaanksn1/banking77-intent-classification/commit/1a019b6adcd9d0f4f612de9ea7d42f8170e96cf7)
   - [Three-model feature comparison with bigram-only ablation](https://github.com/kaanksn1/banking77-intent-classification/commit/f6e77b74a9e9b5aa601a2c07018050c7997dba49)
   - [Feature comparison report and documentation](https://github.com/kaanksn1/banking77-intent-classification/commit/fb7d2339566793431917df7941fccfd9ca8dd91e)
+  - [`--split test` mode and overlap report](https://github.com/kaanksn1/banking77-intent-classification/commit/9474cb47c0dd038b7adcf245b72512050560cc23)
+  - [Final test comparison of the three models](https://github.com/kaanksn1/banking77-intent-classification/commit/6053fd2e0f8c526e8dead5978b9803052f4dde61)
 - My pull request links:
   - [#8 Shared model benchmark and validation comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/8) (merged)
-  - [#9 Three-model unigram/bigram feature comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/9)
+  - [#9 Three-model unigram/bigram feature comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/9) (merged)
+  - [#11 Final test comparison of NB, LR and Linear SVM](https://github.com/kaanksn1/banking77-intent-classification/pull/11)
 
 ## Contribution to the presentation
 

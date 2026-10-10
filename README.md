@@ -241,6 +241,18 @@ kendi hiperparametre ızgarasıyla yeniden ayarlayarak karşılaştırmak için:
 Komut yalnızca validation kullanır (~2 dakika) ve [results/FEATURE_COMPARISON.md](results/FEATURE_COMPARISON.md)
 ile `results/feature_comparison_validation.json` dosyalarını üretir.
 
+Ayarlar dondurulduktan sonra aynı karşılaştırmanın resmî test üzerindeki nihai hâli
+(test yalnızca bu komutla, ayar seçmek için kullanılmadan çalıştırılır):
+
+```powershell
+.\.venv\Scripts\python.exe -m banking77.benchmark_models --split test
+```
+
+Çıktılar [results/MODEL_COMPARISON_TEST.md](results/MODEL_COMPARISON_TEST.md),
+`results/model_comparison_test.json` ve `results/figures/test_*.png` dosyalarıdır.
+Nihai özellik ayarı unigram + bigram'dır; gerekçe için
+[özellik karşılaştırması](results/FEATURE_COMPARISON.md).
+
 ## Yapı
 
 ```text
