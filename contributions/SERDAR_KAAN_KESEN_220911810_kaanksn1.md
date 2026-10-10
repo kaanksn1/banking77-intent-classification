@@ -77,6 +77,7 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
 - [Özellik karşılaştırması entegrasyon incelemesi #9](https://github.com/kaanksn1/banking77-intent-classification/pull/9)
 - [Yeni baseline ve NB + CNN ayarlarının test öncesi commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/2425ccc)
 - [AMD GPU kurulumu ve validation bütçesi kararı](https://github.com/kaanksn1/banking77-intent-classification/commit/214b1799ef35ac9e170c909d901842e4e6300e3c)
+- [Dört Transformer checkpoint'inin test öncesi commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/1e4ff66d49e7d184d3dbe1548fa7b038b79833c2)
 
 ## 10 Ekim'de açıkça atanan ek kapsam
 
@@ -120,6 +121,14 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
   accuracy/macro F1 ve confusion matrix'i çıktı dosyalarından yeniden hesaplayarak doğruladım.
   NB + CNN: accuracy %90.65, macro F1 0.9061. Standart çıktılar ve her yöntem için
   üç gerçek hata örneği `results/NEURAL_TEST.md` ile `results/neural_test/` altında.
+- Dört Transformer protokolünü resmî testten önce ayrı commit'le sabitleyip
+  GitHub'a pushladım. Seçilmiş checkpoint'leri yeniden eğitmeden 3.080 test
+  mesajında değerlendirdim; kimlik/metin/etiket eşleşmesini, metrikleri,
+  confusion matrix'i ve yedi birebir örtüşmenin dışarıda bırakıldığı sonuçları doğruladım.
+  Dört standart çıktıyı `results/transformer_test/` altında yayımladım;
+  `results/TRANSFORMER_TEST.md` sonuçları ve gerçek hata örneklerini içerir.
+  RoBERTa-base: test accuracy %93.02, macro F1 0.9301. Yeni ortak karşılaştırma,
+  eşleştirilmiş istatistikler ve grafikler 5. kişinin işi olarak bırakıldı.
 
 ## Sunuma katkım
 

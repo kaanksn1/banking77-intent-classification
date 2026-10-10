@@ -3,6 +3,8 @@
 Bu belge ortak karşılaştırmayı ve PPTX'i hazırlayacak ekip arkadaşına yöneliktir.
 Repo sahibinin ek model çalışması ile ortak değerlendirme sorumluluğunu ayırır.
 Veri, mevcut LR/SVM uygulamaları ve ortak benchmark kodları değiştirilmemiştir.
+Üç klasik, sekiz kelime/sinir ağı ve dört Transformer baseline'ı ile NB + CNN
+katkısının sonuçları hazırdır: toplam 15 baseline ve bir katkı yöntemi.
 
 ## Kullanılacak çıktılar
 
@@ -11,7 +13,7 @@ Veri, mevcut LR/SVM uygulamaları ve ortak benchmark kodları değiştirilmemiş
 | Seçilmiş klasik NB/LR/SVM | [Klasik test raporu](../results/MODEL_COMPARISON_TEST.md) | Mevcut klasik test çıktıları; NB için `results/naive_bayes_test/` |
 | RNN, CNN, LSTM, BiLSTM, GloVe, Word2Vec CBOW/Skip-gram, FastText | [Validation](../results/NEURAL_VALIDATION.md), [test](../results/NEURAL_TEST.md) | `results/neural_test/<model>/` |
 | Ekip katkısı: NB + CNN soft voting | Aynı neural raporlar; `results/nb_cnn_final_protocol.json` | `results/neural_test/nb_cnn/` |
-| BERT-base-uncased, DistilBERT-base-uncased, RoBERTa-base, ALBERT-base-v2 | [Tam validation](../results/TRANSFORMER_VALIDATION.md) hazır; resmî test henüz başlamadı | Test tamamlanınca `results/transformer_test/<model>/` |
+| BERT-base-uncased, DistilBERT-base-uncased, RoBERTa-base, ALBERT-base-v2 | [Validation](../results/TRANSFORMER_VALIDATION.md), [nihai test](../results/TRANSFORMER_TEST.md); protokoller testten önce `1e4ff66` ile sabitlendi | `results/transformer_test/<model>/` |
 
 Her yayımlanan yeni model klasöründe `metrics.json`, `classification_report.json`,
 `predictions.csv` ve `confusion_matrix.csv` bulunur. Büyük checkpoint'ler ve yerel

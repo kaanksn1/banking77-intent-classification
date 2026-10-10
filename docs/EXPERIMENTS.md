@@ -97,6 +97,10 @@ iyileştiği için tüm dört modelin nihai bütçesi beş epoch olarak belirlen
 [Karar kaydı](../results/transformer_budget_decision.json) testten önce oluşturuldu;
 nihai dört deney ön eğitimli ağırlıklardan yeniden başlatıldı. Tek seed ve sınırlı
 eğitim bütçesi optimum performans veya yakınsama garantisi değildir.
+Dört Transformer'ın seçilmiş checkpoint protokolleri resmî testten önce
+`1e4ff66` commit'iyle sabitlendi ve GitHub'a pushlandı. Yeniden eğitim veya testle
+ayar seçimi yapılmadan [nihai test değerlendirmesi](../results/TRANSFORMER_TEST.md)
+tamamlandı; tüm tahminler ve standart çıktılar `results/transformer_test/` içindedir.
 
 Repo sahibinin proje katkısı NB + CNN soft voting'dir. 11 ağırlık yalnız validation
 macro F1 ile karşılaştırılır; yalnız NB ve yalnız CNN uçları ablation olarak korunur.

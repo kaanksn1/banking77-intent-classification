@@ -55,12 +55,16 @@ Sunum: 12 Ekim 2026 Pazartesi. Notun %50'si sunum, %50'si implementation repo.
   bütçesiyle tam validation deneyleri tamamlandı. [Sonuç raporu](../results/TRANSFORMER_VALIDATION.md)
   ve [tam metrik/ortam kaydı](../results/transformer_validation.json) hazırdır;
   seçilmiş checkpoint'ler için dört nihai protokol dosyası oluşturuldu.
+- [x] Dört Transformer'ın protokolleri
+  [testten önceki `1e4ff66` commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/1e4ff66d49e7d184d3dbe1548fa7b038b79833c2)
+  ile sabitlendi ve resmî test değerlendirmeleri tamamlandı.
+  [Nihai test raporu](../results/TRANSFORMER_TEST.md) ve
+  [tam metrik kaydı](../results/transformer_test.json) hazırdır. RoBERTa-base:
+  accuracy %93.02, macro F1 0.9301. Standart çıktılar doğrulandı;
+  eşleştirilmiş anlamlılık testi henüz yapılmadı.
 
 ## Kalan işler ve sorumlular
 
-- [ ] Repo sahibi: dört Transformer'ın seçilmiş checkpoint protokollerini resmî
-  testten önce ayrı commit'e alma ve ardından nihai test değerlendirmesi.
-  Dört Transformer'ın resmî testleri henüz başlamadı.
 - [ ] 4. kişi: teknik nottaki Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme.
 - [ ] 5. kişi: özellik raporunda bigram-only ablation'ı ve seçilmeyen unigram
   SVM (`hinge`, `C=10`) adayının 10.000 iterasyon sınırına ulaştığını açıklama.

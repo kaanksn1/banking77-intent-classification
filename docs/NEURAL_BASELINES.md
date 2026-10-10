@@ -27,7 +27,8 @@ Slayt 37'deki belirli modeller `bert-base-uncased`, `distilbert-base-uncased`,
 kaydedilmiştir. Kelime/embedding baseline'larının gerçek skorları
 [NEURAL_VALIDATION.md](../results/NEURAL_VALIDATION.md), dört Transformer'ın
 tam validation sonuçları [TRANSFORMER_VALIDATION.md](../results/TRANSFORMER_VALIDATION.md)
-içinde tutulur. Dört Transformer'ın resmî testleri henüz başlamadı.
+içinde tutulur. Dört Transformer'ın resmî testleri de tamamlandı;
+[nihai test raporu](../results/TRANSFORMER_TEST.md) ayrı tutulur.
 
 ## Ortak deney protokolü
 
@@ -87,8 +88,9 @@ kontrolü hem root hem normal `serda` kullanıcısıyla geçti. Linux'ta 52 test
 Naive Bayes validation kontrolü geçti: accuracy `0.862`, macro F1
 `0.8528894646`. Dört Transformer'ın ortak beş epoch bütçesiyle tam validation
 deneyleri tamamlandı; [sonuç raporu](../results/TRANSFORMER_VALIDATION.md) ve
-[JSON kaydı](../results/transformer_validation.json) hazırdır. Resmî Transformer
-testleri henüz başlamadı. Küçük GPU geliştirme kontrolü tam deney yerine geçmez.
+[JSON kaydı](../results/transformer_validation.json) hazırdır. Dört modelin
+[resmî test değerlendirmesi](../results/TRANSFORMER_TEST.md) de tamamlandı.
+Küçük GPU geliştirme kontrolü tam deney yerine geçmez.
 
 [AMD'nin ROCm 7.2.1 WSL yönergesi](https://rocm.docs.amd.com/projects/radeon-ryzen/en/docs-7.2.1/docs/install/installrad/wsl/howto_wsl.html)
 ROCDXG köprüsünü kullanır. Bu yöntem Adrenalin 26.2.2 ile sunulmuştur;
@@ -168,9 +170,23 @@ validation macro F1'e göre belirlendi ve her modelde beşinci epoch seçildi:
 [Tam rapor](../results/TRANSFORMER_VALIDATION.md) ayarları, süreleri ve
 sınırlılıkları; [JSON kaydı](../results/transformer_validation.json) tam metrikleri,
 komutları, ortam ve çıktı kimliklerini içerir. Dört seçilmiş checkpoint'in
-`<model>_final_protocol.json` dosyaları hazırlandı; resmî testten önce ayrı
-commit'e alınır. Bu commit tamamlanmadan test çalıştırılmaz. Dört Transformer'ın
-resmî testleri henüz başlamadı.
+`<model>_final_protocol.json` dosyaları
+[testten önceki `1e4ff66` commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/1e4ff66d49e7d184d3dbe1548fa7b038b79833c2)
+ile sabitlendi. Ardından checkpoint'ler yeniden eğitilmeden 3.080 resmî test
+mesajında değerlendirildi; validation eğitime eklenmedi:
+
+| Model | Test accuracy (%) | Test macro F1 |
+| --- | ---: | ---: |
+| BERT-base-uncased | 90.58 | 0.9016 |
+| DistilBERT-base-uncased | 89.61 | 0.8961 |
+| RoBERTa-base | 93.02 | 0.9301 |
+| ALBERT-base-v2 | 90.29 | 0.9027 |
+
+[Nihai test raporu](../results/TRANSFORMER_TEST.md) gerçek hata örneklerini ve
+train ile birebir örtüşmeyen altküme sonuçlarını;
+[test JSON kaydı](../results/transformer_test.json) metrikleri, süreleri ve çıktı
+hash'lerini içerir. Her modelin dört standart çıktısı `results/transformer_test/<model>/`
+altındadır. Test sonuçları ayar veya checkpoint seçmek için kullanılmadı.
 
 ## Eğitim ve nihai değerlendirme
 
@@ -286,8 +302,9 @@ NB + CNN katkısının validation deneyi ve iki uç ablation'ı tamamlandı.
 Sekiz baseline ve NB + CNN ayarları `2425ccc` ile testten önce sabitlendi;
 [nihai test ve gerçek hata örnekleri](../results/NEURAL_TEST.md) teslim edildi.
 Dört Transformer'ın [tam validation deneyleri](../results/TRANSFORMER_VALIDATION.md)
-tamamlandı; protokollerin testten önce commit edilmesi ve resmî test değerlendirmesi
-bekliyor. Kısa geliştirme kontrolü benchmark sonucu olarak sunulmaz.
+ve [resmî test değerlendirmeleri](../results/TRANSFORMER_TEST.md) tamamlandı;
+seçilmiş checkpoint protokolleri testten önce `1e4ff66` commit'iyle sabitlendi.
+Kısa geliştirme kontrolü benchmark sonucu olarak sunulmaz.
 Tek seed sonuçları genelleme veya istatistiksel üstünlük
 kanıtı değildir. Yeni modellerin dahil olduğu eşleştirilmiş karşılaştırma henüz yapılmadı.
 Ortak grafikler, genişletilmiş karşılaştırma ve PPTX 5. kişinin sorumluluğundadır.

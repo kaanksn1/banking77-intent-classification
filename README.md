@@ -32,24 +32,17 @@ Bu sekiz baseline ve NB + CNN, [testten önceki commit](https://github.com/kaank
 ile sabitlenip resmî testte değerlendirildi: **NB + CNN accuracy %90.65,
 macro F1 0.9061**. [Nihai yeni-model çıktıları ve hata örnekleri](results/NEURAL_TEST.md).
 Slaytlarda adı geçen BERT-base, DistilBERT, RoBERTa-base ve ALBERT-base-v2'nin
-ortak beş epoch bütçesiyle tam validation deneyleri tamamlandı:
-
-| Model | Validation accuracy (%) | Validation macro F1 |
-| --- | ---: | ---: |
-| BERT-base-uncased | 90.60 | 0.9010 |
-| DistilBERT-base-uncased | 89.87 | 0.8961 |
-| RoBERTa-base | 92.33 | 0.9264 |
-| ALBERT-base-v2 | 89.87 | 0.8989 |
-
-[Transformer validation raporu](results/TRANSFORMER_VALIDATION.md) ve
-[tam metrik/ortam kaydı](results/transformer_validation.json) hazırdır.
-Seçilmiş checkpoint protokolleri resmî testten önce ayrı commit'e alınır;
-dört Transformer'ın resmî testleri henüz başlamadı.
+ortak beş epoch bütçesiyle [tam validation deneyleri](results/TRANSFORMER_VALIDATION.md)
+ve resmî testleri tamamlandı. Seçilmiş checkpoint protokolleri
+[testten önceki `1e4ff66` commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/1e4ff66d49e7d184d3dbe1548fa7b038b79833c2)
+ile sabitlendi. Dört Transformer içinde en yüksek test skoru RoBERTa-base'te:
+**accuracy %93.02, macro F1 0.9301**. [Nihai test raporu ve hata örnekleri](results/TRANSFORMER_TEST.md),
+[tam metrik kaydı](results/transformer_test.json). Eşleştirilmiş anlamlılık testi henüz yapılmadı.
 Windows yeniden başlatıldı; Ubuntu 24.04.5 WSL2 üzerinde ROCm 7.2.1,
 ROCDXG 1.2.0 ve AMD PyTorch 2.9.1 ortamı kuruldu. RX 7800 XT'de GPU matris
 forward/backward kontrolü hem root hem normal `serda` kullanıcısıyla geçti.
 Linux'ta 52 test ve Naive Bayes validation kontrolü de geçti (accuracy 0.862,
-macro F1 0.8529). Yukarıdaki Transformer skorları tam validation deneylerine aittir.
+macro F1 0.8529).
 
 Repo sahibinin mevcut veri sürümü için Naive Bayes devir paketi:
 [teknik açıklama ve hata analizi](docs/NAIVE_BAYES.md),
@@ -368,6 +361,7 @@ yalnızca tekrar kontrolü içindir; model orijinal mesaj metnini alır.
 - [Neural/embedding yöntemleri ve GPU kurulum durumu](docs/NEURAL_BASELINES.md)
 - [Yeni baseline ve NB + CNN validation sonuçları](results/NEURAL_VALIDATION.md)
 - [Dört Transformer'ın tam validation sonuçları](results/TRANSFORMER_VALIDATION.md)
+- [Dört Transformer'ın nihai test sonuçları](results/TRANSFORMER_TEST.md)
 - [Yeni baseline ve NB + CNN nihai test sonuçları](results/NEURAL_TEST.md)
 - [Unigram / bigram özellik karşılaştırması (üç model)](results/FEATURE_COMPARISON.md)
 - [2. kişiye veri/özellik devir talimatı](docs/HANDOFF_DATA.md)
