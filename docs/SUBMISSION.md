@@ -46,7 +46,8 @@ Notun %50'si sunum, %50'si implementation repo.
 - [x] 4. kişi: Linear SVM kodu, validation deneyleri ve katkı dosyası.
 - [ ] 4. kişi: teknik notta Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme.
 - [ ] Her model sahibi: validation ile ayarlarını dondurma, sonra nihai test çıktısı.
-- [ ] 5. kişi: ortak benchmark, metrik gerekçesi, karşılaştırma ve sunum.
+- [ ] 5. kişi: ortak benchmark, metrik gerekçesi ve validation karşılaştırması hazır
+  (`results/MODEL_COMPARISON.md`); nihai test karşılaştırması ve sunum açık.
 - [ ] Son repo kontrolü: komutlar çalışıyor; geçici ve gereksiz dosyalar dışarıda.
 
 Kişisel raporların ve başkalarının deneylerinin ilgili üye tarafından hazırlanması

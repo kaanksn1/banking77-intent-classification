@@ -10,7 +10,8 @@
 
 Repo sahibinin Naive Bayes çalışması, 2. kişinin veri/özellik çalışması,
 3. kişinin Logistic Regression ve 4. kişinin Linear SVM çalışması kendi PR'larıyla
-`main` içine alınmıştır. Ortak değerlendirme ve sunum 5. kişinin bekleyen işidir.
+`main` içine alınmıştır. Ortak değerlendirme ve sunum 5. kişinin `feature/evaluation`
+branch'indedir.
 Herkes kendi bölümünün deneylerini, bulgularını, slayt taslağını ve açıklamasını
 hazırlar. Repo sahibi ortak README ve GitHub entegrasyonunu günceller.
 
