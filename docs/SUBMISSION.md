@@ -48,16 +48,23 @@ Sunum: 12 Ekim 2026 Pazartesi. Notun %50'si sunum, %50'si implementation repo.
   repository/commit/lisans kayıtları. Büyük ağırlıklar Git dışında tutulur.
 - [x] CPU forward/backward, kısa Transformer geliştirme kontrolü; 52 yerel test
   ve NB validation geçti. Geliştirme kontrolü tam benchmark diye sunulmaz.
-- [x] Kullanıcı onayıyla WSL 3.0.1 kurulumu ve VirtualMachinePlatform etkinleştirme.
-  Kurulum Windows'un yeniden başlatılmasını istiyor; otomatik başlatılmadı.
+- [x] WSL2 üzerinde Ubuntu 24.04.5, ROCm 7.2.1, ROCDXG 1.2.0 ve AMD PyTorch kurulumu.
+  RX 7800 XT ile gerçek forward/backward ve kısa DistilBERT GPU eğitimi geçti.
+  Linux ortamında 52 test ve NB validation da geçti; geliştirme kontrolü benchmark sayılmadı.
+- [x] BERT-base, DistilBERT, RoBERTa-base ve ALBERT-base-v2'nin ortak beş epoch
+  bütçesiyle tam validation deneyleri tamamlandı. [Sonuç raporu](../results/TRANSFORMER_VALIDATION.md)
+  ve [tam metrik/ortam kaydı](../results/transformer_validation.json) hazırdır;
+  seçilmiş checkpoint'ler için dört nihai protokol dosyası oluşturuldu.
+- [x] Dört Transformer'ın protokolleri
+  [testten önceki `1e4ff66` commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/1e4ff66d49e7d184d3dbe1548fa7b038b79833c2)
+  ile sabitlendi ve resmî test değerlendirmeleri tamamlandı.
+  [Nihai test raporu](../results/TRANSFORMER_TEST.md) ve
+  [tam metrik kaydı](../results/transformer_test.json) hazırdır. RoBERTa-base:
+  accuracy %93.02, macro F1 0.9301. Standart çıktılar doğrulandı;
+  eşleştirilmiş anlamlılık testi henüz yapılmadı.
 
 ## Kalan işler ve sorumlular
 
-- [ ] Repo sahibi: Windows yeniden başlatıldıktan sonra Ubuntu ilk kurulumu,
-  uyumlu AMD runtime/PyTorch ve gerçek GPU preflight.
-- [ ] Repo sahibi: dört Transformer'ın tam validation eğitimi; seçilmiş ayarları
-  testten önce commit etme ve nihai test değerlendirmesi. Eğitim kodu hazır
-  olması, bu deneylerin tamamlandığı anlamına gelmez.
 - [ ] 4. kişi: teknik nottaki Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme.
 - [ ] 5. kişi: özellik raporunda bigram-only ablation'ı ve seçilmeyen unigram
   SVM (`hinge`, `C=10`) adayının 10.000 iterasyon sınırına ulaştığını açıklama.
@@ -65,7 +72,8 @@ Sunum: 12 Ekim 2026 Pazartesi. Notun %50'si sunum, %50'si implementation repo.
 - [ ] 5. kişi: test raporu/JSON'daki komut alanına `--split test` ekleme.
   Rapordaki sonuçlar test verisinde doğrulandı; eksik olan komutun yazımıdır.
 - [ ] 5. kişi: yeni modeller ve katkı için ortak karşılaştırma, eşleştirilmiş
-  istatistikler ve grafikler. [Çıktı sözleşmesi](NEURAL_BASELINES.md) aynı kalır.
+  istatistikler ve grafikler. [Çıktı sözleşmesi](NEURAL_BASELINES.md) aynı kalır;
+  [yeni modellerin devir talimatı](HANDOFF_NEURAL.md) hazırdır.
 - [ ] 5. kişi: PPTX, sunum provası ve süre kontrolü.
 - [ ] Tüm üyeler: kendi katkı dosyalarını son gerçek işleri ve kendi commit/PR'larıyla güncelleme.
 - [ ] Ödev sistemine hem PPTX hem public GitHub URL'sini yükleme.

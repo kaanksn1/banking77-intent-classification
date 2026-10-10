@@ -4,6 +4,7 @@
 *.json text eol=lf
 *.yml text eol=lf
 *.ps1 text eol=crlf
+*.sh text eol=lf
 
 # Preserve upstream bytes: configs/data.json checks their SHA-256 values.
 /data/raw/* -text whitespace=cr-at-eol
@@ -14,3 +15,4 @@
 
 # Preserve official-message bytes in the selected new-model outputs as well.
 /results/neural_test/*/*.csv -text whitespace=cr-at-eol
+/results/transformer_test/*/*.csv -text whitespace=cr-at-eol

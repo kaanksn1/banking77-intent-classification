@@ -1,0 +1,150 @@
+{
+  "evaluation_split": "validation",
+  "training_rows": 8499,
+  "evaluation_rows": 1500,
+  "dataset_files_sha256": {
+    "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+    "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+    "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+    "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+  },
+  "selection_metric": "macro_f1",
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "torch": "2.9.1+rocm7.2.1.gitff65f5bc",
+    "hip": "7.2.53211-e1a6bc5663",
+    "cuda": null,
+    "gpu_available": true,
+    "device": "AMD Radeon RX 7800 XT",
+    "forward_backward": "passed",
+    "recorded_utc": "2026-10-10T16:18:48.515255+00:00",
+    "source_commit": "2ec755900c0f5891a28c4f00e2d36450275e98e6",
+    "gpu_architecture": "gfx1101",
+    "gpu_memory_bytes": 16962629632,
+    "packages": {
+      "torch": "2.9.1+rocm7.2.1.lw.gitff65f5bc",
+      "transformers": "4.57.6",
+      "tokenizers": "0.22.2",
+      "huggingface-hub": "0.36.2",
+      "safetensors": "0.8.0",
+      "numpy": "2.5.3",
+      "scikit-learn": "1.9.1",
+      "sentencepiece": "0.2.1",
+      "gensim": "4.4.0",
+      "triton": "3.5.1+rocm7.2.1.gita272dfa8"
+    },
+    "linux_os_release": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n",
+    "rocm_package": "7.2.1.70201-81~24.04",
+    "rocdxg_package": "1.2.0",
+    "windows_display_driver": "32.0.32015.2008 (Adrenalin 26.9.2, Windows CIM verified)",
+    "wsl_application": "3.0.1",
+    "wsl_runtime": 2,
+    "environment_variables": {
+      "HSA_ENABLE_DXG_DETECTION": "1"
+    },
+    "download_hashes": [
+      "4c0338a241c15b12c14eb3aeb4012ea0d55dba681737ea8482248041a16c2afa  /opt/banking77-downloads/amdgpu-install_7.2.1.70201-1_all.deb",
+      "fb45ace0a27e9f0d0e3c4c6efd8932162743f8376f2aa4752a4d31ef5a1bd3d7  /opt/banking77-downloads/torch-2.9.1+rocm7.2.1.lw.gitff65f5bc-cp312-cp312-linux_x86_64.whl",
+      "07787af1d28c273852f897bfeaa7bca29f2fa4a13ca0f28f535832b240ce7016  /opt/banking77-downloads/triton-3.5.1+rocm7.2.1.gita272dfa8-cp312-cp312-linux_x86_64.whl"
+    ],
+    "wheel_hash_provenance": "Locally computed download identity; not independently published vendor checksums.",
+    "rocdxg_vendor_published_sha256": "3ed9526719290cd8f590150dad8ea0f234fa779bea6a4c9a8449d7ae6b8cfb6e",
+    "installation_recipe": "scripts/setup_rocm_wsl.sh"
+  },
+  "budget_decision": "results/transformer_budget_decision.json",
+  "runs": [
+    {
+      "key": "bert",
+      "name": "BERT-base-uncased",
+      "protocol": "results/bert_final_protocol.json",
+      "command": "python -m banking77.train_neural train --model bert --epochs 5 --patience 3 --batch-size 16 --learning-rate 0.00002 --max-length 64 --seed 42 --device cuda",
+      "metrics": {
+        "run_id": "bert_validation_20261010T163319799708Z",
+        "accuracy": 0.906,
+        "macro_f1": 0.9010070094631087,
+        "best_epoch": 5,
+        "fit_seconds": 471.982466015,
+        "predict_seconds": 7.94567195500008,
+        "tokenization_seconds": 0.9625972759999968,
+        "prediction_ms_per_message": 5.29711463666672
+      },
+      "validation_outputs_sha256": {
+        "classification_report.json": "38de85606cd785804338cc8f32105a9fae782589ef5ec60a18834b332240c867",
+        "confusion_matrix.csv": "7992a72cb0e84473711b2474e0e2e7ba3b4791468a2ae8fac70de38f96230490",
+        "metrics.json": "ffcadb2ad0b00275364857c9f905cac265e39d6f53df47c94ad7322947196f0d",
+        "predictions.csv": "4d97c6d30143a75b74be7632b299292f066c9368e2be50d8a717f987768b342e",
+        "probabilities.npz": "489cbd26afc0b279876dc959f413ef7728eef5624422528e571b3efedc78fbd8"
+      }
+    },
+    {
+      "key": "distilbert",
+      "name": "DistilBERT-base-uncased",
+      "protocol": "results/distilbert_final_protocol.json",
+      "command": "python -m banking77.train_neural train --model distilbert --epochs 5 --patience 3 --batch-size 16 --learning-rate 0.00002 --max-length 64 --seed 42 --device cuda",
+      "metrics": {
+        "run_id": "distilbert_validation_20261010T162855322151Z",
+        "accuracy": 0.8986666666666666,
+        "macro_f1": 0.8960915101534438,
+        "best_epoch": 5,
+        "fit_seconds": 250.19336567899995,
+        "predict_seconds": 3.9041968809999616,
+        "tokenization_seconds": 0.8089872919999834,
+        "prediction_ms_per_message": 2.602797920666641
+      },
+      "validation_outputs_sha256": {
+        "classification_report.json": "3b7189ef0c17f6d62940bcbb3ef6dcb4e71adaf946fb7f268e0dde5d2e5ededa",
+        "confusion_matrix.csv": "9d7c8e9604929a36ce099281ba1f9dbbbb4861bb4fdfbe15289ddaa511f89c60",
+        "metrics.json": "af39feb8dc254ed43b60ca3e3470b37dcbb0443a9e8cd8d31ea21dbbe779af43",
+        "predictions.csv": "9a58daebc8b427cbf70cb0e3c2480117ed1c674098ca59d512e0139d731ba54d",
+        "probabilities.npz": "1552993d3e2fd64207c1f2e22c4b96f4e4fef1ae55fd2b365b04a3f0365ccde4"
+      }
+    },
+    {
+      "key": "roberta",
+      "name": "RoBERTa-base",
+      "protocol": "results/roberta_final_protocol.json",
+      "command": "python -m banking77.train_neural train --model roberta --epochs 5 --patience 3 --batch-size 16 --learning-rate 0.00002 --max-length 64 --seed 42 --device cuda",
+      "metrics": {
+        "run_id": "roberta_validation_20261010T164133300586Z",
+        "accuracy": 0.9233333333333333,
+        "macro_f1": 0.9263713828993814,
+        "best_epoch": 5,
+        "fit_seconds": 484.56076042400014,
+        "predict_seconds": 7.753266293999786,
+        "tokenization_seconds": 0.5938287379999565,
+        "prediction_ms_per_message": 5.168844195999857
+      },
+      "validation_outputs_sha256": {
+        "classification_report.json": "d796cade59dcc3bdaa00137d976baf060513a744213aa8a8effd2f2577d98d5e",
+        "confusion_matrix.csv": "88bce02b27b5747e6b70945dac7394bb6d273b69e0f58749cd429de99f2e2fc5",
+        "metrics.json": "526ff92f40a4cd54b7f2d74ceee8fbb87515fca23f8c7e1fbb615e43c8e52673",
+        "predictions.csv": "6a75d188e96876511b6e122333bf3d471a435081018524751fbfbd0d2308a21d",
+        "probabilities.npz": "bd1ab2eef8a759a2a9fb11fb2e7e8f561a89fb422ebd14daf8989594b44dfe33"
+      }
+    },
+    {
+      "key": "albert",
+      "name": "ALBERT-base-v2",
+      "protocol": "results/albert_final_protocol.json",
+      "command": "python -m banking77.train_neural train --model albert --epochs 5 --patience 3 --batch-size 16 --learning-rate 0.00002 --max-length 64 --seed 42 --device cuda",
+      "metrics": {
+        "run_id": "albert_validation_20261010T165000118651Z",
+        "accuracy": 0.8986666666666666,
+        "macro_f1": 0.8988844746053071,
+        "best_epoch": 5,
+        "fit_seconds": 410.42641919900007,
+        "predict_seconds": 7.884659514999839,
+        "tokenization_seconds": 0.8525343709998197,
+        "prediction_ms_per_message": 5.2564396766665595
+      },
+      "validation_outputs_sha256": {
+        "classification_report.json": "7d24436fa9a092c04fa2722e681f6d4a2e4f0e6e0ff46dd33c761cfe1170654d",
+        "confusion_matrix.csv": "1528d58ddbb155b64f81fc4e0752c46368aadb327538d0753f43e8659b1cc0a5",
+        "metrics.json": "a5476106889bc39e70d2ea23f62a7301208e9495709f32542b3868dcb47121a8",
+        "predictions.csv": "1c2a0b8f4f826a0a7791093c24299a62dac79b3a6ab644a2439659a212a57dfd",
+        "probabilities.npz": "cdbe7b6442cd2917ec8606a9eb7e36bc86ad4155db1b5393c628e0a4753a5594"
+      }
+    }
+  ]
+}

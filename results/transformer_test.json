@@ -1,0 +1,108 @@
+{
+  "evaluation_split": "test",
+  "training_rows": 8499,
+  "evaluation_rows": 3080,
+  "selection_on_test": false,
+  "runs": [
+    {
+      "key": "bert",
+      "name": "BERT-base-uncased",
+      "output_directory": "results/transformer_test/bert",
+      "metrics": {
+        "run_id": "bert_test_20261010T170124202171Z",
+        "accuracy": 0.9058441558441559,
+        "macro_f1": 0.9015804795672292,
+        "nonoverlapping_subset": {
+          "rows": 3073,
+          "accuracy": 0.9056296778392451,
+          "macro_f1": 0.9013489517225249
+        },
+        "predict_seconds": 16.252941673000002,
+        "prediction_ms_per_message": 5.2769291146103905,
+        "protocol": "results/bert_final_protocol.json",
+        "protocol_sha256": "da6ad4a9c0157a453f0ea18ee15ed57dab451d00b86aa73d0ead349ae6966d04"
+      },
+      "output_sha256": {
+        "classification_report.json": "3ff12201cbec4c6b2e78327eb455651dc5481f658bcf680c91fa4b120dd23668",
+        "confusion_matrix.csv": "6831b8ff41e955d7340f5715dc14beaad36619bd5b2e4ec972e1c7925e18b1b2",
+        "metrics.json": "8c02b193756c646c37484dc92ea6394086f35e65d68bf835558babedafe79527",
+        "predictions.csv": "4afac40ae951cb1f4b4cfea33f2d36f515cb616d0fcd030724bd31dd2d815ec0"
+      }
+    },
+    {
+      "key": "distilbert",
+      "name": "DistilBERT-base-uncased",
+      "output_directory": "results/transformer_test/distilbert",
+      "metrics": {
+        "run_id": "distilbert_test_20261010T170135745809Z",
+        "accuracy": 0.8961038961038961,
+        "macro_f1": 0.8960826992338067,
+        "nonoverlapping_subset": {
+          "rows": 3073,
+          "accuracy": 0.895867230719167,
+          "macro_f1": 0.8957496783832087
+        },
+        "predict_seconds": 7.901430261999998,
+        "prediction_ms_per_message": 2.565399435714285,
+        "protocol": "results/distilbert_final_protocol.json",
+        "protocol_sha256": "dc897bcf6e8dd8404f5cf06d424b8e5ece23f3ba0024ebc5023657d5b129ad51"
+      },
+      "output_sha256": {
+        "classification_report.json": "a81b41a983bb41ac7a0d506c0d8c528932be6b58b8235826188920bf30716127",
+        "confusion_matrix.csv": "e70c2fa4237c0b6a831a31d6b5202a9628fe28d5d1c8bdbb3643ebd939b3ef00",
+        "metrics.json": "d5cc68adaabf429affbdb085fdef40dc61b4bdc9bc8b4685a839ae7ae5ca055a",
+        "predictions.csv": "cb04a3501970f16719e94335a7ff3658469ba6b8ac6b994d1aae337c079421f1"
+      }
+    },
+    {
+      "key": "roberta",
+      "name": "RoBERTa-base",
+      "output_directory": "results/transformer_test/roberta",
+      "metrics": {
+        "run_id": "roberta_test_20261010T170157898760Z",
+        "accuracy": 0.9301948051948052,
+        "macro_f1": 0.930119538086695,
+        "nonoverlapping_subset": {
+          "rows": 3073,
+          "accuracy": 0.9300357956394403,
+          "macro_f1": 0.9299812189370958
+        },
+        "predict_seconds": 16.051640749,
+        "prediction_ms_per_message": 5.211571671753247,
+        "protocol": "results/roberta_final_protocol.json",
+        "protocol_sha256": "23f29c62e015d523e57845fe83036dc79bcb1746c667fac8fda54b168d0d59e7"
+      },
+      "output_sha256": {
+        "classification_report.json": "8bd03eb0da0f3717e632772d66c3a1348840cb378134a5a0123a165b5918071c",
+        "confusion_matrix.csv": "cfc5559e846890c9c4dfe20bfe90e759fc66e88cd8f24fbb2b1d98f23fcf1100",
+        "metrics.json": "84b9ec922dfd2ae1185a637d76bae9dce8c16ec8288503e6c55130c82213b7c6",
+        "predictions.csv": "eb30e8bc41c91c02def982e656ecc37ad415f022b3f8f7694cf56ca8e51a379f"
+      }
+    },
+    {
+      "key": "albert",
+      "name": "ALBERT-base-v2",
+      "output_directory": "results/transformer_test/albert",
+      "metrics": {
+        "run_id": "albert_test_20261010T170215727639Z",
+        "accuracy": 0.9029220779220779,
+        "macro_f1": 0.9026514492692977,
+        "nonoverlapping_subset": {
+          "rows": 3073,
+          "accuracy": 0.9027009437032216,
+          "macro_f1": 0.9023968771711103
+        },
+        "predict_seconds": 16.397157358,
+        "prediction_ms_per_message": 5.323752388961039,
+        "protocol": "results/albert_final_protocol.json",
+        "protocol_sha256": "454989ede78bc41211f74fadb855888246721728364f272f7f31a295aaddbed4"
+      },
+      "output_sha256": {
+        "classification_report.json": "cef4b2107d31d4f719aaa454b3a0fbc142086835ace2a55db376967bb920f4ec",
+        "confusion_matrix.csv": "482e64a8907d33e3f80f91623ae5ea347287468555be15e244719bdfc9363b50",
+        "metrics.json": "c5e4358c833c664eb8e7d966af2327b604d6270739323eaee64d94e5b10718f4",
+        "predictions.csv": "eb59764d2c76f79b5a6d6e8624ccc288751ff42de4db885f5bcecc0a082ef8db"
+      }
+    }
+  ]
+}

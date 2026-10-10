@@ -76,6 +76,8 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
 - [Nihai NB teslim PR'ım #10](https://github.com/kaanksn1/banking77-intent-classification/pull/10)
 - [Özellik karşılaştırması entegrasyon incelemesi #9](https://github.com/kaanksn1/banking77-intent-classification/pull/9)
 - [Yeni baseline ve NB + CNN ayarlarının test öncesi commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/2425ccc)
+- [AMD GPU kurulumu ve validation bütçesi kararı](https://github.com/kaanksn1/banking77-intent-classification/commit/214b1799ef35ac9e170c909d901842e4e6300e3c)
+- [Dört Transformer checkpoint'inin test öncesi commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/1e4ff66d49e7d184d3dbe1548fa7b038b79833c2)
 
 ## 10 Ekim'de açıkça atanan ek kapsam
 
@@ -92,9 +94,15 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
   train sözlüğüne uyan vektörlerin ayrılmasını hazırladım. Kaynak lisanslarını kaydettim.
 - `train_embeddings.py`: train'den Word2Vec CBOW/Skip-gram ve FastText + ortalama
   vektör + sabit LR başlığı baseline'larını hazırlayıp tam validation'da çalıştırdım.
-- Sekiz yeni baseline'ın tam validation deneylerini kaydettim; yöntem/ön eğitim
-  farklarını ve süre ölçümünün sınırlarını açıkladım. Dört Transformer'ın tam
-  eğitimleri henüz tamamlanmadı; kısa DistilBERT kontrolünü benchmark saymadım.
+- Sekiz yeni baseline ve BERT-base-uncased, DistilBERT-base-uncased, RoBERTa-base,
+  ALBERT-base-v2'nin tam validation deneylerini kaydettim; yöntem/ön eğitim
+  farklarını ve süre ölçümünün sınırlarını açıkladım. Kısa DistilBERT kontrolünü
+  benchmark saymadım. İlk üç epoch validation eğrilerine dayanarak tüm dört
+  Transformer'ın nihai bütçesini beş epoch olarak belirledim; ön eğitimli
+  ağırlıklardan yeniden eğittim, her modelde validation macro F1 ile checkpoint seçtim.
+  Kararı `results/transformer_budget_decision.json` içinde testten önce kaydettim.
+- `docs/NEURAL_BASELINES.md` içinde üç birincil BANKING77 makalesinin test accuracy
+  sonuçlarını, model/veri ayrımı farklarını ve doğrudan kıyas yapılamayacağını açıkladım.
 - `train_ensemble.py`: kendi NB modelim ve CNN olasılıklarını birleştirdim.
   11 ağırlığı yalnız validation macro F1 ile seçtim; yalnız NB/CNN ablation'larını
   korudum. Seçilen ağırlık NB=0.6, CNN=0.4; validation accuracy %90.07,
@@ -102,13 +110,25 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
 - Neural/embedding/ensemble için 12 anlamlı kontrol ekledim: padding, heldout
   kelimeler, FastText OOV, öğrenme, 77 sınıflı başlık, kayıt/yükleme, protokol ve
   olasılık hizası. Opsiyonel neural CI işi ve GPU preflight hazırladım.
-- Kullanıcı onayıyla WSL 3.0.1 ve VirtualMachinePlatform kurulumunu başlattım;
-  Windows yeniden başlatma istiyor. GPU runtime'ının çalıştığı henüz doğrulanmadı.
+- WSL2 üzerinde Ubuntu 24.04.5, ROCm 7.2.1, ROCDXG 1.2.0 ve AMD PyTorch
+  ortamını kurdum; `scripts/setup_rocm_wsl.sh` ile adımları kaydettim. RX 7800 XT
+  ile gerçek forward/backward ve kısa DistilBERT GPU eğitimi geçti.
+  Linux ortamında 52 test ve NB validation sonucunu da doğruladım.
+- `docs/HANDOFF_NEURAL.md`: yeni model çıktılarının ortak karşılaştırma ve PPTX
+  sorumlusuna devrini, veri/etiket eşleşmesini ve süre karşılaştırmasının sınırlarını açıkladım.
 - Sekiz baseline ve NB + CNN checkpoint'lerini testten önce ayrı commit'le sabitledim.
   Resmî testte yeniden eğitim yapmadan değerlendirdim; 3.080 tahminin kimlik/metin/etiketlerini,
   accuracy/macro F1 ve confusion matrix'i çıktı dosyalarından yeniden hesaplayarak doğruladım.
   NB + CNN: accuracy %90.65, macro F1 0.9061. Standart çıktılar ve her yöntem için
   üç gerçek hata örneği `results/NEURAL_TEST.md` ile `results/neural_test/` altında.
+- Dört Transformer protokolünü resmî testten önce ayrı commit'le sabitleyip
+  GitHub'a pushladım. Seçilmiş checkpoint'leri yeniden eğitmeden 3.080 test
+  mesajında değerlendirdim; kimlik/metin/etiket eşleşmesini, metrikleri,
+  confusion matrix'i ve yedi birebir örtüşmenin dışarıda bırakıldığı sonuçları doğruladım.
+  Dört standart çıktıyı `results/transformer_test/` altında yayımladım;
+  `results/TRANSFORMER_TEST.md` sonuçları ve gerçek hata örneklerini içerir.
+  RoBERTa-base: test accuracy %93.02, macro F1 0.9301. Yeni ortak karşılaştırma,
+  eşleştirilmiş istatistikler ve grafikler 5. kişinin işi olarak bırakıldı.
 
 ## Sunuma katkım
 

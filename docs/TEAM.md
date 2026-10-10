@@ -2,7 +2,7 @@
 
 | Sorumlu | Kapsam | Önerilen branch |
 | --- | --- | --- |
-| Repo sahibi (sen) | Naive Bayes, alpha deneyleri, hata analizi; GitHub/entegrasyon; sonradan açıkça atanan neural baseline ve NB + CNN çalışması | `feature/neural-baselines` |
+| Repo sahibi (sen) | Naive Bayes, alpha deneyleri, hata analizi; GitHub/entegrasyon; sonradan açıkça atanan neural baseline ve NB + CNN çalışması | `feature/transformer-baselines` (önceki ek kapsam: `feature/neural-baselines`) |
 | 2. kişi | Veri analizi, kalite kontrolü, ortak bölümler; unigram/bigram deneyi | `feature/data-features` |
 | 3. kişi | Logistic Regression, C deneyleri, hata analizi | `feature/logistic-regression` |
 | 4. kişi | Linear SVM, C deneyleri, hata analizi | `feature/svm` |
@@ -70,3 +70,4 @@ geçici araçlar ve büyük model dosyalarını commit etmeyin. Diğer kişiler 
 branch adlarını ve değişen dosyalarını kullanmalıdır.
 
 2. kişi için adımlar ve teslim dosyaları: [veri/özellik devir talimatı](HANDOFF_DATA.md).
+5. kişi için yeni model çıktıları ve karşılaştırma adımları: [neural devir talimatı](HANDOFF_NEURAL.md).

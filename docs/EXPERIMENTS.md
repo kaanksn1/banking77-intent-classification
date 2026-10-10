@@ -81,9 +81,10 @@ Yeni veri veya JEV/Laya/AnyJev ekleme planı, repo sahibinin kararıyla iptal ed
 Hocanın 10 Ekim'de paylaşılan açıklaması tüm ders yöntemlerini baseline olarak
 istiyor. [Slayt eşleştirmesi ve ayrıntılı neural protokol](NEURAL_BASELINES.md)
 Word2Vec CBOW/Skip-gram, GloVe, FastText, CNN, RNN, LSTM, BiLSTM ve slayt 37'deki
-dört Transformer modelini kapsar. Yeni kodun yazılmış olması tam deneyin bittiği
-anlamına gelmez; [gerçek validation sonuçları](../results/NEURAL_VALIDATION.md)
-ile bekleyen deneyler ayrıdır. Vanilla ve ayarlanmış modeller yeni mimari diye sunulmaz.
+dört Transformer modelini kapsar. Sekiz kelime/sinir ağı baseline'ının
+[validation sonuçları](../results/NEURAL_VALIDATION.md) ve dört Transformer'ın
+[tam validation sonuçları](../results/TRANSFORMER_VALIDATION.md) tamamlandı.
+Vanilla ve ayarlanmış modeller yeni mimari diye sunulmaz.
 
 Veri ve kategori listesi değişmez. Kelime sözlüğü ve train'den öğrenilen embedding'ler
 heldout mesajları kullanmaz; dış ön eğitimli GloVe/Transformer kaynakları ayrıca
@@ -91,6 +92,15 @@ kaydedilir. Transformer ince ayarı 8.499 train mesajında yapılır.
 Kelime modellerinde checkpoint validation macro F1 ile seçilir; Word2Vec/FastText
 sabit 20 epoch bütçesi kullanır. Yeni model protokolleri testten önce ayrı commit'e
 alınır; seçilmiş checkpoint'ler yeniden eğitilmeden test edilir.
+Transformer'larda ilk DistilBERT/BERT validation eğrileri üç epoch'ta hâlâ
+iyileştiği için tüm dört modelin nihai bütçesi beş epoch olarak belirlendi.
+[Karar kaydı](../results/transformer_budget_decision.json) testten önce oluşturuldu;
+nihai dört deney ön eğitimli ağırlıklardan yeniden başlatıldı. Tek seed ve sınırlı
+eğitim bütçesi optimum performans veya yakınsama garantisi değildir.
+Dört Transformer'ın seçilmiş checkpoint protokolleri resmî testten önce
+`1e4ff66` commit'iyle sabitlendi ve GitHub'a pushlandı. Yeniden eğitim veya testle
+ayar seçimi yapılmadan [nihai test değerlendirmesi](../results/TRANSFORMER_TEST.md)
+tamamlandı; tüm tahminler ve standart çıktılar `results/transformer_test/` içindedir.
 
 Repo sahibinin proje katkısı NB + CNN soft voting'dir. 11 ağırlık yalnız validation
 macro F1 ile karşılaştırılır; yalnız NB ve yalnız CNN uçları ablation olarak korunur.
