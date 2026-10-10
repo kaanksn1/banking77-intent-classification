@@ -20,10 +20,17 @@ Responsibility: Person 5 — shared evaluation: benchmark script, comparison tab
 - Near-duplicate sensitivity: validation scores are recomputed without validation messages that are
   near-copies of training messages (character n-gram TF-IDF cosine >= 0.95 and >= 0.90). The split was not
   changed; the model ordering is unchanged and the scores drop by about 0.4 to 0.5 points at 0.95.
-- `tests/test_benchmark_models.py`: 12 unit tests (agreed settings, validation-only use, median timing,
+- Final test comparison (`python -m banking77.benchmark_models --split test`): the same benchmark on the
+  official test split with the settings frozen on validation and the agreed shared feature setting
+  (unigram + bigram), producing `results/MODEL_COMPARISON_TEST.md`, `results/model_comparison_test.json`
+  and `results/figures/test_*.png`, including the train/test overlap report required by
+  `docs/EXPERIMENTS.md`. Test scores: Naive Bayes 0.8458, Logistic Regression 0.8878, Linear SVM 0.8865
+  macro F1; Logistic Regression and Linear SVM are again not separable (p = 0.68). The LR and SVM final
+  runs were executed centrally by me with the owners' frozen settings and their agreement.
+- `tests/test_benchmark_models.py`: 14 unit tests (agreed settings, validation-only use, median timing,
   rejection of changed scores or datasets or data files, convergence reporting, McNemar counts, macro F1
   against scikit-learn, seeded bootstrap, near-duplicate similarity, subset scores, error example selection).
-  The full suite has 33 passing tests.
+  The full suite has 35 passing tests on this branch.
 - `results/MODEL_COMPARISON.md`, `results/model_comparison_validation.json`, `results/figures/*.png`:
   generated report with the comparison table, the macro F1 justification, most confused pairs and real
   example errors.

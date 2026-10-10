@@ -1,7 +1,7 @@
 # Model comparison (validation)
 
-All models use the same prepared data, the same TF-IDF features (unigram + bigram, sublinear TF)
-and run on the validation split only. The official test set was not evaluated.
+All models use the same prepared data and the same TF-IDF features (unigram + bigram, sublinear TF).
+They run on the validation split only. The official test set was not evaluated.
 Command: `python -m banking77.benchmark_models`. Dataset summary SHA-256: `468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5`.
 Training rows: 8499, validation rows: 1500.
 
@@ -19,11 +19,11 @@ All three are the vanilla course methods used as baselines. The selected setting
 
 | Model | Stage | Settings | Accuracy | Macro F1 | Fit (s) | Predict (s) | Predict (ms/msg) | Converged |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | :---: |
-| Naive Bayes | initial | alpha=1 | 81.60% | 0.7872 | 0.08 | 0.0102 | 0.007 | n/a |
-| Naive Bayes | selected | alpha=0.05 | 86.20% | 0.8529 | 0.07 | 0.0100 | 0.007 | n/a |
-| Logistic Regression | initial | lbfgs, C=1 | 85.80% | 0.8555 | 3.14 | 0.0096 | 0.006 | yes |
-| Logistic Regression | selected | liblinear-ovr, C=100 | 89.07% | 0.8920 | 1.23 | 0.0131 | 0.009 | yes |
-| Linear SVM | initial = selected | squared_hinge, C=1 | 89.20% | 0.8935 | 0.32 | 0.0092 | 0.006 | yes |
+| Naive Bayes | initial | alpha=1 | 81.60% | 0.7872 | 0.10 | 0.0129 | 0.009 | n/a |
+| Naive Bayes | selected | alpha=0.05 | 86.20% | 0.8529 | 0.10 | 0.0122 | 0.008 | n/a |
+| Logistic Regression | initial | lbfgs, C=1 | 85.80% | 0.8555 | 4.45 | 0.0164 | 0.011 | yes |
+| Logistic Regression | selected | liblinear-ovr, C=100 | 89.07% | 0.8920 | 1.88 | 0.0188 | 0.013 | yes |
+| Linear SVM | initial = selected | squared_hinge, C=1 | 89.20% | 0.8935 | 0.46 | 0.0132 | 0.009 | yes |
 
 Times are medians of 3 repeats on one machine, models run sequentially. Fit includes TF-IDF fitting; predict includes the TF-IDF transform. Absolute times depend on the machine and are only comparable within this table.
 
@@ -47,7 +47,7 @@ Score differences between models are small, so each pair is compared on the same
 
 Some validation messages are near-copies of training messages (reordered sentences, one added word). They are mostly easy and keep the same label, so they can raise the scores slightly. We did not change the split; instead the scores are recomputed without those messages.
 
-Method: max cosine similarity of character 3-5-gram TF-IDF (fitted on train) to any training message; validation messages at or above the threshold are removed. Macro F1 in the reduced sets uses only the categories that remain.
+Method: max cosine similarity of character 3-5-gram TF-IDF (fitted on train) to any training message; evaluation messages at or above the threshold are removed. Macro F1 in the reduced sets uses only the categories that remain.
 
 | Threshold | Removed | Model | Setting | Accuracy (all → reduced) | Macro F1 (all → reduced) |
 | --- | ---: | --- | --- | ---: | ---: |
@@ -119,6 +119,6 @@ Models disagree:
 ## Limitations
 
 - One validation split of 1,500 messages; scores are not final test results.
-- Final test numbers will be produced by the model owners after the shared feature setting is fixed.
+- Final test numbers are reported separately after the shared feature setting is fixed.
 - Timings come from one machine and are not a general speed claim.
 - Near-duplicate detection is a similarity heuristic with an arbitrary threshold, not a proof of leakage.

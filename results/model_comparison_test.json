@@ -1,0 +1,774 @@
+{
+  "command": "python -m banking77.benchmark_models",
+  "evaluation_split": "test",
+  "official_test_evaluated": true,
+  "repeats": 3,
+  "timing": "median over repeats; fit includes TF-IDF, predict includes TF-IDF transform; one machine, models run sequentially",
+  "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+  "models": {
+    "nb_initial": {
+      "model": "Naive Bayes",
+      "stage": "initial",
+      "label": "alpha=1",
+      "settings": {
+        "model": "naive_bayes",
+        "ngram_max": 2,
+        "alpha": 1.0,
+        "seed": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "run_id": "naive_bayes_test_20261010T140336593199Z",
+      "repeat_run_ids": [
+        "naive_bayes_test_20261010T140336593199Z",
+        "naive_bayes_test_20261010T140342863465Z",
+        "naive_bayes_test_20261010T140349266361Z"
+      ],
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "test.csv": "6afa67795116b25a1c1df4fcf70a4f8a7446b2a9bed1a1447461d49b857da163",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "converged": null,
+      "optimizer_iterations": null,
+      "training_rows": 8499,
+      "evaluation_rows": 3080,
+      "accuracy": 0.7831168831168831,
+      "macro_f1": 0.7678890272857137,
+      "fit_seconds": 0.09072354197269306,
+      "predict_seconds": 0.021264249982777983,
+      "prediction_ms_per_message": 0.006903977267135709,
+      "fit_seconds_all": [
+        0.09359345794655383,
+        0.08583404199453071,
+        0.09072354197269306
+      ],
+      "predict_seconds_all": [
+        0.021264249982777983,
+        0.01939987501828,
+        0.02514533302746713
+      ],
+      "matches_reported_macro_f1": null,
+      "overlapping_evaluation_rows": 7,
+      "nonoverlapping_subset": {
+        "rows": 3073,
+        "accuracy": 0.7829482590302635,
+        "macro_f1": 0.7668214157855266
+      }
+    },
+    "nb_selected": {
+      "model": "Naive Bayes",
+      "stage": "selected",
+      "label": "alpha=0.05",
+      "settings": {
+        "model": "naive_bayes",
+        "ngram_max": 2,
+        "alpha": 0.05,
+        "seed": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "run_id": "naive_bayes_test_20261010T140336805026Z",
+      "repeat_run_ids": [
+        "naive_bayes_test_20261010T140336805026Z",
+        "naive_bayes_test_20261010T140343096899Z",
+        "naive_bayes_test_20261010T140349515233Z"
+      ],
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "test.csv": "6afa67795116b25a1c1df4fcf70a4f8a7446b2a9bed1a1447461d49b857da163",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "converged": null,
+      "optimizer_iterations": null,
+      "training_rows": 8499,
+      "evaluation_rows": 3080,
+      "accuracy": 0.8474025974025974,
+      "macro_f1": 0.8457925255946547,
+      "fit_seconds": 0.09451041696593165,
+      "predict_seconds": 0.01967162499204278,
+      "prediction_ms_per_message": 0.006386891231182721,
+      "fit_seconds_all": [
+        0.08405341696925461,
+        0.09451041696593165,
+        0.10778741596732289
+      ],
+      "predict_seconds_all": [
+        0.018955582985654473,
+        0.022198041959200054,
+        0.01967162499204278
+      ],
+      "matches_reported_macro_f1": null,
+      "overlapping_evaluation_rows": 7,
+      "nonoverlapping_subset": {
+        "rows": 3073,
+        "accuracy": 0.8470549951187765,
+        "macro_f1": 0.8453788539730205
+      }
+    },
+    "lr_initial": {
+      "model": "Logistic Regression",
+      "stage": "initial",
+      "label": "lbfgs, C=1",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 1.0,
+        "solver": "lbfgs",
+        "multiclass": "multinomial",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "run_id": "logistic_regression_test_20261010T140340515242Z",
+      "repeat_run_ids": [
+        "logistic_regression_test_20261010T140340515242Z",
+        "logistic_regression_test_20261010T140346932702Z",
+        "logistic_regression_test_20261010T140353287837Z"
+      ],
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "test.csv": "6afa67795116b25a1c1df4fcf70a4f8a7446b2a9bed1a1447461d49b857da163",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "converged": true,
+      "optimizer_iterations": 39,
+      "training_rows": 8499,
+      "evaluation_rows": 3080,
+      "accuracy": 0.8457792207792207,
+      "macro_f1": 0.8438130126302401,
+      "fit_seconds": 3.6424870420014486,
+      "predict_seconds": 0.020290083019062877,
+      "prediction_ms_per_message": 0.006587689291903532,
+      "fit_seconds_all": [
+        3.587088959000539,
+        3.7062936250003986,
+        3.6424870420014486
+      ],
+      "predict_seconds_all": [
+        0.020290083019062877,
+        0.019501083996146917,
+        0.020865207945462316
+      ],
+      "matches_reported_macro_f1": null,
+      "overlapping_evaluation_rows": 7,
+      "nonoverlapping_subset": {
+        "rows": 3073,
+        "accuracy": 0.8454279205987634,
+        "macro_f1": 0.8433422122589883
+      }
+    },
+    "lr_selected": {
+      "model": "Logistic Regression",
+      "stage": "selected",
+      "label": "liblinear-ovr, C=100",
+      "settings": {
+        "model": "logistic_regression",
+        "ngram_max": 2,
+        "C": 100.0,
+        "solver": "liblinear-ovr",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "max_iter": 2000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "run_id": "logistic_regression_test_20261010T140342162665Z",
+      "repeat_run_ids": [
+        "logistic_regression_test_20261010T140342162665Z",
+        "logistic_regression_test_20261010T140348541907Z",
+        "logistic_regression_test_20261010T140355210314Z"
+      ],
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "test.csv": "6afa67795116b25a1c1df4fcf70a4f8a7446b2a9bed1a1447461d49b857da163",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "converged": true,
+      "optimizer_iterations": 14,
+      "training_rows": 8499,
+      "evaluation_rows": 3080,
+      "accuracy": 0.8876623376623377,
+      "macro_f1": 0.8878276212182407,
+      "fit_seconds": 1.4997228339780122,
+      "predict_seconds": 0.025415125011932105,
+      "prediction_ms_per_message": 0.00825166396491302,
+      "fit_seconds_all": [
+        1.4997228339780122,
+        1.479336415999569,
+        1.778445375035517
+      ],
+      "predict_seconds_all": [
+        0.024925875011831522,
+        0.025415125011932105,
+        0.029386040987446904
+      ],
+      "matches_reported_macro_f1": null,
+      "overlapping_evaluation_rows": 7,
+      "nonoverlapping_subset": {
+        "rows": 3073,
+        "accuracy": 0.8874064432150992,
+        "macro_f1": 0.8875410160154944
+      }
+    },
+    "svm": {
+      "model": "Linear SVM",
+      "stage": "initial = selected",
+      "label": "squared_hinge, C=1",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 1.0,
+        "loss": "squared_hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "run_id": "linear_svm_test_20261010T140342648415Z",
+      "repeat_run_ids": [
+        "linear_svm_test_20261010T140342648415Z",
+        "linear_svm_test_20261010T140349040338Z",
+        "linear_svm_test_20261010T140355763882Z"
+      ],
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "test.csv": "6afa67795116b25a1c1df4fcf70a4f8a7446b2a9bed1a1447461d49b857da163",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "converged": true,
+      "optimizer_iterations": 41,
+      "training_rows": 8499,
+      "evaluation_rows": 3080,
+      "accuracy": 0.8863636363636364,
+      "macro_f1": 0.8864996759302236,
+      "fit_seconds": 0.3633316659834236,
+      "predict_seconds": 0.021668250032234937,
+      "prediction_ms_per_message": 0.007035146114361993,
+      "fit_seconds_all": [
+        0.34865737496875226,
+        0.3633316659834236,
+        0.40183779201470315
+      ],
+      "predict_seconds_all": [
+        0.021668250032234937,
+        0.020674125000368804,
+        0.02256254100939259
+      ],
+      "matches_reported_macro_f1": null,
+      "overlapping_evaluation_rows": 7,
+      "nonoverlapping_subset": {
+        "rows": 3073,
+        "accuracy": 0.8861047835990888,
+        "macro_f1": 0.8862413499169675
+      }
+    }
+  },
+  "class_balance": {
+    "classes": 77,
+    "train_min": 30,
+    "train_max": 159,
+    "train_min_class": "contactless_not_working",
+    "train_max_class": "card_payment_fee_charged",
+    "validation_min": 5,
+    "validation_max": 28,
+    "test_min": 40,
+    "test_max": 40
+  },
+  "comparisons": [
+    {
+      "reference": "nb_selected",
+      "candidate": "lr_selected",
+      "reference_only_correct": 73,
+      "candidate_only_correct": 197,
+      "mcnemar_exact_p": 2.4716540517427527e-14,
+      "macro_f1_difference": {
+        "observed": 0.04203509562358598,
+        "ci95_low": 0.03172841549384646,
+        "ci95_high": 0.05147156621254545,
+        "resamples": 1000,
+        "seed": 42
+      }
+    },
+    {
+      "reference": "nb_selected",
+      "candidate": "svm",
+      "reference_only_correct": 79,
+      "candidate_only_correct": 199,
+      "mcnemar_exact_p": 4.113018082591306e-13,
+      "macro_f1_difference": {
+        "observed": 0.04070715033556893,
+        "ci95_low": 0.030814267469875298,
+        "ci95_high": 0.05047097497335952,
+        "resamples": 1000,
+        "seed": 42
+      }
+    },
+    {
+      "reference": "lr_selected",
+      "candidate": "svm",
+      "reference_only_correct": 28,
+      "candidate_only_correct": 24,
+      "mcnemar_exact_p": 0.6778086391424605,
+      "macro_f1_difference": {
+        "observed": -0.0013279452880170517,
+        "ci95_low": -0.005660115489706288,
+        "ci95_high": 0.0028211221202964465,
+        "resamples": 1000,
+        "seed": 42
+      }
+    }
+  ],
+  "near_duplicate_sensitivity": {
+    "method": "max cosine similarity of character 3-5-gram TF-IDF (fitted on train) to any training message; evaluation messages at or above the threshold are removed",
+    "thresholds": {
+      "0.95": {
+        "flagged_messages": 197,
+        "flagged_share": 0.06396103896103895,
+        "models": {
+          "nb_initial": {
+            "all": {
+              "rows": 3080,
+              "accuracy": 0.7831168831168831,
+              "macro_f1": 0.7678890272857138,
+              "categories": 77
+            },
+            "without_near_duplicates": {
+              "rows": 2883,
+              "accuracy": 0.7710718002081165,
+              "macro_f1": 0.7566434629039568,
+              "categories": 77
+            }
+          },
+          "nb_selected": {
+            "all": {
+              "rows": 3080,
+              "accuracy": 0.8474025974025974,
+              "macro_f1": 0.8457925255946548,
+              "categories": 77
+            },
+            "without_near_duplicates": {
+              "rows": 2883,
+              "accuracy": 0.8390565383281304,
+              "macro_f1": 0.8385901138587273,
+              "categories": 77
+            }
+          },
+          "lr_initial": {
+            "all": {
+              "rows": 3080,
+              "accuracy": 0.8457792207792207,
+              "macro_f1": 0.8438130126302401,
+              "categories": 77
+            },
+            "without_near_duplicates": {
+              "rows": 2883,
+              "accuracy": 0.836975372875477,
+              "macro_f1": 0.8361746938956837,
+              "categories": 77
+            }
+          },
+          "lr_selected": {
+            "all": {
+              "rows": 3080,
+              "accuracy": 0.8876623376623377,
+              "macro_f1": 0.8878276212182409,
+              "categories": 77
+            },
+            "without_near_duplicates": {
+              "rows": 2883,
+              "accuracy": 0.8817204301075269,
+              "macro_f1": 0.8825403200207952,
+              "categories": 77
+            }
+          },
+          "svm": {
+            "all": {
+              "rows": 3080,
+              "accuracy": 0.8863636363636364,
+              "macro_f1": 0.8864996759302238,
+              "categories": 77
+            },
+            "without_near_duplicates": {
+              "rows": 2883,
+              "accuracy": 0.879986125563649,
+              "macro_f1": 0.8807316533985551,
+              "categories": 77
+            }
+          }
+        }
+      },
+      "0.90": {
+        "flagged_messages": 408,
+        "flagged_share": 0.13246753246753246,
+        "models": {
+          "nb_initial": {
+            "all": {
+              "rows": 3080,
+              "accuracy": 0.7831168831168831,
+              "macro_f1": 0.7678890272857138,
+              "categories": 77
+            },
+            "without_near_duplicates": {
+              "rows": 2672,
+              "accuracy": 0.7638473053892215,
+              "macro_f1": 0.7498244087454579,
+              "categories": 77
+            }
+          },
+          "nb_selected": {
+            "all": {
+              "rows": 3080,
+              "accuracy": 0.8474025974025974,
+              "macro_f1": 0.8457925255946548,
+              "categories": 77
+            },
+            "without_near_duplicates": {
+              "rows": 2672,
+              "accuracy": 0.8312125748502994,
+              "macro_f1": 0.8302905152636852,
+              "categories": 77
+            }
+          },
+          "lr_initial": {
+            "all": {
+              "rows": 3080,
+              "accuracy": 0.8457792207792207,
+              "macro_f1": 0.8438130126302401,
+              "categories": 77
+            },
+            "without_near_duplicates": {
+              "rows": 2672,
+              "accuracy": 0.8297155688622755,
+              "macro_f1": 0.8277571006934417,
+              "categories": 77
+            }
+          },
+          "lr_selected": {
+            "all": {
+              "rows": 3080,
+              "accuracy": 0.8876623376623377,
+              "macro_f1": 0.8878276212182409,
+              "categories": 77
+            },
+            "without_near_duplicates": {
+              "rows": 2672,
+              "accuracy": 0.875748502994012,
+              "macro_f1": 0.8760926220517258,
+              "categories": 77
+            }
+          },
+          "svm": {
+            "all": {
+              "rows": 3080,
+              "accuracy": 0.8863636363636364,
+              "macro_f1": 0.8864996759302238,
+              "categories": 77
+            },
+            "without_near_duplicates": {
+              "rows": 2672,
+              "accuracy": 0.873877245508982,
+              "macro_f1": 0.874293850560337,
+              "categories": 77
+            }
+          }
+        }
+      }
+    }
+  },
+  "top_confusions": {
+    "nb_selected": [
+      {
+        "true_label": "contactless_not_working",
+        "predicted_label": "card_not_working",
+        "count": 10
+      },
+      {
+        "true_label": "card_payment_not_recognised",
+        "predicted_label": "direct_debit_payment_not_recognised",
+        "count": 7
+      },
+      {
+        "true_label": "card_swallowed",
+        "predicted_label": "declined_cash_withdrawal",
+        "count": 6
+      },
+      {
+        "true_label": "compromised_card",
+        "predicted_label": "cash_withdrawal_not_recognised",
+        "count": 5
+      },
+      {
+        "true_label": "pending_transfer",
+        "predicted_label": "transfer_timing",
+        "count": 5
+      }
+    ],
+    "lr_selected": [
+      {
+        "true_label": "unable_to_verify_identity",
+        "predicted_label": "verify_my_identity",
+        "count": 5
+      },
+      {
+        "true_label": "pending_transfer",
+        "predicted_label": "balance_not_updated_after_bank_transfer",
+        "count": 5
+      },
+      {
+        "true_label": "top_up_failed",
+        "predicted_label": "top_up_reverted",
+        "count": 5
+      },
+      {
+        "true_label": "balance_not_updated_after_bank_transfer",
+        "predicted_label": "transfer_not_received_by_recipient",
+        "count": 5
+      },
+      {
+        "true_label": "verify_my_identity",
+        "predicted_label": "why_verify_identity",
+        "count": 5
+      }
+    ],
+    "svm": [
+      {
+        "true_label": "why_verify_identity",
+        "predicted_label": "verify_my_identity",
+        "count": 6
+      },
+      {
+        "true_label": "unable_to_verify_identity",
+        "predicted_label": "verify_my_identity",
+        "count": 5
+      },
+      {
+        "true_label": "top_up_failed",
+        "predicted_label": "top_up_reverted",
+        "count": 5
+      },
+      {
+        "true_label": "balance_not_updated_after_bank_transfer",
+        "predicted_label": "transfer_not_received_by_recipient",
+        "count": 5
+      },
+      {
+        "true_label": "top_up_reverted",
+        "predicted_label": "top_up_failed",
+        "count": 4
+      }
+    ]
+  },
+  "confusion_pair_table": [
+    {
+      "true_label": "top_up_failed",
+      "predicted_label": "top_up_reverted",
+      "counts": {
+        "nb_selected": 5,
+        "lr_selected": 5,
+        "svm": 5
+      }
+    },
+    {
+      "true_label": "contactless_not_working",
+      "predicted_label": "card_not_working",
+      "counts": {
+        "nb_selected": 10,
+        "lr_selected": 3,
+        "svm": 1
+      }
+    },
+    {
+      "true_label": "unable_to_verify_identity",
+      "predicted_label": "verify_my_identity",
+      "counts": {
+        "nb_selected": 3,
+        "lr_selected": 5,
+        "svm": 5
+      }
+    },
+    {
+      "true_label": "why_verify_identity",
+      "predicted_label": "verify_my_identity",
+      "counts": {
+        "nb_selected": 4,
+        "lr_selected": 3,
+        "svm": 6
+      }
+    },
+    {
+      "true_label": "balance_not_updated_after_bank_transfer",
+      "predicted_label": "transfer_not_received_by_recipient",
+      "counts": {
+        "nb_selected": 2,
+        "lr_selected": 5,
+        "svm": 5
+      }
+    },
+    {
+      "true_label": "top_up_reverted",
+      "predicted_label": "top_up_failed",
+      "counts": {
+        "nb_selected": 4,
+        "lr_selected": 4,
+        "svm": 4
+      }
+    },
+    {
+      "true_label": "verify_my_identity",
+      "predicted_label": "why_verify_identity",
+      "counts": {
+        "nb_selected": 4,
+        "lr_selected": 5,
+        "svm": 3
+      }
+    },
+    {
+      "true_label": "pending_transfer",
+      "predicted_label": "balance_not_updated_after_bank_transfer",
+      "counts": {
+        "nb_selected": 2,
+        "lr_selected": 5,
+        "svm": 4
+      }
+    },
+    {
+      "true_label": "card_payment_not_recognised",
+      "predicted_label": "direct_debit_payment_not_recognised",
+      "counts": {
+        "nb_selected": 7,
+        "lr_selected": 1,
+        "svm": 1
+      }
+    },
+    {
+      "true_label": "card_swallowed",
+      "predicted_label": "declined_cash_withdrawal",
+      "counts": {
+        "nb_selected": 6,
+        "lr_selected": 1,
+        "svm": 1
+      }
+    },
+    {
+      "true_label": "compromised_card",
+      "predicted_label": "cash_withdrawal_not_recognised",
+      "counts": {
+        "nb_selected": 5,
+        "lr_selected": 2,
+        "svm": 1
+      }
+    },
+    {
+      "true_label": "pending_transfer",
+      "predicted_label": "transfer_timing",
+      "counts": {
+        "nb_selected": 5,
+        "lr_selected": 1,
+        "svm": 1
+      }
+    }
+  ],
+  "examples": {
+    "all_models_wrong_count": 257,
+    "all_models_wrong": [
+      {
+        "id": "test-01161",
+        "text": "I'd rather not verify my identity.",
+        "true_label": "why_verify_identity",
+        "predictions": {
+          "nb_selected": "verify_my_identity",
+          "lr_selected": "unable_to_verify_identity",
+          "svm": "verify_my_identity"
+        }
+      },
+      {
+        "id": "test-01187",
+        "text": "I won't verify my identity.",
+        "true_label": "why_verify_identity",
+        "predictions": {
+          "nb_selected": "unable_to_verify_identity",
+          "lr_selected": "verify_my_identity",
+          "svm": "verify_my_identity"
+        }
+      },
+      {
+        "id": "test-01192",
+        "text": "What other methods are there to verify my identity?",
+        "true_label": "why_verify_identity",
+        "predictions": {
+          "nb_selected": "verify_my_identity",
+          "lr_selected": "verify_my_identity",
+          "svm": "verify_my_identity"
+        }
+      },
+      {
+        "id": "test-01193",
+        "text": "Do I need to verify my identity?",
+        "true_label": "why_verify_identity",
+        "predictions": {
+          "nb_selected": "verify_my_identity",
+          "lr_selected": "verify_my_identity",
+          "svm": "verify_my_identity"
+        }
+      },
+      {
+        "id": "test-01200",
+        "text": "I cannot verify my identity",
+        "true_label": "unable_to_verify_identity",
+        "predictions": {
+          "nb_selected": "verify_my_identity",
+          "lr_selected": "verify_my_identity",
+          "svm": "verify_my_identity"
+        }
+      }
+    ],
+    "disagreement_count": 300,
+    "disagreement": [
+      {
+        "id": "test-00002",
+        "text": "I ordered a card but it has not arrived. Help please!",
+        "true_label": "card_arrival",
+        "predictions": {
+          "nb_selected": "card_arrival",
+          "lr_selected": "transfer_not_received_by_recipient",
+          "svm": "transfer_not_received_by_recipient"
+        }
+      },
+      {
+        "id": "test-00022",
+        "text": "How long should my new card take to arrive?",
+        "true_label": "card_arrival",
+        "predictions": {
+          "nb_selected": "card_delivery_estimate",
+          "lr_selected": "card_arrival",
+          "svm": "card_arrival"
+        }
+      },
+      {
+        "id": "test-00036",
+        "text": "I'm starting to think my card is lost because it still hasn't arrived, can you help?",
+        "true_label": "card_arrival",
+        "predictions": {
+          "nb_selected": "card_arrival",
+          "lr_selected": "lost_or_stolen_card",
+          "svm": "lost_or_stolen_card"
+        }
+      }
+    ]
+  }
+}

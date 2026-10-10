@@ -231,6 +231,18 @@ medyan alır (`--repeats` ile değişir) ve [results/MODEL_COMPARISON.md](result
 Grafik için matplotlib gerekir (`requirements-lock.txt` içinde).
 Resmî test bu komutta kullanılmaz.
 
+Ayarlar dondurulduktan sonra aynı karşılaştırmanın resmî test üzerindeki nihai hâli
+(test yalnızca bu komutla, ayar seçmek için kullanılmadan çalıştırılır):
+
+```powershell
+.\.venv\Scripts\python.exe -m banking77.benchmark_models --split test
+```
+
+Çıktılar [results/MODEL_COMPARISON_TEST.md](results/MODEL_COMPARISON_TEST.md),
+`results/model_comparison_test.json` ve `results/figures/test_*.png` dosyalarıdır.
+Nihai özellik ayarı unigram + bigram'dır; gerekçe için
+[özellik karşılaştırması](results/FEATURE_COMPARISON.md).
+
 ## Yapı
 
 ```text
