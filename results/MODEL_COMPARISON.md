@@ -5,15 +5,25 @@ and run on the validation split only. The official test set was not evaluated.
 Command: `python -m banking77.benchmark_models`. Dataset summary SHA-256: `468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5`.
 Training rows: 8499, validation rows: 1500.
 
+## Models
+
+| Model | Implementation | Learned from |
+| --- | --- | --- |
+| Naive Bayes | TF-IDF + MultinomialNB (scikit-learn) | our training split, no pretrained weights |
+| Logistic Regression | TF-IDF + LogisticRegression (scikit-learn) | our training split, no pretrained weights |
+| Linear SVM | TF-IDF + LinearSVC (scikit-learn) | our training split, no pretrained weights |
+
+All three are the vanilla course methods used as baselines. The selected settings are tuned versions of the same baselines, not new methods. We use scikit-learn implementations: the algorithms are not coded from scratch, but all parameters are learned from our own training data.
+
 ## Results
 
-| Model | Stage | Settings | Accuracy | Macro F1 | Fit (s) | Predict (s) | Predict (ms/msg) |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| Naive Bayes | initial | alpha=1 | 81.60% | 0.7872 | 0.08 | 0.0102 | 0.007 |
-| Naive Bayes | selected | alpha=0.05 | 86.20% | 0.8529 | 0.07 | 0.0097 | 0.006 |
-| Logistic Regression | initial | lbfgs, C=1 | 85.80% | 0.8555 | 3.09 | 0.0095 | 0.006 |
-| Logistic Regression | selected | liblinear-ovr, C=100 | 89.07% | 0.8920 | 1.22 | 0.0131 | 0.009 |
-| Linear SVM | initial = selected | squared_hinge, C=1 | 89.20% | 0.8935 | 0.31 | 0.0091 | 0.006 |
+| Model | Stage | Settings | Accuracy | Macro F1 | Fit (s) | Predict (s) | Predict (ms/msg) | Converged |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | :---: |
+| Naive Bayes | initial | alpha=1 | 81.60% | 0.7872 | 0.08 | 0.0102 | 0.007 | n/a |
+| Naive Bayes | selected | alpha=0.05 | 86.20% | 0.8529 | 0.07 | 0.0100 | 0.007 | n/a |
+| Logistic Regression | initial | lbfgs, C=1 | 85.80% | 0.8555 | 3.14 | 0.0096 | 0.006 | yes |
+| Logistic Regression | selected | liblinear-ovr, C=100 | 89.07% | 0.8920 | 1.23 | 0.0131 | 0.009 | yes |
+| Linear SVM | initial = selected | squared_hinge, C=1 | 89.20% | 0.8935 | 0.32 | 0.0092 | 0.006 | yes |
 
 Times are medians of 3 repeats on one machine, models run sequentially. Fit includes TF-IDF fitting; predict includes the TF-IDF transform. Absolute times depend on the machine and are only comparable within this table.
 
@@ -23,7 +33,7 @@ Initial and selected settings are shown separately. The initial settings are the
 
 The task has 77 categories and every one matters equally for a bank: a rare request type (for example a swallowed card) is as important to route correctly as a frequent one. Macro F1 averages the per-category F1 with equal weight, so a model cannot hide poor performance on small categories behind good performance on large ones. Accuracy counts every message equally, so it favours frequent categories; it is reported next to macro F1 as a supporting metric.
 
-Category sizes are not equal: in training, from 30 messages (`contactless_not_working`) to 159 (`card_payment_fee_charged`); in validation, from 5 to 28.
+Category sizes are not equal: in training, from 30 messages (`contactless_not_working`) to 159 (`card_payment_fee_charged`); in validation, from 5 to 28. The official test set is balanced (40 messages in every category), so accuracy and macro F1 are expected to be closer there. We still rank by macro F1 because the reason for choosing it, equal importance of every category, does not depend on the split.
 
 ## Paired comparison of the selected settings
 
@@ -32,6 +42,25 @@ Score differences between models are small, so each pair is compared on the same
 - Logistic Regression vs Naive Bayes: 84 messages fixed, 41 broken (exact McNemar p = 0.00015); macro F1 difference +0.0391, paired bootstrap 95% interval [+0.0226, +0.0589] (the interval excludes 0).
 - Linear SVM vs Naive Bayes: 87 messages fixed, 42 broken (exact McNemar p = 9.2e-05); macro F1 difference +0.0406, paired bootstrap 95% interval [+0.0235, +0.0607] (the interval excludes 0).
 - Linear SVM vs Logistic Regression: 13 messages fixed, 11 broken (exact McNemar p = 0.84); macro F1 difference +0.0015, paired bootstrap 95% interval [-0.0060, +0.0089] (the interval includes 0).
+
+## Sensitivity to near-duplicate messages
+
+Some validation messages are near-copies of training messages (reordered sentences, one added word). They are mostly easy and keep the same label, so they can raise the scores slightly. We did not change the split; instead the scores are recomputed without those messages.
+
+Method: max cosine similarity of character 3-5-gram TF-IDF (fitted on train) to any training message; validation messages at or above the threshold are removed. Macro F1 in the reduced sets uses only the categories that remain.
+
+| Threshold | Removed | Model | Setting | Accuracy (all → reduced) | Macro F1 (all → reduced) |
+| --- | ---: | --- | --- | ---: | ---: |
+| ≥ 0.95 | 63 (4.2%) | Naive Bayes | alpha=1 | 81.60% → 81.14% | 0.7872 → 0.7831 |
+|  |  | Naive Bayes | alpha=0.05 | 86.20% → 85.73% | 0.8529 → 0.8478 |
+|  |  | Logistic Regression | lbfgs, C=1 | 85.80% → 85.32% | 0.8555 → 0.8510 |
+|  |  | Logistic Regression | liblinear-ovr, C=100 | 89.07% → 88.66% | 0.8920 → 0.8883 |
+|  |  | Linear SVM | squared_hinge, C=1 | 89.20% → 88.80% | 0.8935 → 0.8896 |
+| ≥ 0.90 | 148 (9.9%) | Naive Bayes | alpha=1 | 81.60% → 80.33% | 0.7872 → 0.7760 |
+|  |  | Naive Bayes | alpha=0.05 | 86.20% → 85.06% | 0.8529 → 0.8417 |
+|  |  | Logistic Regression | lbfgs, C=1 | 85.80% → 84.62% | 0.8555 → 0.8442 |
+|  |  | Logistic Regression | liblinear-ovr, C=100 | 89.07% → 87.94% | 0.8920 → 0.8827 |
+|  |  | Linear SVM | squared_hinge, C=1 | 89.20% → 88.09% | 0.8935 → 0.8840 |
 
 ## Most confused category pairs (selected settings)
 
@@ -92,3 +121,4 @@ Models disagree:
 - One validation split of 1,500 messages; scores are not final test results.
 - Final test numbers will be produced by the model owners after the shared feature setting is fixed.
 - Timings come from one machine and are not a general speed claim.
+- Near-duplicate detection is a similarity heuristic with an arbitrary threshold, not a proof of leakage.

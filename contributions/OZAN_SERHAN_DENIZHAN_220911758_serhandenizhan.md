@@ -15,9 +15,15 @@ Responsibility: Person 5 — shared evaluation: benchmark script, comparison tab
   reported with an uncertainty statement instead of being read as a ranking.
 - `src/banking77/plot_comparison.py`: figures for scores (initial vs selected), fit/prediction time and
   the most confused category pairs.
-- `tests/test_benchmark_models.py`: 8 unit tests (agreed settings, validation-only use, median timing,
-  rejection of changed scores or datasets, McNemar counts, macro F1 against scikit-learn, seeded bootstrap,
-  error example selection). The full suite has 29 passing tests.
+- Consistency checks in the benchmark: identical prepared data files (per-file SHA-256) across all runs,
+  and the convergence status of LR and SVM is reported in the table.
+- Near-duplicate sensitivity: validation scores are recomputed without validation messages that are
+  near-copies of training messages (character n-gram TF-IDF cosine >= 0.95 and >= 0.90). The split was not
+  changed; the model ordering is unchanged and the scores drop by about 0.4 to 0.5 points at 0.95.
+- `tests/test_benchmark_models.py`: 12 unit tests (agreed settings, validation-only use, median timing,
+  rejection of changed scores or datasets or data files, convergence reporting, McNemar counts, macro F1
+  against scikit-learn, seeded bootstrap, near-duplicate similarity, subset scores, error example selection).
+  The full suite has 33 passing tests.
 - `results/MODEL_COMPARISON.md`, `results/model_comparison_validation.json`, `results/figures/*.png`:
   generated report with the comparison table, the macro F1 justification, most confused pairs and real
   example errors.
