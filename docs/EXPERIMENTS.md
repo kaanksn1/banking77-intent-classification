@@ -34,9 +34,11 @@ Tamamlanan çalışmalar: [özellik deneyi](../results/FEATURE_EXPERIMENTS.md),
 [NB alpha deneyi](../results/NAIVE_BAYES_ALPHA.md),
 [LR C/solver deneyi](../results/LOGISTIC_REGRESSION_C.md),
 [SVM C/loss deneyi](../results/LINEAR_SVM_C.md).
-Ortak özellik ayarı henüz ekipçe kesinleştirilmedi; mevcut NB/LR/SVM deneyleri
-unigram + bigram kullanır. Özellik raporundaki unigram önerisi alpha=1.0'lı NB
-deneyine aittir ve diğer modellerin yapılandırmasını kendiliğinden değiştirmez.
+10 Ekim teslim entegrasyonunda mevcut ortak TF-IDF temsili korunur:
+unigram + bigram (`ngram_range=(1, 2)`), `sublinear_tf=True`; veri bölümleri
+ve `seed=42` değişmez. Bu, mevcut üç modelin validation karşılaştırmasıyla
+aynı temsildir. Özellik raporundaki unigram önerisi alpha=1.0'lı NB deneyine
+aittir; tüm modeller için en iyi temsil bulunduğu iddia edilmez.
 
 Önce ortak özellik ayarıyla modelleri karşılaştırın. Özellik deneylerini ayrı
 tabloda gösterin. Ana model seçme metriği macro F1; accuracy de raporlanır.
@@ -49,3 +51,21 @@ hazırlanmış train bölümüyle eğitir; validation eğitim verisine eklenmez.
 Testi ayarları dondurduktan sonra çalıştırın ve final raporunda protokolü yazın.
 Her model için accuracy, macro F1, eğitim süresi ve tahmin süresi; en çok karışan
 üç kategori çifti ve örnek yanlış tahminler raporlanmalıdır.
+
+### Naive Bayes için test öncesi kayıt
+
+Repo sahibi NB ayarını `alpha=0.05`, `ngram_max=2`, `sublinear_tf=True`
+olarak sabitlemiştir. Alpha, beş aday arasındaki en yüksek validation macro F1
+ile seçilmiştir; test sonucu seçimde kullanılmaz.
+[Sabitlenen protokol](../results/naive_bayes_final_protocol.json), test
+çalıştırılmadan önce ayrı commit'e alınır. Veri dosyalarının hash'leri,
+eğitim kodunun kimliği ve validation seçim kanıtı bu kayıttadır.
+
+NB yalnızca 8.499 train mesajıyla eğitilir; 1.500 validation mesajı eğitime
+eklenmez. Tam resmî test ve normalize anahtara göre train ile örtüşmeyen
+altküme ayrı raporlanır. Bu altküme, yakın tekrarların tamamen giderildiği
+anlamına gelmez. Test sonucu görüldükten sonra ayarlar değiştirilmez.
+
+LR ve SVM'nin nihai test çalıştırması kendi model sahiplerine aittir.
+Üç modelin nihai test karşılaştırması ve sunum 5. kişinin bekleyen işidir.
+Yeni veri veya JEV/Laya/AnyJev ekleme planı, repo sahibinin kararıyla iptal edilmiştir.

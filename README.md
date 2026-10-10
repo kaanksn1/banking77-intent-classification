@@ -12,11 +12,13 @@ Bu, görevi anlatan bir örnektir; her mesajın model tarafından doğru tahmin 
 Ortak kurulum/veri altyapısı, repo sahibinin **Naive Bayes** çalışması,
 2. kişinin veri analizi ve özellik deneyleri, 3. kişinin **Logistic Regression**
 ve 4. kişinin **Linear SVM** çalışması `main` içinde hazırdır.
-Ortak karşılaştırma ve grafikler 5. kişi tarafından `feature/evaluation`
-branch'inde hazırlanmıştır.
-Geliştirme için varsayılan bölüm **validation**. Nihai ortak özellik ayarı ekip
-tarafından kesinleştirilecek; her model sahibi kendi nihai test çıktısını üretecektir.
-Resmî testte henüz model değerlendirmesi yapılmadı.
+5. kişinin ortak validation karşılaştırması ve grafikleri PR #8 ile `main` içine alınmıştır.
+Teslimde mevcut veri ve unigram + bigram temsili korunur; karar
+[deney protokolünde](docs/EXPERIMENTS.md) kayıtlıdır.
+Naive Bayes'in testten önce sabitlenen ayarıyla nihai test sonucu:
+**accuracy %84.74, macro F1 0.8458**. [Test raporu ve çıktıları](results/NAIVE_BAYES_TEST.md)
+hazırdır. LR/SVM'nin nihai testleri kendi model sahiplerinin; nihai karşılaştırma
+ve PPTX sunum 5. kişinin bekleyen işleridir.
 
 Repo sahibinin mevcut veri sürümü için Naive Bayes devir paketi:
 [teknik açıklama ve hata analizi](docs/NAIVE_BAYES.md),
@@ -141,15 +143,18 @@ Beş alpha denemesini sırayla çalıştırıp JSON ve Markdown raporlarını ye
 Bu komut yalnızca validation kullanır. Tekrarlanan çalıştırmaların süreleri ve
 run kimlikleri değişebilir; sabit veri ve ortamla sınıflandırma skorları tekrar üretilebilir.
 
-Parametreleri validation ile seçip dondurduktan sonra, örneğin Naive Bayes için:
+Naive Bayes'in testten önce kaydedilen ayarını yeniden çalıştırmak için:
 
 ```powershell
-.\.venv\Scripts\python.exe -m banking77.train_naive_bayes --alpha 0.05 --split test
+.\.venv\Scripts\python.exe -m banking77.train_naive_bayes --split test --ngram-max 2 --alpha 0.05
 ```
 
-Buradaki alpha mevcut validation deneyinden gelir. 2. kişinin veri/özellik
-çalışması sonuçlanmadan bu nihai test adımını çalıştırmayın; ayarlar değişirse
-önce validation deneyini yeniden yapıp kesinleştirin.
+Alpha, validation deneyinden seçilmiştir. Veri/özellik çalışması tamamlanmış,
+mevcut temsil korunmuş ve [NB protokolü](results/naive_bayes_final_protocol.json)
+ilk test çalıştırmasından önce ayrı commit'e alınmıştır. Model 8.499 train
+mesajıyla eğitilir; validation eğitime eklenmez. Test sonuçlarına bakarak ayar
+değiştirilmez. Tam test ve train ile birebir örtüşmeyen altkümenin skorları
+[nihai raporda](results/NAIVE_BAYES_TEST.md) ayrı gösterilir.
 
 Kaydedilmiş bir modelle tek mesaj tahmini:
 
@@ -182,7 +187,8 @@ Naive Bayes ile aynı `metrics.json`, `classification_report.json`,
 Komut [C/solver raporunu](results/LOGISTIC_REGRESSION_C.md) ve
 [JSON kaydını](results/logistic_regression_validation.json) yeniden üretir.
 Yöntem, ayar seçimi ve hata analizi [teknik notta](docs/LOGISTIC_REGRESSION.md) açıklanır.
-Nihai test, ortak veri/özellik ayarı kesinleştikten sonra model sorumlusu tarafından çalıştırılacaktır.
+Mevcut veri ve ortak TF-IDF temsili korunur; LR'nin nihai ayar kaydı ve test
+çalıştırması model sorumlusunun bekleyen işidir.
 
 ## Linear SVM
 
@@ -207,8 +213,8 @@ Komut [C/loss raporunu](results/LINEAR_SVM_C.md) ve
 [JSON kaydını](results/linear_svm_validation.json) yeniden üretir.
 Yöntem, seçim gerekçesi ve örnek hataların kelime katkıları
 [teknik notta](docs/LINEAR_SVM.md) açıklanır.
-Bu skorlar nihai test sonucu değildir; nihai testi ortak özellik ayarı
-kesinleşince model sorumlusu çalıştıracaktır.
+Bu skorlar nihai test sonucu değildir; mevcut veri ve ortak TF-IDF temsiliyle
+SVM'nin nihai ayar kaydını ve test çalıştırmasını model sorumlusu tamamlayacaktır.
 
 ## Ortak model karşılaştırması
 
@@ -235,7 +241,7 @@ docs/             Veri/model açıklamaları, görev dağılımı ve deney proto
 contributions/    Kişisel katkı dosyaları ve katkı şablonu
 data/raw/         Resmî train/test, kategori listesi ve kaynak veri lisansı
 data/processed/   Hazırlanmış train/validation/test, kategoriler ve özet
-results/          Deney sonuçları; runs/ yerelde tutulur
+results/          Validation raporları ve seçilen nihai test çıktıları; runs/ yerelde tutulur
 artifacts/        Eğitilmiş modeller (Git dışında)
 .github/          Otomatik kontroller ve PR şablonu
 LICENSE           Proje kodunun MIT lisansı
@@ -280,6 +286,7 @@ yalnızca tekrar kontrolü içindir; model orijinal mesaj metnini alır.
 - [Sonuç dosyaları](results/README.md)
 - [Naive Bayes alpha deneyi](results/NAIVE_BAYES_ALPHA.md)
 - [Naive Bayes teknik notu ve hata analizi](docs/NAIVE_BAYES.md)
+- [Naive Bayes nihai test raporu](results/NAIVE_BAYES_TEST.md)
 - [Veri analizi ve ön işleme kararları](docs/DATA.md)
 - [Unigram/bigram özellik deneyleri](results/FEATURE_EXPERIMENTS.md)
 - [Logistic Regression C/solver deneyi](results/LOGISTIC_REGRESSION_C.md)

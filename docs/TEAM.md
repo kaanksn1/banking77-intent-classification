@@ -10,8 +10,9 @@
 
 Repo sahibinin Naive Bayes çalışması, 2. kişinin veri/özellik çalışması,
 3. kişinin Logistic Regression ve 4. kişinin Linear SVM çalışması kendi PR'larıyla
-`main` içine alınmıştır. Ortak değerlendirme ve sunum 5. kişinin `feature/evaluation`
-branch'indedir.
+`main` içine alınmıştır. 5. kişinin ortak validation değerlendirmesi ve
+grafikleri PR #8 ile birleştirilmiştir. Nihai test karşılaştırması, PPTX ve
+sunum provası henüz tamamlanmış sayılmaz.
 Herkes kendi bölümünün deneylerini, bulgularını, slayt taslağını ve açıklamasını
 hazırlar. Repo sahibi ortak README ve GitHub entegrasyonunu günceller.
 
@@ -30,6 +31,8 @@ anlaşın. Başlangıç altyapısı o kişinin deneylerinin veya analizinin tama
 ## Teslim sözleşmesi
 
 - Aynı hazırlanmış veri ve `seed=42` kullanılır. Veri değişirse herkes yeniden çalıştırır.
+- Teslim entegrasyonunda mevcut unigram + bigram, sublinear TF temsili korunur;
+  [NB test öncesi kayıt ve deney protokolü](EXPERIMENTS.md) uygulanır.
 - TF-IDF yalnızca eğitim verisinde öğrenilir; validation/test üzerinde `fit` yapılmaz.
 - Model/özellik/parametre seçimi validation verisinde yapılır.
 - Her model sahibi komutunu, metriklerini ve en az üç hata örneğini teslim eder.
@@ -39,7 +42,7 @@ anlaşın. Başlangıç altyapısı o kişinin deneylerinin veya analizinin tama
 - Tahmin dosyası sütunları: `id,text,true_label,predicted_label,correct,overlaps_training`.
 - Karşılaştırılan deneylerin `dataset_summary_sha256` değerleri aynı olmalıdır.
 - Arayüz planlanmıyor. Ders slaytları incelenerek gerekli baseline listesi
-  doğrulanmalıdır; ek yöntemlerin kapsamı ve sorumlusu ayrıca belirlenir.
+  doğrulanmalıdır. Repo sahibi yeni veri ve JEV/Laya/AnyJev ekleme planını iptal etmiştir.
   Sunum tarihi: 12 Ekim 2026.
 
 ## Git akışı

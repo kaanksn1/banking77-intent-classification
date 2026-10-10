@@ -1,0 +1,36 @@
+{
+  "run_id": "naive_bayes_test_20261010T134914397317Z",
+  "evaluation_split": "test",
+  "settings": {
+    "model": "naive_bayes",
+    "ngram_max": 2,
+    "alpha": 0.05,
+    "seed": 42,
+    "tfidf_sublinear_tf": true
+  },
+  "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+  "dataset_files_sha256": {
+    "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+    "test.csv": "6afa67795116b25a1c1df4fcf70a4f8a7446b2a9bed1a1447461d49b857da163",
+    "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+    "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+  },
+  "training_rows": 8499,
+  "evaluation_rows": 3080,
+  "accuracy": 0.8474025974025974,
+  "macro_f1": 0.8457925255946547,
+  "fit_seconds": 0.21516630000041914,
+  "predict_seconds": 0.05754270000034012,
+  "prediction_ms_per_message": 0.018682694805305232,
+  "environment": {
+    "python": "3.12.0",
+    "scikit_learn": "1.9.1",
+    "numpy": "2.5.3"
+  },
+  "overlapping_evaluation_rows": 7,
+  "nonoverlapping_subset": {
+    "rows": 3073,
+    "accuracy": 0.8470549951187765,
+    "macro_f1": 0.8453788539730205
+  }
+}
