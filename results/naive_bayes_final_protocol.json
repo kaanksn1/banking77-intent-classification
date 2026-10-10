@@ -1,0 +1,73 @@
+{
+  "scope": "Naive Bayes final evaluation",
+  "decision_owner": "kaanksn1",
+  "frozen_at_utc": "2026-10-10T13:47:41.561476+00:00",
+  "source_commit": "7adc53a6c557d2812c93d8b2aa941821c8e02a7a",
+  "official_test_evaluated_at_freeze": false,
+  "training_split": "train",
+  "selection_split": "validation",
+  "evaluation_split": "test",
+  "validation_added_to_training": false,
+  "rows": {
+    "train": 8499,
+    "validation": 1500,
+    "test": 3080
+  },
+  "selection_metric": "validation macro F1",
+  "selection_evidence": {
+    "alpha_report": "results/naive_bayes_alpha_validation.json",
+    "selected_run_id": "naive_bayes_validation_20261008T133816111215Z",
+    "tested_alphas": [
+      1.0,
+      0.5,
+      0.1,
+      0.05,
+      0.01
+    ],
+    "accuracy": 0.862,
+    "macro_f1": 0.8528894646169268,
+    "feature_policy": "Keep the existing shared unigram + bigram representation; alpha was selected with these features fixed."
+  },
+  "settings": {
+    "model": "naive_bayes",
+    "ngram_max": 2,
+    "alpha": 0.05,
+    "seed": 42,
+    "tfidf_sublinear_tf": true
+  },
+  "tfidf_parameters": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "sublinear_tf": true,
+    "lowercase": true,
+    "token_pattern": "(?u)\\b\\w\\w+\\b",
+    "smooth_idf": true,
+    "norm": "l2",
+    "min_df": 1,
+    "max_df": 1.0,
+    "max_features": null
+  },
+  "naive_bayes_parameters": {
+    "alpha": 0.05,
+    "class_prior": null,
+    "fit_prior": true,
+    "force_alpha": true
+  },
+  "dataset_files_sha256": {
+    "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+    "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+    "test.csv": "6afa67795116b25a1c1df4fcf70a4f8a7446b2a9bed1a1447461d49b857da163",
+    "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+    "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+  },
+  "code_files_sha256": {
+    "src/banking77/naive_bayes.py": "12a7c2b648313777cb1c561f2afcad93ba25658a2fe45b39d9653c1d5f0eeab2",
+    "src/banking77/train_naive_bayes.py": "770d3c578d1d9b0c521ae2ad6a590b4bcf4f6cb9e8e8b013c259a4c19664b06f"
+  },
+  "expected_normalized_train_test_overlap": 7,
+  "overlap_policy": "Report the full official test and the subset excluding normalized exact training overlaps separately; do not alter the dataset.",
+  "test_use_policy": "Evaluate the frozen configuration; do not select or retune settings from test results.",
+  "command": "python -m banking77.train_naive_bayes --split test --ngram-max 2 --alpha 0.05"
+}

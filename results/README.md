@@ -1,6 +1,8 @@
 # Deney sonuçları
 
-Henüz nihai test sonucu yok. `runs/` klasöründeki yerel çıktılar Git'e eklenmez.
+NB'nin nihai test sonucu [NAIVE_BAYES_TEST.md](NAIVE_BAYES_TEST.md) ve
+`naive_bayes_test/` içinde yayımlanmıştır. LR ve SVM'nin nihai test sonuçları
+henüz teslim edilmemiştir. `runs/` klasöründeki tekrarlı yerel çıktılar Git'e eklenmez.
 Naive Bayes, Logistic Regression ve Linear SVM çalıştırıcıları `metrics.json`,
 `classification_report.json`, `predictions.csv` ve `confusion_matrix.csv` üretir.
 Diğer model sorumluları da aynı çıktı sözleşmesini kullanır.
@@ -14,6 +16,10 @@ tahmin süresi TF-IDF dönüşümünü de içerir.
 Mevcut raporlar:
 
 - [Naive Bayes alpha deneyi](NAIVE_BAYES_ALPHA.md): repo sahibinin çalışması.
+- [Naive Bayes nihai test raporu](NAIVE_BAYES_TEST.md): repo sahibinin çalışması.
+  `naive_bayes_final_protocol.json` testten önceki ayar/veri kaydıdır;
+  `naive_bayes_test/` yalnızca seçilen nihai çalıştırmanın `metrics.json`,
+  `classification_report.json`, `predictions.csv` ve `confusion_matrix.csv` dosyalarını içerir.
 - [Unigram/bigram özellik deneyleri](FEATURE_EXPERIMENTS.md): 2. kişinin çalışması.
 - [Logistic Regression C/solver deneyi](LOGISTIC_REGRESSION_C.md): 3. kişinin çalışması.
 - [Linear SVM C/loss deneyi](LINEAR_SVM_C.md): 4. kişinin çalışması.
@@ -40,8 +46,9 @@ dosyalarını üretir. Hata yorumları `docs/LOGISTIC_REGRESSION.md` içindedir.
 Örnek hataların kelime katkıları aynı scriptte hesaplanır; yorumları
 `docs/LINEAR_SVM.md` içindedir. Nihai test bu benchmark'ta kullanılmaz.
 
-PR #2 hazırlanmış CSV yazımını LF satır sonuna sabitledi. İlk LR raporundaki
+PR #2 hazırlanmış CSV yazımını LF satır sonuna sabitledi. İlk NB ve LR raporlarındaki
 train/validation dosya hash'leri aynı kayıtların CRLF ile yazılmış sürümüne aittir.
-Entegrasyonda farkın yalnızca satır sonlarından geldiği ve 15 deneyin accuracy/macro F1
-skorlarının tekrar üretildiği doğrulandı; veri özeti kimliği değişmedi.
+Entegrasyonda farkın yalnızca satır sonlarından geldiği, LR'nin 15 deneyinin ve
+NB'nin seçilen ayarının accuracy/macro F1 skorlarının tekrar üretildiği doğrulandı;
+veri özeti kimliği değişmedi.
 Benchmark yeniden çalıştırıldığında güncel LF dosyalarının hash'leri kaydedilir.

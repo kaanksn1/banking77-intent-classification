@@ -8,3 +8,6 @@
 # Preserve upstream bytes: configs/data.json checks their SHA-256 values.
 /data/raw/* -text whitespace=cr-at-eol
 /data/processed/*.csv text eol=lf
+
+# Keep the published final NB outputs byte-identical to the training runner.
+/results/naive_bayes_test/*.csv -text whitespace=cr-at-eol
