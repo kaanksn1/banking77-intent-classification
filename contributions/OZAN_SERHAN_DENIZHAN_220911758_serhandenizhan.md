@@ -69,7 +69,9 @@ I did not change the other members' model, training or data files.
   - [Regenerated report and contribution file](https://github.com/kaanksn1/banking77-intent-classification/commit/1a019b6adcd9d0f4f612de9ea7d42f8170e96cf7)
   - [Three-model feature comparison with bigram-only ablation](https://github.com/kaanksn1/banking77-intent-classification/commit/f6e77b74a9e9b5aa601a2c07018050c7997dba49)
   - [Feature comparison report and documentation](https://github.com/kaanksn1/banking77-intent-classification/commit/fb7d2339566793431917df7941fccfd9ca8dd91e)
-- My pull request links: [#8 Shared model benchmark and validation comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/8)
+- My pull request links:
+  - [#8 Shared model benchmark and validation comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/8) (merged)
+  - [#9 Three-model unigram/bigram feature comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/9)
 
 ## Contribution to the presentation
 
