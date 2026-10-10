@@ -66,7 +66,11 @@ I did not change the other members' model, training or data files.
   - [Shared benchmark, plots and tests](https://github.com/kaanksn1/banking77-intent-classification/commit/cdb5d6f3238efd649d6a1908fb4320a9acfeea3f)
   - [Validation comparison report and figures](https://github.com/kaanksn1/banking77-intent-classification/commit/00132870e5e2bdfd5e43d6cb91dbe9e280021e53)
   - [Documentation and submission tracking](https://github.com/kaanksn1/banking77-intent-classification/commit/9733efcd63c9ca02450fe4e46eed1f6a681e006a)
-- My pull request links: [#8 Shared model benchmark and validation comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/8)
+  - [`--split test` mode and overlap report](https://github.com/kaanksn1/banking77-intent-classification/commit/9474cb47c0dd038b7adcf245b72512050560cc23)
+  - [Final test comparison of the three models](https://github.com/kaanksn1/banking77-intent-classification/commit/6053fd2e0f8c526e8dead5978b9803052f4dde61)
+- My pull request links:
+  - [#8 Shared model benchmark and validation comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/8) (merged)
+  - [#11 Final test comparison of NB, LR and Linear SVM](https://github.com/kaanksn1/banking77-intent-classification/pull/11)
 
 ## Contribution to the presentation
 
