@@ -1,0 +1,44 @@
+{
+  "run_id": "logistic_regression_test_20261010T140342162665Z",
+  "evaluation_split": "test",
+  "settings": {
+    "model": "logistic_regression",
+    "ngram_max": 2,
+    "C": 100.0,
+    "solver": "liblinear-ovr",
+    "multiclass": "one-vs-rest",
+    "penalty": "l2",
+    "max_iter": 2000,
+    "seed": 42,
+    "random_state": 42,
+    "tfidf_sublinear_tf": true
+  },
+  "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+  "dataset_files_sha256": {
+    "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+    "test.csv": "6afa67795116b25a1c1df4fcf70a4f8a7446b2a9bed1a1447461d49b857da163",
+    "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+    "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+  },
+  "training_rows": 8499,
+  "evaluation_rows": 3080,
+  "vocabulary_size": 21595,
+  "accuracy": 0.8876623376623377,
+  "macro_f1": 0.8878276212182407,
+  "fit_seconds": 1.4997228339780122,
+  "predict_seconds": 0.024925875011831522,
+  "prediction_ms_per_message": 0.008092816562282962,
+  "optimizer_iterations": 14,
+  "converged": true,
+  "environment": {
+    "python": "3.14.7",
+    "scikit_learn": "1.9.1",
+    "numpy": "2.5.3"
+  },
+  "overlapping_evaluation_rows": 7,
+  "nonoverlapping_subset": {
+    "rows": 3073,
+    "accuracy": 0.8874064432150992,
+    "macro_f1": 0.8875410160154944
+  }
+}
