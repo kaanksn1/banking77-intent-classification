@@ -100,7 +100,10 @@ def scores_figure(summary, path):
     _dot_panel(axes[0], rows, lambda e: e["macro_f1"], lambda v: f"{v:.4f}", "Macro F1 (main metric)")
     _dot_panel(axes[1], rows, lambda e: e["accuracy"], lambda v: f"{100 * v:.2f}%", "Accuracy (supporting)")
     axes[1].set_yticklabels([])
-    fig.suptitle("Validation scores, 1,500 messages, 77 categories", x=0.02, ha="left", color=INK, fontsize=12)
+    split = summary["evaluation_split"].capitalize()
+    rows_count = next(iter(summary["models"].values()))["evaluation_rows"]
+    fig.suptitle(f"{split} scores, {rows_count:,} messages, 77 categories", x=0.02, ha="left", color=INK,
+                 fontsize=12)
     _legend(fig)
     fig.tight_layout(rect=(0, 0.07, 1, 0.95))
     fig.savefig(path, dpi=200, facecolor=SURFACE)
@@ -113,7 +116,7 @@ def timing_figure(summary, path):
     _dot_panel(axes[0], rows, lambda e: e["fit_seconds"], lambda v: f"{v:.2f} s", "Training time (log scale)",
                log=True)
     _dot_panel(axes[1], rows, lambda e: 1000 * e["predict_seconds"], lambda v: f"{v:.1f} ms",
-               "Prediction time for all 1,500 messages (ms)")
+               f"Prediction time for all {next(iter(summary['models'].values()))['evaluation_rows']:,} messages (ms)")
     axes[1].set_yticklabels([])
     fig.suptitle("Median of repeated runs on one machine, models run sequentially", x=0.02, ha="left",
                  color=INK, fontsize=12)
@@ -141,7 +144,7 @@ def confusions_figure(summary, path):
     ax.set_yticks(range(len(table)))
     ax.set_yticklabels([f"{t['true_label']} → {t['predicted_label']}" for t in table], fontsize=9, color=INK)
     ax.invert_yaxis()
-    ax.set_xlabel("Misclassified validation messages", color=INK_SECONDARY)
+    ax.set_xlabel(f"Misclassified {summary['evaluation_split']} messages", color=INK_SECONDARY)
     ax.legend(frameon=False, labelcolor=INK_SECONDARY, loc="lower right")
     fig.tight_layout(rect=(0, 0, 1, 0.94))
     fig.text(0.01, 0.97, "Most confused category pairs (true → predicted), selected settings",
@@ -150,9 +153,9 @@ def confusions_figure(summary, path):
     plt.close(fig)
 
 
-def make_figures(summary, directory):
+def make_figures(summary, directory, prefix=""):
     directory = Path(directory)
     directory.mkdir(parents=True, exist_ok=True)
-    scores_figure(summary, directory / "scores.png")
-    timing_figure(summary, directory / "timing.png")
-    confusions_figure(summary, directory / "confusions.png")
+    scores_figure(summary, directory / f"{prefix}scores.png")
+    timing_figure(summary, directory / f"{prefix}timing.png")
+    confusions_figure(summary, directory / f"{prefix}confusions.png")
