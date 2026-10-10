@@ -1,0 +1,146 @@
+{
+  "decided_utc": "2026-10-10T16:28:24.877275+00:00",
+  "official_transformer_test_evaluated_at_decision": false,
+  "reason": "Both completed 3-epoch validation trials were still improving in their final epoch. Use a universal 5-epoch final budget for all four architectures; do not choose 3 versus 5 separately for each model. Five epochs is a finite budget, not proof of convergence.",
+  "final_epochs_budget": 5,
+  "final_patience": 3,
+  "other_settings_unchanged": true,
+  "restart_from_pretrained": true,
+  "initial_completed_validation_trials": [
+    {
+      "run_id": "distilbert_validation_20261010T161940324733Z",
+      "settings": {
+        "model": "distilbert",
+        "seed": 42,
+        "max_length": 64,
+        "batch_size": 16,
+        "learning_rate": 2e-05,
+        "epochs_budget": 3,
+        "patience": 3,
+        "weight_decay": 0.01,
+        "gradient_clip": 1.0,
+        "amp": false,
+        "selection_metric": "validation_macro_f1",
+        "training_rows": 8499,
+        "validation_rows": 1500,
+        "model_id": "distilbert/distilbert-base-uncased",
+        "revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+        "license": "apache-2.0"
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 3.504698368251597,
+          "accuracy": 0.6433333333333333,
+          "macro_f1": 0.5692360413711042
+        },
+        {
+          "epoch": 2,
+          "train_loss": 1.7593551829487089,
+          "accuracy": 0.8046666666666666,
+          "macro_f1": 0.7649300604577458
+        },
+        {
+          "epoch": 3,
+          "train_loss": 1.1324481547250511,
+          "accuracy": 0.838,
+          "macro_f1": 0.8103059105136501
+        }
+      ],
+      "accuracy": 0.838,
+      "macro_f1": 0.8103059105136501,
+      "best_epoch": 3,
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "source_sha256": {
+        "src/banking77/train_neural.py": "7c48f348e64a3c368769c87b68eab43e2774f18c1f951605807812952ff8d6e2",
+        "src/banking77/neural_models.py": "57c61178c9569a8486ed3e3280524d8c2bd4aa9cec40511f7abe6303efb68cf9",
+        "configs/neural_models.json": "3ad4dd910e8035e5a0ffc7d94446b3a2aaea9f7a9e94499ddd7ae0ebb220b22b"
+      },
+      "environment": {
+        "python": "3.12.3",
+        "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "torch": "2.9.1+rocm7.2.1.gitff65f5bc",
+        "numpy": "2.5.3",
+        "device": "cuda",
+        "gpu": "AMD Radeon RX 7800 XT",
+        "hip": "7.2.53211-e1a6bc5663",
+        "cuda": null,
+        "threads": 4,
+        "deterministic_algorithms": "enabled, warning on unavailable deterministic kernels"
+      }
+    },
+    {
+      "run_id": "bert_validation_20261010T162224614715Z",
+      "settings": {
+        "model": "bert",
+        "seed": 42,
+        "max_length": 64,
+        "batch_size": 16,
+        "learning_rate": 2e-05,
+        "epochs_budget": 3,
+        "patience": 3,
+        "weight_decay": 0.01,
+        "gradient_clip": 1.0,
+        "amp": false,
+        "selection_metric": "validation_macro_f1",
+        "training_rows": 8499,
+        "validation_rows": 1500,
+        "model_id": "google-bert/bert-base-uncased",
+        "revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+        "license": "apache-2.0"
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_loss": 3.5794295747078984,
+          "accuracy": 0.65,
+          "macro_f1": 0.5812726577748327
+        },
+        {
+          "epoch": 2,
+          "train_loss": 1.8054956359321306,
+          "accuracy": 0.8206666666666667,
+          "macro_f1": 0.7726000928923783
+        },
+        {
+          "epoch": 3,
+          "train_loss": 1.1596065970193163,
+          "accuracy": 0.8493333333333334,
+          "macro_f1": 0.8112681616478954
+        }
+      ],
+      "accuracy": 0.8493333333333334,
+      "macro_f1": 0.8112681616478954,
+      "best_epoch": 3,
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "source_sha256": {
+        "src/banking77/train_neural.py": "7c48f348e64a3c368769c87b68eab43e2774f18c1f951605807812952ff8d6e2",
+        "src/banking77/neural_models.py": "57c61178c9569a8486ed3e3280524d8c2bd4aa9cec40511f7abe6303efb68cf9",
+        "configs/neural_models.json": "3ad4dd910e8035e5a0ffc7d94446b3a2aaea9f7a9e94499ddd7ae0ebb220b22b"
+      },
+      "environment": {
+        "python": "3.12.3",
+        "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "torch": "2.9.1+rocm7.2.1.gitff65f5bc",
+        "numpy": "2.5.3",
+        "device": "cuda",
+        "gpu": "AMD Radeon RX 7800 XT",
+        "hip": "7.2.53211-e1a6bc5663",
+        "cuda": null,
+        "threads": 4,
+        "deterministic_algorithms": "enabled, warning on unavailable deterministic kernels"
+      }
+    }
+  ],
+  "initial_roberta_trial": "Interrupted before first completed epoch; excluded from results. No completed ALBERT trial yet."
+}

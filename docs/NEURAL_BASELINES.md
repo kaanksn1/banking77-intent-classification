@@ -73,42 +73,85 @@ Mevcut klasik kurulum korunur. Windows CPU doğrulaması için:
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-PyTorch CPU paketi RX 7800 XT'yi kullanmaz. 10 Ekim'de kullanıcının onayıyla
-WSL 3.0.1 kuruldu ve VirtualMachinePlatform etkinleştirildi. Kurulum çıktısı
-Windows'un yeniden başlatılmasını istiyor; Ubuntu başlangıcı ve GPU ortamı
-henüz doğrulanmadı. Mevcut preflight CPU forward/backward işlemini doğruladı.
-AMD'nin [ROCm 7.2.1 WSL matrisi](https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/docs/compatibility/compatibilityrad/wsl/wsl_compatibility.html)
-RX 7800 XT'yi desteklenen GPU'lar arasında gösterir. Windows üzerindeki GPU
-kurulumu için önce WSL2 + Ubuntu gerekir.
+PyTorch CPU paketi RX 7800 XT'yi kullanmaz. 10 Ekim'de Windows yeniden
+başlatıldıktan sonra WSL2 üzerinde Ubuntu 24.04.5 kuruldu; Python 3.12.3,
+`6.18.40.1` WSL2 çekirdeği ve `/dev/dxg` aygıtı doğrulandı. WSL uygulamasının
+sürümü 3.0.1'dir; dağıtımın çalışma modu WSL2'dir. Mevcut Windows sürücüsü
+`32.0.32015.2008`, AMD'nin [Adrenalin 26.9.2 sürümüdür](https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-9-2.html)
+ve korundu. Linux GPU kurulumu tamamlandı: ROCm paketi
+`7.2.1.70201-81~24.04`, ROCDXG `1.2.0`, PyTorch
+`2.9.1+rocm7.2.1.gitff65f5bc`, HIP `7.2.53211-e1a6bc5663`.
+RX 7800 XT (`gfx1101`, yaklaşık 16 GB) üzerinde GPU matris forward/backward
+kontrolü hem root hem normal `serda` kullanıcısıyla geçti. Linux'ta 52 test ve
+Naive Bayes validation kontrolü geçti: accuracy `0.862`, macro F1
+`0.8528894646`. Dört Transformer'ın tam validation deneyleri ve resmî testleri
+henüz yapılmadı; küçük GPU geliştirme kontrolü tam deney yerine geçmez.
 
-Yönetici PowerShell'de, açık işler kaydedildikten sonra:
+[AMD'nin ROCm 7.2.1 WSL yönergesi](https://rocm.docs.amd.com/projects/radeon-ryzen/en/docs-7.2.1/docs/install/installrad/wsl/howto_wsl.html)
+ROCDXG köprüsünü kullanır. Bu yöntem Adrenalin 26.2.2 ile sunulmuştur;
+ROCDXG, Windows sürücüsü güncellemelerinden bağımsız geliştirilir.
+[ROCDXG 1.2.0 uyumluluk tablosu](https://github.com/ROCm/librocdxg/blob/v1.2.0/README.md#wsl-compatiblity-matrix)
+ROCm 7.2.x, Ubuntu 24.04/22.04 ve RX 7800 XT desteğini listeler.
+Python 3.12 ortamı için burada Ubuntu 24.04 kullanılır. WSL, Windows ekran
+sürücüsünü kullanır; Linux çekirdeği veya `amdgpu-dkms` kurulmaz.
+
+`scripts/setup_rocm_wsl.sh`, root olarak Ubuntu paketlerini kurmak içindir.
+Script, [sürümü sabit ROCm 7.2.1 deposunu](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.2.1/install/quick-start.html)
+`amdgpu-install_7.2.1.70201-1_all.deb` ile ekler; aday paketin `7.2.1.*`
+olduğunu denetleyip bu sürümün yalnız ROCm kullanıcı alanını kurar.
+`umask 022`, root'un oluşturduğu Linux ortamının normal kullanıcı tarafından
+okunup çalıştırılmasını sağlar. Eski ROCm 7.2 WSL kurulumundaki
+`--usecase=wsl,rocm` yolu bu 7.2.1 kurulumu için kullanılmaz.
+[ROCDXG çalışma zamanı paketi](https://github.com/ROCm/librocdxg/releases/tag/v1.2.0)
+`rocdxg-roct_1.2.0_amd64.deb`, [yayımlanmış SHA-256](https://github.com/ROCm/librocdxg/releases/expanded_assets/v1.2.0)
+`3ed9526719290cd8f590150dad8ea0f234fa779bea6a4c9a8449d7ae6b8cfb6e`
+ile doğrulanır. Script, `requirements-lock.txt` içindeki klasik bağımlılıkları,
+[AMD'nin Python 3.12 PyTorch 2.9.1 + ROCm 7.2.1 ve Triton wheel'lerini](https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/docs/install/installrad/native_linux/install-pytorch.html)
+ve `requirements-neural.txt` bağımlılıklarını ayrı `/opt/banking77-venv`
+ortamına yükler; sonunda `pip check` ve GPU preflight çalıştırır.
+Wheel'lerin yerel SHA-256 kayıtları indirme kimliğidir; bağımsız yayımlanmış
+üretici checksum'ı olarak sunulmaz. Windows `.venv` ortamı CPU içindir.
+
+Kurulum komutu, repo kökünü açıkça seçerek PowerShell'den çalıştırılır:
 
 ```powershell
-.\scripts\Install-NeuralWSL.ps1
+wsl.exe --distribution Ubuntu-24.04 --user root --cd '/mnt/c/Users/serda/OneDrive/Masaüstü/nlp' -- bash scripts/setup_rocm_wsl.sh
 ```
 
-Bu script `wsl --install --distribution Ubuntu-22.04 --no-launch` çalıştırır;
-bilgisayarı kendisi yeniden başlatmaz. Windows özelliklerini etkinleştirme,
-yeniden başlatma ve ilk Ubuntu kullanıcı kurulumu gerekebilir.
-[Microsoft kurulum açıklaması](https://learn.microsoft.com/en-us/windows/wsl/install),
-[komut seçenekleri](https://learn.microsoft.com/en-us/windows/wsl/basic-commands#install).
+ROCm 7.2.1'de **her etkileşimsiz preflight, eğitim ve test süreci**
+`HSA_ENABLE_DXG_DETECTION=1` almalıdır. Kurulum script'indeki `export`, daha
+sonra açılan ayrı WSL süreçlerine aktarılmaz; yalnız `.bashrc` içine eklemek
+de etkileşimsiz komutlar için yeterli değildir. Aşağıdaki komutlarda `env` bu
+değeri doğrudan ilgili sürece verir. Eğitim için Ubuntu'da oluşturulmuş
+normal `serda` kullanıcısı kullanılır; paket kurulumu root ile yapılır.
 
-Ubuntu hazır olduktan sonra, sürücü/runtime ve PyTorch paketi birlikte
-[AMD'nin WSL kurulum yönergesine](https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/docs/install/installrad/wsl/install-pytorch.html)
-göre kurulmalıdır. ROCm paketleri normal Windows CPU sanal ortamına kurulmaz.
-Linux'ta ayrı Python 3.12 sanal ortamı oluşturulur, klasik bağımlılıklar ve
-`requirements-neural.txt` yüklenir. Donanıma uygun AMD PyTorch paketi önce
-kurulur; pip'in bunu CPU paketiyle değiştirmediği kontrol edilir.
-
-GPU eğitimi başlamadan önce Linux ortamında:
-
-```bash
-python -m banking77.neural_preflight --require-gpu
+```powershell
+wsl.exe --distribution Ubuntu-24.04 --user serda --cd '/mnt/c/Users/serda/OneDrive/Masaüstü/nlp' -- env HSA_ENABLE_DXG_DETECTION=1 /opt/rocm/bin/rocminfo
+wsl.exe --distribution Ubuntu-24.04 --user serda --cd '/mnt/c/Users/serda/OneDrive/Masaüstü/nlp' -- env HSA_ENABLE_DXG_DETECTION=1 /opt/banking77-venv/bin/python -m banking77.neural_preflight --require-gpu
 ```
 
-GPU adı, ROCm/HIP sürümü ve gerçek forward/backward doğrulaması görülmeden
-GPU eğitiminin çalıştığı iddia edilmez. ROCm, PyTorch'ta `cuda` aygıt arayüzünü
-kullandığından eğitim komutunda `--device cuda` seçilir.
+Bu ortamda `rocminfo`, RX 7800 XT'yi (`gfx1101`) gösterdi; preflight GPU adı,
+ROCm/HIP sürümü ve gerçek matris forward/backward kontrolünü doğruladı.
+Yeni bir kurulumda aynı kontrol yeniden yapılır. Bu kontrol, Transformer'ın
+tam eğitim/validation işleminin tamamlandığını göstermez. ROCm, PyTorch'ta
+`cuda` aygıt arayüzünü kullandığından eğitimde `--device cuda` seçilir.
+
+Dört Transformer için nihai ortak validation bütçesi FP32 (`--amp`
+verilmez), 5 epoch, patience=3, batch=16, lr=0.00002, max_length=64 ve
+seed=42'dir. Aşağıdaki tam validation komutu, GPU altyapısı doğrulanmış Linux
+ortamı içindir; diğer modellerde yalnız `--model` değeri `bert`, `roberta` veya
+`albert` olur:
+
+```powershell
+wsl.exe --distribution Ubuntu-24.04 --user serda --cd '/mnt/c/Users/serda/OneDrive/Masaüstü/nlp' -- env HSA_ENABLE_DXG_DETECTION=1 /opt/banking77-venv/bin/python -m banking77.train_neural train --model distilbert --epochs 5 --patience 3 --batch-size 16 --learning-rate 0.00002 --max-length 64 --seed 42 --device cuda
+```
+
+İlk tam DistilBERT ve BERT denemeleri üç epoch'ta hâlâ iyileşiyordu.
+[Validation bütçesi kararı](../results/transformer_budget_decision.json) bu nedenle
+dört model için ortak beş epoch bütçesine geçişi kaydeder. Tüm modeller ön
+eğitimli ağırlıklardan yeniden başlatılır; her model için ayrı üç/beş epoch
+seçimi yapılmaz. Beş epoch yakınsama garantisi değildir. Tam validation
+sonuçları seçilip protokol commit edilmeden bu yeni modellerin resmî testi çalıştırılmaz.
 
 ## Eğitim ve nihai değerlendirme
 
@@ -145,8 +188,10 @@ kullanır; joblib checkpoint'i ve veri/kod kimliği testten önce sabitlenir.
 
 ```powershell
 .\.venv\Scripts\python.exe -m banking77.train_neural train --model cnn --epochs 15 --device cpu
-.\.venv\Scripts\python.exe -m banking77.train_neural train --model distilbert --epochs 3 --device cuda
 ```
+
+Transformer GPU komutu yukarıdaki WSL/Linux ortamında çalıştırılır;
+Windows CPU `.venv` ortamına `--device cuda` vermek GPU desteği eklemez.
 
 Komutlar `results/runs/<run_id>/` altında standart `metrics.json`,
 `predictions.csv`, `classification_report.json`, `confusion_matrix.csv` ve

@@ -102,8 +102,12 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
 - Neural/embedding/ensemble için 12 anlamlı kontrol ekledim: padding, heldout
   kelimeler, FastText OOV, öğrenme, 77 sınıflı başlık, kayıt/yükleme, protokol ve
   olasılık hizası. Opsiyonel neural CI işi ve GPU preflight hazırladım.
-- Kullanıcı onayıyla WSL 3.0.1 ve VirtualMachinePlatform kurulumunu başlattım;
-  Windows yeniden başlatma istiyor. GPU runtime'ının çalıştığı henüz doğrulanmadı.
+- WSL2 üzerinde Ubuntu 24.04.5, ROCm 7.2.1, ROCDXG 1.2.0 ve AMD PyTorch
+  ortamını kurdum; `scripts/setup_rocm_wsl.sh` ile adımları kaydettim. RX 7800 XT
+  ile gerçek forward/backward ve kısa DistilBERT GPU eğitimi geçti.
+  Linux ortamında 52 test ve NB validation sonucunu da doğruladım.
+- `docs/HANDOFF_NEURAL.md`: yeni model çıktılarının ortak karşılaştırma ve PPTX
+  sorumlusuna devrini, veri/etiket eşleşmesini ve süre karşılaştırmasının sınırlarını açıkladım.
 - Sekiz baseline ve NB + CNN checkpoint'lerini testten önce ayrı commit'le sabitledim.
   Resmî testte yeniden eğitim yapmadan değerlendirdim; 3.080 tahminin kimlik/metin/etiketlerini,
   accuracy/macro F1 ve confusion matrix'i çıktı dosyalarından yeniden hesaplayarak doğruladım.

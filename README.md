@@ -32,8 +32,12 @@ Bu sekiz baseline ve NB + CNN, [testten önceki commit](https://github.com/kaank
 ile sabitlenip resmî testte değerlendirildi: **NB + CNN accuracy %90.65,
 macro F1 0.9061**. [Nihai yeni-model çıktıları ve hata örnekleri](results/NEURAL_TEST.md).
 Slaytlarda adı geçen BERT-base, DistilBERT, RoBERTa-base ve ALBERT-base-v2
-için eğitim kodu hazır; tam eğitimleri henüz tamamlanmadı. WSL kurulumu
-Windows'un yeniden başlatılmasını bekliyor; GPU çalışması henüz doğrulanmadı.
+için eğitim kodu hazır; dördünün tam validation deneyleri ve resmî testleri
+bekliyor. Windows yeniden başlatıldı; Ubuntu 24.04.5 WSL2 üzerinde ROCm 7.2.1,
+ROCDXG 1.2.0 ve AMD PyTorch 2.9.1 ortamı kuruldu. RX 7800 XT'de GPU matris
+forward/backward kontrolü hem root hem normal `serda` kullanıcısıyla geçti.
+Linux'ta 52 test ve Naive Bayes validation kontrolü de geçti (accuracy 0.862,
+macro F1 0.8529). Bu altyapı kontrolleri tam Transformer deneyi sayılmaz.
 
 Repo sahibinin mevcut veri sürümü için Naive Bayes devir paketi:
 [teknik açıklama ve hata analizi](docs/NAIVE_BAYES.md),
@@ -284,7 +288,7 @@ data/raw/         Resmî train/test, kategori listesi ve kaynak veri lisansı
 data/processed/   Hazırlanmış train/validation/test, kategoriler ve özet
 results/          Validation raporları ve seçilen nihai test çıktıları; runs/ yerelde tutulur
 artifacts/        Eğitilmiş modeller (Git dışında)
-scripts/          Kullanıcı onayıyla çalıştırılan WSL kurulum yardımcısı
+scripts/          WSL ve Ubuntu içindeki ROCm GPU kurulum yardımcıları
 .github/          Otomatik kontroller ve PR şablonu
 LICENSE           Proje kodunun MIT lisansı
 ```
@@ -315,7 +319,8 @@ Mevcut scriptlerin görevleri:
 | `src/banking77/train_ensemble.py` | NB + CNN olasılıklarını validation ağırlığıyla birleştirme, ablation, sabitleme ve test |
 | `src/banking77/neural_preflight.py` | Gerçek forward/backward ile CPU veya ROCm/CUDA aygıt kontrolü |
 | `configs/neural_models.json`, `configs/glove.json` | Ön eğitim kaynakları, sabit sürümler, hash'ler ve lisanslar |
-| `scripts/Install-NeuralWSL.ps1` | WSL + Ubuntu kurulumu; otomatik yeniden başlatma yapmaz |
+| `scripts/Install-NeuralWSL.ps1` | WSL + Ubuntu 24.04 kurulum yardımcısı; otomatik yeniden başlatma yapmaz |
+| `scripts/setup_rocm_wsl.sh` | Ubuntu 24.04 WSL'de ROCm 7.2.1, checksum doğrulamalı ROCDXG 1.2.0 ve ayrı Linux AMD PyTorch ortamını kurma; GPU preflight |
 | `tests/test_neural.py`, `tests/test_embeddings.py`, `tests/test_ensemble.py` | PAD/UNK, öğrenme, 77 sınıflı başlık, heldout/OOV, checkpoint, seçim ve olasılık hizası kontrolleri |
 | `tests/test_protocol.py` | Tekrar/etiket kontrollerini, veri ayrımını ve TF-IDF eğitim sınırını doğrulama |
 | `tests/test_data_files.py` | CSV'nin LF satır sonuyla yazılmasını ve metinlerin korunmasını doğrulama |
