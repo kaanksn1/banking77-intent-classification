@@ -1,0 +1,627 @@
+{
+  "command": "python -m banking77.benchmark_linear_svm",
+  "selection_metric": "validation macro_f1",
+  "tie_break": "first setting in the scheduled order (loss: squared_hinge, hinge; C ascending)",
+  "c_values": [
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ],
+  "losses": [
+    "squared_hinge",
+    "hinge"
+  ],
+  "feature_settings_unchanged": true,
+  "official_test_evaluated": false,
+  "runs": [
+    {
+      "run_id": "linear_svm_validation_20261009T224018655145Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 0.01,
+        "loss": "squared_hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8046666666666666,
+      "macro_f1": 0.7906680853530904,
+      "fit_seconds": 0.3896639170125127,
+      "predict_seconds": 0.012941249995492399,
+      "prediction_ms_per_message": 0.008627499996994933,
+      "optimizer_iterations": 10,
+      "converged": true,
+      "environment": {
+        "python": "3.14.2",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "linear_svm_validation_20261009T224019084878Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 0.1,
+        "loss": "squared_hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.86,
+      "macro_f1": 0.855282489964457,
+      "fit_seconds": 0.3280128750484437,
+      "predict_seconds": 0.012633583042770624,
+      "prediction_ms_per_message": 0.008422388695180416,
+      "optimizer_iterations": 12,
+      "converged": true,
+      "environment": {
+        "python": "3.14.2",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "linear_svm_validation_20261009T224019558751Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 1.0,
+        "loss": "squared_hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.892,
+      "macro_f1": 0.893487418789585,
+      "fit_seconds": 0.37772674998268485,
+      "predict_seconds": 0.01268329203594476,
+      "prediction_ms_per_message": 0.008455528023963174,
+      "optimizer_iterations": 41,
+      "converged": true,
+      "environment": {
+        "python": "3.14.2",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "linear_svm_validation_20261009T224020354584Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 10.0,
+        "loss": "squared_hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8793333333333333,
+      "macro_f1": 0.8803161633259995,
+      "fit_seconds": 0.6987080409890041,
+      "predict_seconds": 0.012566959019750357,
+      "prediction_ms_per_message": 0.00837797267983357,
+      "optimizer_iterations": 354,
+      "converged": true,
+      "environment": {
+        "python": "3.14.2",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "linear_svm_validation_20261009T224022008770Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 100.0,
+        "loss": "squared_hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.878,
+      "macro_f1": 0.8781158421278528,
+      "fit_seconds": 1.5450425840681419,
+      "predict_seconds": 0.012641374953091145,
+      "prediction_ms_per_message": 0.008427583302060762,
+      "optimizer_iterations": 3593,
+      "converged": true,
+      "environment": {
+        "python": "3.14.2",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "linear_svm_validation_20261009T224022558610Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 0.01,
+        "loss": "hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.838,
+      "macro_f1": 0.8243732556622173,
+      "fit_seconds": 0.44828945805784315,
+      "predict_seconds": 0.012697165948338807,
+      "prediction_ms_per_message": 0.008464777298892537,
+      "optimizer_iterations": 163,
+      "converged": true,
+      "environment": {
+        "python": "3.14.2",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "linear_svm_validation_20261009T224023099117Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 0.1,
+        "loss": "hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8466666666666667,
+      "macro_f1": 0.8334928753197817,
+      "fit_seconds": 0.43601154210045934,
+      "predict_seconds": 0.016917916014790535,
+      "prediction_ms_per_message": 0.011278610676527023,
+      "optimizer_iterations": 229,
+      "converged": true,
+      "environment": {
+        "python": "3.14.2",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "linear_svm_validation_20261009T224023888882Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 1.0,
+        "loss": "hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.88,
+      "macro_f1": 0.8813492893394694,
+      "fit_seconds": 0.660267167026177,
+      "predict_seconds": 0.014855750021524727,
+      "prediction_ms_per_message": 0.009903833347683152,
+      "optimizer_iterations": 1421,
+      "converged": true,
+      "environment": {
+        "python": "3.14.2",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "linear_svm_validation_20261009T224024880280Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 10.0,
+        "loss": "hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8766666666666667,
+      "macro_f1": 0.8775407480851841,
+      "fit_seconds": 0.8728278329363093,
+      "predict_seconds": 0.01235554099548608,
+      "prediction_ms_per_message": 0.008237027330324054,
+      "optimizer_iterations": 2562,
+      "converged": true,
+      "environment": {
+        "python": "3.14.2",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    },
+    {
+      "run_id": "linear_svm_validation_20261009T224026075875Z",
+      "evaluation_split": "validation",
+      "settings": {
+        "model": "linear_svm",
+        "ngram_max": 2,
+        "C": 100.0,
+        "loss": "hinge",
+        "multiclass": "one-vs-rest",
+        "penalty": "l2",
+        "dual": true,
+        "max_iter": 10000,
+        "seed": 42,
+        "random_state": 42,
+        "tfidf_sublinear_tf": true
+      },
+      "dataset_summary_sha256": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5",
+      "dataset_files_sha256": {
+        "train.csv": "1e6276002138e58740f03c155bdb0eb792d6f2353a62203d0bef45d08a99a775",
+        "validation.csv": "3d7ea0887e2c46b6f1871d48eedfde243694a94290119d1e35c529fb2fe1a025",
+        "categories.json": "e58114f0c41107b65df9821b4c928e9630278216ecb12f48ba2b6301c3f6d251",
+        "summary.json": "468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5"
+      },
+      "training_rows": 8499,
+      "evaluation_rows": 1500,
+      "vocabulary_size": 21595,
+      "accuracy": 0.8766666666666667,
+      "macro_f1": 0.8768926640288113,
+      "fit_seconds": 1.0981196250068024,
+      "predict_seconds": 0.012749708024784923,
+      "prediction_ms_per_message": 0.008499805349856615,
+      "optimizer_iterations": 2922,
+      "converged": true,
+      "environment": {
+        "python": "3.14.2",
+        "scikit_learn": "1.9.1",
+        "numpy": "2.5.3"
+      },
+      "overlapping_evaluation_rows": 0
+    }
+  ],
+  "baseline": {
+    "loss": "squared_hinge",
+    "C": 1.0
+  },
+  "selected": {
+    "loss": "squared_hinge",
+    "C": 1.0
+  },
+  "selected_run_id": "linear_svm_validation_20261009T224019558751Z",
+  "best_other_loss": {
+    "loss": "hinge",
+    "C": 1.0,
+    "run_id": "linear_svm_validation_20261009T224023888882Z"
+  },
+  "baseline_vs_selected": {
+    "reference_run_id": "linear_svm_validation_20261009T224019558751Z",
+    "candidate_run_id": "linear_svm_validation_20261009T224019558751Z",
+    "reference_errors": 162,
+    "candidate_errors": 162,
+    "corrected_messages": 0,
+    "regressed_messages": 0,
+    "mcnemar_exact_p": 1.0
+  },
+  "best_other_loss_vs_selected": {
+    "reference_run_id": "linear_svm_validation_20261009T224023888882Z",
+    "candidate_run_id": "linear_svm_validation_20261009T224019558751Z",
+    "reference_errors": 180,
+    "candidate_errors": 162,
+    "corrected_messages": 25,
+    "regressed_messages": 7,
+    "mcnemar_exact_p": 0.0021024015732109547
+  },
+  "selected_errors": 162,
+  "most_frequent_selected_errors": [
+    {
+      "true_label": "direct_debit_payment_not_recognised",
+      "predicted_label": "card_payment_not_recognised",
+      "count": 6
+    },
+    {
+      "true_label": "top_up_by_bank_transfer_charge",
+      "predicted_label": "top_up_by_card_charge",
+      "count": 4
+    },
+    {
+      "true_label": "top_up_failed",
+      "predicted_label": "top_up_reverted",
+      "count": 3
+    },
+    {
+      "true_label": "pending_cash_withdrawal",
+      "predicted_label": "declined_cash_withdrawal",
+      "count": 3
+    },
+    {
+      "true_label": "get_disposable_virtual_card",
+      "predicted_label": "disposable_card_limits",
+      "count": 3
+    }
+  ],
+  "confused_pair_examples": [
+    {
+      "id": "train-04774",
+      "text": "There is a payment in my app that I did not make.  I have not used that card all day  Please reimburse my money.",
+      "true_label": "direct_debit_payment_not_recognised",
+      "predicted_label": "card_payment_not_recognised",
+      "correct": "False",
+      "overlaps_training": "False",
+      "toward_predicted": [
+        {
+          "feature": "payment in",
+          "value": 0.41145274929974174
+        },
+        {
+          "feature": "payment",
+          "value": 0.2875065338191117
+        },
+        {
+          "feature": "app that",
+          "value": 0.11457267058765722
+        }
+      ],
+      "toward_true": [
+        {
+          "feature": "not used",
+          "value": -0.19587849294138115
+        },
+        {
+          "feature": "all day",
+          "value": -0.16319146302980733
+        },
+        {
+          "feature": "card all",
+          "value": -0.1504118908377657
+        }
+      ]
+    },
+    {
+      "id": "train-01901",
+      "text": "Are there topping up fees if I have to transfer?",
+      "true_label": "top_up_by_bank_transfer_charge",
+      "predicted_label": "top_up_by_card_charge",
+      "correct": "False",
+      "overlaps_training": "False",
+      "toward_predicted": [
+        {
+          "feature": "up fees",
+          "value": 0.43514542745022405
+        },
+        {
+          "feature": "fees",
+          "value": 0.24593174782981514
+        },
+        {
+          "feature": "topping",
+          "value": 0.24070259513284495
+        }
+      ],
+      "toward_true": [
+        {
+          "feature": "transfer",
+          "value": -0.3969668706786451
+        },
+        {
+          "feature": "there",
+          "value": -0.043135075384001194
+        },
+        {
+          "feature": "if",
+          "value": -0.03664659077541182
+        }
+      ]
+    },
+    {
+      "id": "train-08546",
+      "text": "My top-up was rejected",
+      "true_label": "top_up_failed",
+      "predicted_label": "top_up_reverted",
+      "correct": "False",
+      "overlaps_training": "False",
+      "toward_predicted": [
+        {
+          "feature": "up was",
+          "value": 0.45381550690136857
+        },
+        {
+          "feature": "was rejected",
+          "value": 0.24346237178538788
+        },
+        {
+          "feature": "my top",
+          "value": 0.14935214315497633
+        }
+      ],
+      "toward_true": [
+        {
+          "feature": "rejected",
+          "value": -0.5595377562134731
+        },
+        {
+          "feature": "my",
+          "value": -0.08826297550236505
+        },
+        {
+          "feature": "up",
+          "value": -0.08268877327172554
+        }
+      ]
+    }
+  ],
+  "weakest_classes": [
+    {
+      "label": "pending_top_up",
+      "precision": 0.7619047619047619,
+      "recall": 0.7272727272727273,
+      "f1-score": 0.7441860465116279,
+      "support": 22.0
+    },
+    {
+      "label": "card_acceptance",
+      "precision": 0.6666666666666666,
+      "recall": 0.8888888888888888,
+      "f1-score": 0.7619047619047619,
+      "support": 9.0
+    },
+    {
+      "label": "balance_not_updated_after_bank_transfer",
+      "precision": 0.8260869565217391,
+      "recall": 0.7307692307692307,
+      "f1-score": 0.7755102040816326,
+      "support": 26.0
+    },
+    {
+      "label": "card_delivery_estimate",
+      "precision": 0.7368421052631579,
+      "recall": 0.8235294117647058,
+      "f1-score": 0.7777777777777778,
+      "support": 17.0
+    },
+    {
+      "label": "card_payment_not_recognised",
+      "precision": 0.7241379310344828,
+      "recall": 0.84,
+      "f1-score": 0.7777777777777778,
+      "support": 25.0
+    }
+  ]
+}
