@@ -53,7 +53,7 @@ I did not change the other members' model, training or data files.
   - [Shared benchmark, plots and tests](https://github.com/kaanksn1/banking77-intent-classification/commit/cdb5d6f3238efd649d6a1908fb4320a9acfeea3f)
   - [Validation comparison report and figures](https://github.com/kaanksn1/banking77-intent-classification/commit/00132870e5e2bdfd5e43d6cb91dbe9e280021e53)
   - [Documentation and submission tracking](https://github.com/kaanksn1/banking77-intent-classification/commit/9733efcd63c9ca02450fe4e46eed1f6a681e006a)
-- My pull request links: (added after the pull request is opened)
+- My pull request links: [#8 Shared model benchmark and validation comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/8)
 
 ## Contribution to the presentation
 
