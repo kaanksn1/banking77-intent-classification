@@ -34,6 +34,8 @@ Tamamlanan çalışmalar: [özellik deneyi](../results/FEATURE_EXPERIMENTS.md),
 [NB alpha deneyi](../results/NAIVE_BAYES_ALPHA.md),
 [LR C/solver deneyi](../results/LOGISTIC_REGRESSION_C.md),
 [SVM C/loss deneyi](../results/LINEAR_SVM_C.md).
+Üç modelde yeniden ayarlanarak yapılan unigram / bigram karşılaştırması
+[FEATURE_COMPARISON.md](../results/FEATURE_COMPARISON.md) içindedir.
 Ortak özellik ayarı henüz ekipçe kesinleştirilmedi; mevcut NB/LR/SVM deneyleri
 unigram + bigram kullanır. Özellik raporundaki unigram önerisi alpha=1.0'lı NB
 deneyine aittir ve diğer modellerin yapılandırmasını kendiliğinden değiştirmez.
