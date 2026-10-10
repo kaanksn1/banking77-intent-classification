@@ -18,7 +18,8 @@ Mevcut raporlar:
 - [Logistic Regression C/solver deneyi](LOGISTIC_REGRESSION_C.md): 3. kişinin çalışması.
 - [Linear SVM C/loss deneyi](LINEAR_SVM_C.md): 4. kişinin çalışması.
 
-Modellerin ortak karşılaştırmasını 5. kişi hazırlayacaktır.
+- [Ortak model karşılaştırması](MODEL_COMPARISON.md): 5. kişinin çalışması;
+  `python -m banking77.benchmark_models` ile üretilir, grafikler `figures/` altındadır.
 
 `python -m banking77.benchmark_naive_bayes` yalnızca repo sahibinin alpha
 deneyini tekrar çalıştırıp `NAIVE_BAYES_ALPHA.md` ve

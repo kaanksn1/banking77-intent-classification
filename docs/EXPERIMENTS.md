@@ -20,7 +20,8 @@ resmî 10.003 eğitim örneğinin tamamıyla eğitilen yayınlarla koşullar bir
 
 Aşağıdaki tablo ekip deney kapsamını gösterir. Veri/özellik çalışması, Naive Bayes,
 Logistic Regression ve Linear SVM kendi sorumlularının PR'larıyla `main` içine alınmıştır.
-Modellerin ortak karşılaştırması 5. kişinin bekleyen işidir.
+Modellerin ortak validation karşılaştırması [MODEL_COMPARISON.md](../results/MODEL_COMPARISON.md)
+içindedir (5. kişi).
 
 | Yöntem | Başlangıç | Validation deney kapsamı |
 | --- | --- | --- |

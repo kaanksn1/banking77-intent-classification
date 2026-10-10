@@ -12,7 +12,8 @@ Bu, görevi anlatan bir örnektir; her mesajın model tarafından doğru tahmin 
 Ortak kurulum/veri altyapısı, repo sahibinin **Naive Bayes** çalışması,
 2. kişinin veri analizi ve özellik deneyleri, 3. kişinin **Logistic Regression**
 ve 4. kişinin **Linear SVM** çalışması `main` içinde hazırdır.
-Ortak karşılaştırma, grafikler ve sunum 5. kişinin görevidir.
+Ortak karşılaştırma ve grafikler 5. kişi tarafından `feature/evaluation`
+branch'inde hazırlanmıştır.
 Geliştirme için varsayılan bölüm **validation**. Nihai ortak özellik ayarı ekip
 tarafından kesinleştirilecek; her model sahibi kendi nihai test çıktısını üretecektir.
 Resmî testte henüz model değerlendirmesi yapılmadı.
@@ -26,6 +27,9 @@ Logistic Regression: [teknik açıklama ve hata analizi](docs/LOGISTIC_REGRESSIO
 [C/solver benchmark'ı](results/LOGISTIC_REGRESSION_C.md).
 Linear SVM: [teknik açıklama ve hata analizi](docs/LINEAR_SVM.md),
 [C/loss benchmark'ı](results/LINEAR_SVM_C.md).
+
+Üç modelin ortak validation karşılaştırması:
+[tablo, Macro F1 gerekçesi ve örnek hatalar](results/MODEL_COMPARISON.md).
 
 Hocanın üç e-postasına göre [teslim takibi](docs/SUBMISSION.md) tutulur.
 Her üye [kişisel katkı dosyasını](contributions/README.md) kendi commit/PR'larıyla
@@ -206,6 +210,21 @@ Yöntem, seçim gerekçesi ve örnek hataların kelime katkıları
 Bu skorlar nihai test sonucu değildir; nihai testi ortak özellik ayarı
 kesinleşince model sorumlusu çalıştıracaktır.
 
+## Ortak model karşılaştırması
+
+NB, LR ve SVM'in başlangıç ve seçilen ayarlarını aynı bilgisayarda, sırayla ve
+yalnızca validation üzerinde çalıştırmak için (tek komut):
+
+```powershell
+.\.venv\Scripts\python.exe -m banking77.benchmark_models
+```
+
+Komut mevcut eğitim fonksiyonlarını kullanır; her ayarı 3 kez çalıştırıp süreler için
+medyan alır (`--repeats` ile değişir) ve [results/MODEL_COMPARISON.md](results/MODEL_COMPARISON.md),
+`results/model_comparison_validation.json` ile `results/figures/*.png` dosyalarını üretir.
+Grafik için matplotlib gerekir (`requirements-lock.txt` içinde).
+Resmî test bu komutta kullanılmaz.
+
 ## Yapı
 
 ```text
@@ -237,10 +256,13 @@ Mevcut scriptlerin görevleri:
 | `src/banking77/linear_svm.py` | Aynı TF-IDF ile L2 düzenlileştirmeli one-vs-rest Linear SVM pipeline'ı |
 | `src/banking77/train_linear_svm.py` | SVM eğitimi, ortak metrik/tahmin çıktıları, model ve yakınsama kaydı |
 | `src/banking77/benchmark_linear_svm.py` | 10 C/loss ayarını validation üzerinde karşılaştırma, SVM raporu ve kelime katkılarını üretme |
+| `src/banking77/benchmark_models.py` | NB/LR/SVM başlangıç ve seçilen ayarlarını sırayla çalıştırma, karşılaştırma raporu ve eşleştirilmiş testler |
+| `src/banking77/plot_comparison.py` | Karşılaştırma grafikleri (skor, süre, karışan çiftler) |
 | `src/banking77/predict.py` | Kaydedilmiş modelle tek mesajın kategorisini tahmin etme |
 | `tests/test_protocol.py` | Tekrar/etiket kontrollerini, veri ayrımını ve TF-IDF eğitim sınırını doğrulama |
 | `tests/test_data_files.py` | CSV'nin LF satır sonuyla yazılmasını ve metinlerin korunmasını doğrulama |
 | `tests/test_logistic_regression.py` | LR ayarları, solver'lar, TF-IDF eğitim sınırı ve validation seçim kuralı |
+| `tests/test_benchmark_models.py` | Benchmark ayarları, yalnızca validation kullanımı, medyan süre, McNemar ve bootstrap kontrolleri |
 | `tests/test_linear_svm.py` | SVM ayarları, loss'lar, TF-IDF eğitim sınırı, seçim kuralı ve kelime katkıları |
 
 Ham CSV'ler değiştirilmeden korunur. Hazırlanmış train/validation dosyalarında
@@ -264,6 +286,7 @@ yalnızca tekrar kontrolü içindir; model orijinal mesaj metnini alır.
 - [Logistic Regression teknik notu ve hata analizi](docs/LOGISTIC_REGRESSION.md)
 - [Linear SVM C/loss deneyi](results/LINEAR_SVM_C.md)
 - [Linear SVM teknik notu ve hata analizi](docs/LINEAR_SVM.md)
+- [Ortak model karşılaştırması](results/MODEL_COMPARISON.md)
 - [2. kişiye veri/özellik devir talimatı](docs/HANDOFF_DATA.md)
 
 Veri daha önce indirilmişse ağ bağlantısı olmadan yeniden hazırlamak için
