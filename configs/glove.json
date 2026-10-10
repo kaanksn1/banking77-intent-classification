@@ -1,0 +1,9 @@
+{
+  "url": "https://nlp.stanford.edu/data/glove.6B.zip",
+  "archive_sha256": "617afb2fe6cbd085c235baf7a465b96f4112bd7f7ccb2b2cbd649fed9cbcf2fb",
+  "member": "glove.6B.100d.txt",
+  "member_sha256": "95dde4dfd627ab26608d33e76d1195ec059734bd29089ea52cadb08d07c64544",
+  "dimension": 100,
+  "license": "PDDL-1.0",
+  "source": "https://nlp.stanford.edu/projects/glove/"
+}

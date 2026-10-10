@@ -2,7 +2,8 @@
 
 GitHub kullanıcı adı: [kaanksn1](https://github.com/kaanksn1)
 
-Sorumluluk: Naive Bayes ve GitHub/entegrasyon. Grup: Anonymous.
+Sorumluluk: Naive Bayes ve GitHub/entegrasyon; son hoca yanıtından sonra açıkça
+atanan neural/embedding baseline'ları ve NB + CNN katkısı. Grup: Anonymous.
 
 ## Tamamladığım işler
 
@@ -51,7 +52,7 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
 .\.venv\Scripts\python.exe -m banking77.train_naive_bayes --split test --ngram-max 2 --alpha 0.05
 ```
 
-- Birleşik kodda **38 test geçti**; bu testlerin tamamını ben yazmadım.
+- Yeni kapsam dahil birleşik kodda **52 test geçti**; bu testlerin tamamını ben yazmadım.
 - Alpha benchmark'ımın komutu: `python -m banking77.benchmark_naive_bayes`.
 - Veri özeti SHA-256: `468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5`.
 - 8.499 train, 1.500 validation, 3.080 resmî test mesajı. Validation eğitime eklenmedi.
@@ -74,6 +75,34 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
 - [Testten önce NB ayarlarını sabitleyen commit'im](https://github.com/kaanksn1/banking77-intent-classification/commit/29312bbcf591aca0073a88cc4121dae1d172ac0d)
 - [Nihai NB teslim PR'ım #10](https://github.com/kaanksn1/banking77-intent-classification/pull/10)
 - [Özellik karşılaştırması entegrasyon incelemesi #9](https://github.com/kaanksn1/banking77-intent-classification/pull/9)
+
+## 10 Ekim'de açıkça atanan ek kapsam
+
+- PR #11'in klasik nihai test karşılaştırmasını çektim. Beş sabit model ayarının
+  skorlarını ve raporun istatistik/örtüşme hesaplarını yeniden üreterek doğruladım.
+  Karşılaştırma uygulaması ve raporu 5. kişinin katkısıdır; onun kodunu değiştirmedim.
+- Ders slaytlarının gömülü resimlerini de inceleyip zorunlu baseline listesini
+  `docs/NEURAL_BASELINES.md` içinde eşleştirdim.
+- `neural_models.py`, `train_neural.py`: maskeli CNN, vanilla RNN, LSTM, BiLSTM,
+  GloVe ortalama başlığı ve sabit kaynak sürümlü Transformer ince ayar akışını
+  hazırladım. Validation checkpoint seçimi, veri/kod/ağırlık hash'leri ve testten
+  önce commit zorunluluğu ekledim. Mevcut veri, LR/SVM ve ortak benchmark kodları değişmedi.
+- `prepare_embeddings.py`: Stanford GloVe indirme ve hash kontrolünü, yalnız
+  train sözlüğüne uyan vektörlerin ayrılmasını hazırladım. Kaynak lisanslarını kaydettim.
+- `train_embeddings.py`: train'den Word2Vec CBOW/Skip-gram ve FastText + ortalama
+  vektör + sabit LR başlığı baseline'larını hazırlayıp tam validation'da çalıştırdım.
+- Sekiz yeni baseline'ın tam validation deneylerini kaydettim; yöntem/ön eğitim
+  farklarını ve süre ölçümünün sınırlarını açıkladım. Dört Transformer'ın tam
+  eğitimleri henüz tamamlanmadı; kısa DistilBERT kontrolünü benchmark saymadım.
+- `train_ensemble.py`: kendi NB modelim ve CNN olasılıklarını birleştirdim.
+  11 ağırlığı yalnız validation macro F1 ile seçtim; yalnız NB/CNN ablation'larını
+  korudum. Seçilen ağırlık NB=0.6, CNN=0.4; validation accuracy %90.07,
+  macro F1 0.8997. Bu değerin test sonucu veya yeni araştırma algoritması olduğu iddia edilmez.
+- Neural/embedding/ensemble için 12 anlamlı kontrol ekledim: padding, heldout
+  kelimeler, FastText OOV, öğrenme, 77 sınıflı başlık, kayıt/yükleme, protokol ve
+  olasılık hizası. Opsiyonel neural CI işi ve GPU preflight hazırladım.
+- Kullanıcı onayıyla WSL 3.0.1 ve VirtualMachinePlatform kurulumunu başlattım;
+  Windows yeniden başlatma istiyor. GPU runtime'ının çalıştığı henüz doğrulanmadı.
 
 ## Sunuma katkım
 

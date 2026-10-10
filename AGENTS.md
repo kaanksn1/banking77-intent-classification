@@ -20,3 +20,15 @@ Use validation for model/parameter selection. Keep the official test set reserve
 until settings are fixed. Respect the duplicate/overlap reporting in docs/EXPERIMENTS.md.
 
 Verification: `python -m unittest discover -s tests -v` and a Naive Bayes validation run.
+
+## Explicitly assigned extension (2026-10-10)
+
+The user assigned the newly required lecture baselines after the professor
+clarified that RNN/CNN/LSTM and Transformer methods must also be included.
+The owner may implement `neural_models.py`, `train_neural.py`,
+`train_embeddings.py`, embedding preparation, GPU setup/preflight, and the
+owner's NB + CNN voting experiment in `train_ensemble.py`, with their tests
+and documentation. Existing teammate data/LR/SVM/evaluation implementations
+and personal contribution reports remain owned by those teammates.
+Use the unchanged BANKING77 splits. CLINC and JEV additions remain canceled.
+Commit frozen new-model protocols before evaluating their official test.

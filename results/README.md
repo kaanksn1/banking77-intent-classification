@@ -1,8 +1,12 @@
 # Deney sonuçları
 
 NB'nin nihai test sonucu [NAIVE_BAYES_TEST.md](NAIVE_BAYES_TEST.md) ve
-`naive_bayes_test/` içinde yayımlanmıştır. LR ve SVM'nin nihai test sonuçları
-henüz teslim edilmemiştir. `runs/` klasöründeki tekrarlı yerel çıktılar Git'e eklenmez.
+`naive_bayes_test/` içinde yayımlanmıştır. LR ve SVM dahil klasik nihai testler
+[MODEL_COMPARISON_TEST.md](MODEL_COMPARISON_TEST.md) içinde teslim edilmiştir.
+Yeni neural/embedding baseline'ları ve repo sahibinin NB + CNN katkısı için
+[NEURAL_VALIDATION.md](NEURAL_VALIDATION.md) ve `neural_validation.json` bulunur.
+Dört Transformer'ın tam eğitimi beklemektedir. `runs/` klasöründeki tekrarlı
+yerel çıktılar Git'e eklenmez.
 Naive Bayes, Logistic Regression ve Linear SVM çalıştırıcıları `metrics.json`,
 `classification_report.json`, `predictions.csv` ve `confusion_matrix.csv` üretir.
 Diğer model sorumluları da aynı çıktı sözleşmesini kullanır.

@@ -1,8 +1,10 @@
 # BANKING77 — Banka Müşteri Taleplerinin Sınıflandırılması
 
 COE025 NLP Project 1 için kısa İngilizce müşteri mesajlarını 77 talep kategorisine
-ayıran metin sınıflandırma projesi. Ekip planında TF-IDF + Naive Bayes, Logistic
-Regression ve Linear SVM aynı veri bölümlerinde karşılaştırılacaktır.
+ayıran metin sınıflandırma projesi. TF-IDF + Naive Bayes, Logistic Regression ve
+Linear SVM karşılaştırması tamamlandı. Hocanın son kapsam açıklamasıyla kelime
+embedding'leri, CNN/RNN/LSTM/BiLSTM ve Transformer baseline'ları da eklendi;
+tamamlanan ve bekleyen deneyler aşağıda ayrı belirtilir.
 
 Örnek beklenen etiket: `I am still waiting on my card` → `card_arrival`.
 Bu, görevi anlatan bir örnektir; her mesajın model tarafından doğru tahmin edildiği iddia edilmez.
@@ -17,8 +19,18 @@ Teslimde mevcut veri ve unigram + bigram temsili korunur; karar
 [deney protokolünde](docs/EXPERIMENTS.md) kayıtlıdır.
 Naive Bayes'in testten önce sabitlenen ayarıyla nihai test sonucu:
 **accuracy %84.74, macro F1 0.8458**. [Test raporu ve çıktıları](results/NAIVE_BAYES_TEST.md)
-hazırdır. LR/SVM'nin nihai testleri kendi model sahiplerinin; nihai karşılaştırma
-ve PPTX sunum 5. kişinin bekleyen işleridir.
+hazırdır. 5. kişinin LR/SVM dahil [nihai klasik model karşılaştırması](results/MODEL_COMPARISON_TEST.md)
+PR #11 ile ana dala alınmıştır; entegrasyonda skorlar ve istatistikler yeniden
+doğrulanmıştır. PPTX ve yeni modelleri içeren genişletilmiş karşılaştırma beklemektedir.
+
+Repo sahibine ayrıca atanan yeni kapsamda CNN, RNN, LSTM, BiLSTM, GloVe,
+Word2Vec CBOW/Skip-gram ve FastText'in tam validation deneyleri tamamlandı.
+Ekip katkısı olarak NB + CNN soft voting'in ağırlığı validation'da seçildi.
+[Yeni deneyler ve gerçek sonuçlar](results/NEURAL_VALIDATION.md),
+[yöntemler, kurulum ve komutlar](docs/NEURAL_BASELINES.md).
+Slaytlarda adı geçen BERT-base, DistilBERT, RoBERTa-base ve ALBERT-base-v2
+için eğitim kodu hazır; tam eğitimleri henüz tamamlanmadı. WSL kurulumu
+Windows'un yeniden başlatılmasını bekliyor; GPU çalışması henüz doğrulanmadı.
 
 Repo sahibinin mevcut veri sürümü için Naive Bayes devir paketi:
 [teknik açıklama ve hata analizi](docs/NAIVE_BAYES.md),
@@ -33,11 +45,15 @@ Linear SVM: [teknik açıklama ve hata analizi](docs/LINEAR_SVM.md),
 Üç modelin ortak validation karşılaştırması:
 [tablo, Macro F1 gerekçesi ve örnek hatalar](results/MODEL_COMPARISON.md).
 
-Hocanın üç e-postasına göre [teslim takibi](docs/SUBMISSION.md) tutulur.
+Hocanın proje/benchmark e-postaları ve son baseline açıklamasına göre [teslim takibi](docs/SUBMISSION.md) tutulur.
 Her üye [kişisel katkı dosyasını](contributions/README.md) kendi commit/PR'larıyla
-hazırlar. Baseline kapsamına ilişkin açık nokta teslim takibinde açıklanır.
+hazırlar. Tüm ders yöntemlerinin baseline olması gerektiği son e-postayla kesinleşmiştir.
 
 ## Kurulum
+
+Bu bölüm klasik modellerin kurulumudur. Sinir ağı ve embedding deneyleri için
+ayrı [opsiyonel bağımlılıklar ve CPU/AMD GPU adımları](docs/NEURAL_BASELINES.md)
+vardır; `requirements-neural.txt` klasik paket sürümlerini değiştirmez.
 
 Python 3.10+ gerekir; geliştirme ortamı Python 3.12.
 
@@ -257,7 +273,7 @@ Nihai özellik ayarı unigram + bigram'dır; gerekçe için
 
 ```text
 configs/          Veri kaynağı, sabit commit ve dosya hash'leri
-src/banking77/    Veri hazırlama/analiz, Naive Bayes, Logistic Regression ve Linear SVM
+src/banking77/    Veri, klasik modeller, neural/embedding baseline'ları ve NB + CNN
 tests/            Veri, TF-IDF eğitim sınırı ve model/seçim kontrolleri
 docs/             Veri/model açıklamaları, görev dağılımı ve deney protokolü
 contributions/    Kişisel katkı dosyaları ve katkı şablonu
@@ -265,6 +281,7 @@ data/raw/         Resmî train/test, kategori listesi ve kaynak veri lisansı
 data/processed/   Hazırlanmış train/validation/test, kategoriler ve özet
 results/          Validation raporları ve seçilen nihai test çıktıları; runs/ yerelde tutulur
 artifacts/        Eğitilmiş modeller (Git dışında)
+scripts/          Kullanıcı onayıyla çalıştırılan WSL kurulum yardımcısı
 .github/          Otomatik kontroller ve PR şablonu
 LICENSE           Proje kodunun MIT lisansı
 ```
@@ -288,6 +305,15 @@ Mevcut scriptlerin görevleri:
 | `src/banking77/benchmark_features.py` | Unigram, unigram + bigram ve yalnızca bigram'ı üç modelde yeniden ayarlayarak karşılaştırma |
 | `src/banking77/plot_comparison.py` | Karşılaştırma grafikleri (skor, süre, karışan çiftler) |
 | `src/banking77/predict.py` | Kaydedilmiş modelle tek mesajın kategorisini tahmin etme |
+| `src/banking77/neural_models.py` | Train sözlüğü, maskeli pooling, CNN/RNN/LSTM/BiLSTM mimarileri |
+| `src/banking77/train_neural.py` | Kelime/Transformer eğitimi, validation checkpoint seçimi, protokol sabitleme ve test |
+| `src/banking77/train_embeddings.py` | Train'den Word2Vec CBOW/Skip-gram veya FastText + ortalama vektör + sabit LR başlığı |
+| `src/banking77/prepare_embeddings.py` | Kaynak hash'lerini doğrulayıp train sözlüğüne uyan GloVe vektörlerini ayırma |
+| `src/banking77/train_ensemble.py` | NB + CNN olasılıklarını validation ağırlığıyla birleştirme, ablation, sabitleme ve test |
+| `src/banking77/neural_preflight.py` | Gerçek forward/backward ile CPU veya ROCm/CUDA aygıt kontrolü |
+| `configs/neural_models.json`, `configs/glove.json` | Ön eğitim kaynakları, sabit sürümler, hash'ler ve lisanslar |
+| `scripts/Install-NeuralWSL.ps1` | WSL + Ubuntu kurulumu; otomatik yeniden başlatma yapmaz |
+| `tests/test_neural.py`, `tests/test_embeddings.py`, `tests/test_ensemble.py` | PAD/UNK, öğrenme, 77 sınıflı başlık, heldout/OOV, checkpoint, seçim ve olasılık hizası kontrolleri |
 | `tests/test_protocol.py` | Tekrar/etiket kontrollerini, veri ayrımını ve TF-IDF eğitim sınırını doğrulama |
 | `tests/test_data_files.py` | CSV'nin LF satır sonuyla yazılmasını ve metinlerin korunmasını doğrulama |
 | `tests/test_logistic_regression.py` | LR ayarları, solver'lar, TF-IDF eğitim sınırı ve validation seçim kuralı |
@@ -318,6 +344,9 @@ yalnızca tekrar kontrolü içindir; model orijinal mesaj metnini alır.
 - [Linear SVM C/loss deneyi](results/LINEAR_SVM_C.md)
 - [Linear SVM teknik notu ve hata analizi](docs/LINEAR_SVM.md)
 - [Ortak model karşılaştırması](results/MODEL_COMPARISON.md)
+- [Klasik modellerin nihai test karşılaştırması](results/MODEL_COMPARISON_TEST.md)
+- [Neural/embedding yöntemleri ve GPU kurulum durumu](docs/NEURAL_BASELINES.md)
+- [Yeni baseline ve NB + CNN validation sonuçları](results/NEURAL_VALIDATION.md)
 - [Unigram / bigram özellik karşılaştırması (üç model)](results/FEATURE_COMPARISON.md)
 - [2. kişiye veri/özellik devir talimatı](docs/HANDOFF_DATA.md)
 
