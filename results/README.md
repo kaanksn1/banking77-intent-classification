@@ -1,7 +1,7 @@
 # Deney sonuçları
 
 Henüz nihai test sonucu yok. `runs/` klasöründeki yerel çıktılar Git'e eklenmez.
-Naive Bayes ve Logistic Regression çalıştırıcıları `metrics.json`,
+Naive Bayes, Logistic Regression ve Linear SVM çalıştırıcıları `metrics.json`,
 `classification_report.json`, `predictions.csv` ve `confusion_matrix.csv` üretir.
 Diğer model sorumluları da aynı çıktı sözleşmesini kullanır.
 Seçilen deneylerin küçük özetlerini, ayarları ve
@@ -16,6 +16,7 @@ Mevcut raporlar:
 - [Naive Bayes alpha deneyi](NAIVE_BAYES_ALPHA.md): repo sahibinin çalışması.
 - [Unigram/bigram özellik deneyleri](FEATURE_EXPERIMENTS.md): 2. kişinin çalışması.
 - [Logistic Regression C/solver deneyi](LOGISTIC_REGRESSION_C.md): 3. kişinin çalışması.
+- [Linear SVM C/loss deneyi](LINEAR_SVM_C.md): 4. kişinin çalışması.
 
 Modellerin ortak karşılaştırmasını 5. kişi hazırlayacaktır.
 
@@ -29,6 +30,11 @@ Resmî test bu scriptte kullanılmaz. Hata yorumları `docs/NAIVE_BAYES.md` içi
 çalıştırıp `LOGISTIC_REGRESSION_C.md` ve `logistic_regression_validation.json`
 dosyalarını üretir. Hata yorumları `docs/LOGISTIC_REGRESSION.md` içindedir.
 Özellik deneyinin komutları `FEATURE_EXPERIMENTS.md` içinde yer alır.
+
+`python -m banking77.benchmark_linear_svm` 10 validation ayarını tekrar çalıştırıp
+`LINEAR_SVM_C.md` ve `linear_svm_validation.json` dosyalarını üretir.
+Örnek hataların kelime katkıları aynı scriptte hesaplanır; yorumları
+`docs/LINEAR_SVM.md` içindedir. Nihai test bu benchmark'ta kullanılmaz.
 
 PR #2 hazırlanmış CSV yazımını LF satır sonuna sabitledi. İlk LR raporundaki
 train/validation dosya hash'leri aynı kayıtların CRLF ile yazılmış sürümüne aittir.

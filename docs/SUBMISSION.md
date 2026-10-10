@@ -33,15 +33,18 @@ Notun %50'si sunum, %50'si implementation repo.
 - [x] Naive Bayes alpha benchmark'ı tek komutla tekrar çalıştırılabilir.
 - [x] Naive Bayes teknik açıklaması ve üç gerçek validation hatasının yorumu mevcut.
 - [x] 2. kişinin kendi çalışması için devir adımları docs/HANDOFF_DATA.md'de.
-- [x] PR #2 ve #3 main'e alındı; ortak README ve çalıştırma bağlantıları güncellendi.
-- [x] Birleşik kodda 14 yerel kontrol geçti; Naive Bayes validation çalışması doğrulandı.
+- [x] PR #2, #3 ve #5 main'e alındı; ortak README ve çalıştırma bağlantıları güncellendi.
+- [x] Birleşik kodda 21 yerel kontrol geçti; Naive Bayes validation çalışması doğrulandı.
 - [x] Logistic Regression'ın 15 validation deneyi ve raporlanan skorları entegrasyonda doğrulandı.
+- [x] Linear SVM'nin 10 validation deneyi, veri hash'leri ve hata katkıları incelemede doğrulandı.
+- [x] Üç modelin seçilen ayarları aynı veriyle validation üzerinde çalıştırıldı; tek mesaj tahmin komutu NB ve SVM ile doğrulandı.
 - [ ] Beş üyenin kendi gerçek katkı dosyalarını, commit ve PR bağlantılarını eklemesi.
 - [x] 2. kişi: veri analizi, veri ön işleme pipeline dokümantasyonu, özellik deneyleri ve katkı dosyası.
 - [x] 3. kişi: Logistic Regression kodu, validation deneyleri ve katkı dosyası.
 - [ ] Ekip: nihai ortak özellik ayarını kararlaştırma; değişirse model sahiplerinin deneyleri yenilemesi.
 - [ ] 3. kişi: teknik notta Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme; train/validation örtüşme iddiasını normalize anahtara göre birebir örtüşme olarak netleştirme.
-- [ ] 4. kişi: Linear SVM kodu, deneyleri ve katkı dosyası.
+- [x] 4. kişi: Linear SVM kodu, validation deneyleri ve katkı dosyası.
+- [ ] 4. kişi: teknik notta Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme.
 - [ ] Her model sahibi: validation ile ayarlarını dondurma, sonra nihai test çıktısı.
 - [ ] 5. kişi: ortak benchmark, metrik gerekçesi, karşılaştırma ve sunum.
 - [ ] Son repo kontrolü: komutlar çalışıyor; geçici ve gereksiz dosyalar dışarıda.
