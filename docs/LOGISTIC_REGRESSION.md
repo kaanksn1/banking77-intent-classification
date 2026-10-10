@@ -74,7 +74,12 @@ Tek bir ayarı çalıştırmak için:
 
 Mevcut veri sürümünde 8.499 train ve 1.500 validation kaydı vardır;
 `dataset_summary_sha256` Naive Bayes deneyiyle aynıdır
-(`468f5502…`). Validation ile train arasında metin örtüşmesi yoktur.
+(`468f5502…`). Normalize anahtara göre (NFKC + casefold + boşluk) train ile
+validation arasında birebir ortak metin yoktur; `data.py` bunu ayırmada zorunlu kılar.
+Noktalama/tire/para birimi farkıyla ayrışan 4 yakın tekrar ise vardır
+([veri notu](DATA.md)). Seçilen ayar bu 4 mesajın dördünü de doğru tahmin etti;
+bu satırlar çıkarıldığında skor accuracy %89.04, macro F1 0.8916 olur
+(tam validation: %89.07, 0.8920).
 
 | Ayar | Accuracy | Macro F1 | Eğitim (s) |
 | --- | ---: | ---: | ---: |
@@ -133,7 +138,7 @@ veri/özellik çalışması kesinleştikten sonra çalıştırılacaktır:
 ```
 
 Test script'i hazırlanmış train bölümüyle eğitir, validation eğitime eklenmez.
-Resmî test ile train arasında 7 metin örtüşmesi vardır; script train ile
+Resmî test ile train arasında normalize anahtara göre 7 birebir ortak metin vardır; script train ile
 örtüşmeyen altkümenin skorlarını `nonoverlapping_subset` olarak ayrıca kaydeder.
 
 ## Hata analizi
@@ -196,6 +201,9 @@ Ek gözlemler:
   biçimleri (`trasfer`, `stillpending`) doğru kelimeyle birleştiremez; karakter n-gram veya
   embedding tabanlı özellikler bu durumlar için denenebilir (2. kişinin özellik
   çalışmasının kapsamıdır, burada denenmedi).
-- Sonuçlar tek bir 1.500 satırlık validation bölümüne dayanır. Macro F1'de
-  ±0.005 içindeki farklar (yaklaşık 5–10 mesaj) bu boyutta güvenilir ayrım sayılmamalıdır.
+- Sonuçlar tek bir 1.500 satırlık validation bölümüne dayanır. Macro F1, sınıf başına
+  F1'lerin eşit ağırlıklı ortalamasıdır; bir mesajın etkisi sınıfın validation'daki örnek
+  sayısına (5–28) göre değişir, bu yüzden macro F1 farkı sabit bir mesaj sayısına
+  çevrilemez. Küçük farklar eşleştirilmiş McNemar testiyle birlikte yorumlandı: en iyi
+  solver ayarları arasındaki fark (p = 0.30) güvenilir bir ayrım değildir.
 - Model skorları kalibrasyon kontrolü yapılmadan doğruluk olasılığı gibi yorumlanmamalıdır.
