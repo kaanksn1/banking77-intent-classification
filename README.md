@@ -231,6 +231,16 @@ medyan alır (`--repeats` ile değişir) ve [results/MODEL_COMPARISON.md](result
 Grafik için matplotlib gerekir (`requirements-lock.txt` içinde).
 Resmî test bu komutta kullanılmaz.
 
+Özellik ayarını (unigram, unigram + bigram, yalnızca bigram) üç modelde, her modelin
+kendi hiperparametre ızgarasıyla yeniden ayarlayarak karşılaştırmak için:
+
+```powershell
+.\.venv\Scripts\python.exe -m banking77.benchmark_features
+```
+
+Komut yalnızca validation kullanır (~2 dakika) ve [results/FEATURE_COMPARISON.md](results/FEATURE_COMPARISON.md)
+ile `results/feature_comparison_validation.json` dosyalarını üretir.
+
 ## Yapı
 
 ```text
@@ -263,12 +273,14 @@ Mevcut scriptlerin görevleri:
 | `src/banking77/train_linear_svm.py` | SVM eğitimi, ortak metrik/tahmin çıktıları, model ve yakınsama kaydı |
 | `src/banking77/benchmark_linear_svm.py` | 10 C/loss ayarını validation üzerinde karşılaştırma, SVM raporu ve kelime katkılarını üretme |
 | `src/banking77/benchmark_models.py` | NB/LR/SVM başlangıç ve seçilen ayarlarını sırayla çalıştırma, karşılaştırma raporu ve eşleştirilmiş testler |
+| `src/banking77/benchmark_features.py` | Unigram, unigram + bigram ve yalnızca bigram'ı üç modelde yeniden ayarlayarak karşılaştırma |
 | `src/banking77/plot_comparison.py` | Karşılaştırma grafikleri (skor, süre, karışan çiftler) |
 | `src/banking77/predict.py` | Kaydedilmiş modelle tek mesajın kategorisini tahmin etme |
 | `tests/test_protocol.py` | Tekrar/etiket kontrollerini, veri ayrımını ve TF-IDF eğitim sınırını doğrulama |
 | `tests/test_data_files.py` | CSV'nin LF satır sonuyla yazılmasını ve metinlerin korunmasını doğrulama |
 | `tests/test_logistic_regression.py` | LR ayarları, solver'lar, TF-IDF eğitim sınırı ve validation seçim kuralı |
 | `tests/test_benchmark_models.py` | Benchmark ayarları, yalnızca validation kullanımı, medyan süre, McNemar ve bootstrap kontrolleri |
+| `tests/test_benchmark_features.py` | Özellik karşılaştırmasının seçim kuralı, validation-only kullanımı ve ızgaraları |
 | `tests/test_linear_svm.py` | SVM ayarları, loss'lar, TF-IDF eğitim sınırı, seçim kuralı ve kelime katkıları |
 
 Ham CSV'ler değiştirilmeden korunur. Hazırlanmış train/validation dosyalarında
@@ -294,6 +306,7 @@ yalnızca tekrar kontrolü içindir; model orijinal mesaj metnini alır.
 - [Linear SVM C/loss deneyi](results/LINEAR_SVM_C.md)
 - [Linear SVM teknik notu ve hata analizi](docs/LINEAR_SVM.md)
 - [Ortak model karşılaştırması](results/MODEL_COMPARISON.md)
+- [Unigram / bigram özellik karşılaştırması (üç model)](results/FEATURE_COMPARISON.md)
 - [2. kişiye veri/özellik devir talimatı](docs/HANDOFF_DATA.md)
 
 Veri daha önce indirilmişse ağ bağlantısı olmadan yeniden hazırlamak için

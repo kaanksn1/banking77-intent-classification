@@ -34,11 +34,15 @@ Tamamlanan çalışmalar: [özellik deneyi](../results/FEATURE_EXPERIMENTS.md),
 [NB alpha deneyi](../results/NAIVE_BAYES_ALPHA.md),
 [LR C/solver deneyi](../results/LOGISTIC_REGRESSION_C.md),
 [SVM C/loss deneyi](../results/LINEAR_SVM_C.md).
+Üç modelde yeniden ayarlanarak yapılan unigram / bigram karşılaştırması
+[FEATURE_COMPARISON.md](../results/FEATURE_COMPARISON.md) içindedir.
+
 10 Ekim teslim entegrasyonunda mevcut ortak TF-IDF temsili korunur:
 unigram + bigram (`ngram_range=(1, 2)`), `sublinear_tf=True`; veri bölümleri
 ve `seed=42` değişmez. Bu, mevcut üç modelin validation karşılaştırmasıyla
 aynı temsildir. Özellik raporundaki unigram önerisi alpha=1.0'lı NB deneyine
-aittir; tüm modeller için en iyi temsil bulunduğu iddia edilmez.
+aittir; tüm modeller için en iyi temsil bulunduğu iddia edilmez. Sonradan gelen
+özellik karşılaştırması NB'nin test öncesinde sabitlenen ayarını değiştirmez.
 
 Önce ortak özellik ayarıyla modelleri karşılaştırın. Özellik deneylerini ayrı
 tabloda gösterin. Ana model seçme metriği macro F1; accuracy de raporlanır.

@@ -24,6 +24,9 @@ Mevcut raporlar:
 - [Logistic Regression C/solver deneyi](LOGISTIC_REGRESSION_C.md): 3. kişinin çalışması.
 - [Linear SVM C/loss deneyi](LINEAR_SVM_C.md): 4. kişinin çalışması.
 
+- [Üç modelde özellik karşılaştırması](FEATURE_COMPARISON.md): 5. kişinin çalışması;
+  `python -m banking77.benchmark_features`. Unigram, unigram + bigram ve yalnızca bigram,
+  her model için kendi ızgarasıyla yeniden ayarlanarak karşılaştırılır.
 - [Ortak model karşılaştırması](MODEL_COMPARISON.md): 5. kişinin çalışması;
   `python -m banking77.benchmark_models` ile üretilir, grafikler `figures/` altındadır.
 

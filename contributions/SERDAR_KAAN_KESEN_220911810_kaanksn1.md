@@ -24,6 +24,10 @@ Sorumluluk: Naive Bayes ve GitHub/entegrasyon. Grup: Anonymous.
 - PR #7'nin açıklama düzeltmelerini ve PR #8'in son benchmark revizyonunu
   inceledim. 15 validation çalıştırmasının skorlarını, istatistiklerini,
   veri hash'lerini ve yakın tekrar duyarlılık sonuçlarını doğrulayıp birleştirdim.
+- PR #9'un unigram, unigram + bigram ve bigram-only karşılaştırmasındaki 90
+  validation denemesini entegrasyon için yeniden çalıştırdım; raporlanan skorları
+  ve istatistikleri doğruladım. Ortak deney belgesindeki birleştirme çakışmasını
+  çözdüm. Deney tasarımı, uygulaması ve raporu ilgili ekip arkadaşının katkısıdır.
 - `results/naive_bayes_final_protocol.json`: NB ayarını ilk resmî testten önce
   ayrı commit ile sabitledim. Mevcut veri ve ortak unigram + bigram temsili korundu.
 - `results/NAIVE_BAYES_TEST.md`, `results/naive_bayes_test/`: sabit ayarla nihai
@@ -47,7 +51,7 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
 .\.venv\Scripts\python.exe -m banking77.train_naive_bayes --split test --ngram-max 2 --alpha 0.05
 ```
 
-- Birleşik kodda **33 test geçti**; bu testlerin tamamını ben yazmadım.
+- Birleşik kodda **38 test geçti**; bu testlerin tamamını ben yazmadım.
 - Alpha benchmark'ımın komutu: `python -m banking77.benchmark_naive_bayes`.
 - Veri özeti SHA-256: `468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5`.
 - 8.499 train, 1.500 validation, 3.080 resmî test mesajı. Validation eğitime eklenmedi.
@@ -68,6 +72,8 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
 - [Veri/LR entegrasyon PR'ım #4](https://github.com/kaanksn1/banking77-intent-classification/pull/4)
 - [SVM entegrasyon PR'ım #6](https://github.com/kaanksn1/banking77-intent-classification/pull/6)
 - [Testten önce NB ayarlarını sabitleyen commit'im](https://github.com/kaanksn1/banking77-intent-classification/commit/29312bbcf591aca0073a88cc4121dae1d172ac0d)
+- [Nihai NB teslim PR'ım #10](https://github.com/kaanksn1/banking77-intent-classification/pull/10)
+- [Özellik karşılaştırması entegrasyon incelemesi #9](https://github.com/kaanksn1/banking77-intent-classification/pull/9)
 
 ## Sunuma katkım
 
