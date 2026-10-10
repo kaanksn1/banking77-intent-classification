@@ -20,10 +20,15 @@ Responsibility: Person 5 — shared evaluation: benchmark script, comparison tab
 - Near-duplicate sensitivity: validation scores are recomputed without validation messages that are
   near-copies of training messages (character n-gram TF-IDF cosine >= 0.95 and >= 0.90). The split was not
   changed; the model ordering is unchanged and the scores drop by about 0.4 to 0.5 points at 0.95.
+- `src/banking77/benchmark_features.py` and `results/FEATURE_COMPARISON.md`: unigram vs unigram + bigram
+  on all three models, each re-tuned with the owners' own hyperparameter grids and selection rule
+  (validation only), with exact McNemar and paired bootstrap, plus a bigram-only ablation. Findings:
+  unigram vs unigram + bigram is not separable for any model (p = 0.08 to 0.75, NB slightly favours
+  bigrams); bigram only is clearly worse (macro F1 down 0.046 to 0.063, p < 1e-13).
 - `tests/test_benchmark_models.py`: 12 unit tests (agreed settings, validation-only use, median timing,
   rejection of changed scores or datasets or data files, convergence reporting, McNemar counts, macro F1
   against scikit-learn, seeded bootstrap, near-duplicate similarity, subset scores, error example selection).
-  The full suite has 33 passing tests.
+  `tests/test_benchmark_features.py` adds 5 more. The full suite has 38 passing tests.
 - `results/MODEL_COMPARISON.md`, `results/model_comparison_validation.json`, `results/figures/*.png`:
   generated report with the comparison table, the macro F1 justification, most confused pairs and real
   example errors.
@@ -59,6 +64,10 @@ I did not change the other members' model, training or data files.
   - [Shared benchmark, plots and tests](https://github.com/kaanksn1/banking77-intent-classification/commit/cdb5d6f3238efd649d6a1908fb4320a9acfeea3f)
   - [Validation comparison report and figures](https://github.com/kaanksn1/banking77-intent-classification/commit/00132870e5e2bdfd5e43d6cb91dbe9e280021e53)
   - [Documentation and submission tracking](https://github.com/kaanksn1/banking77-intent-classification/commit/9733efcd63c9ca02450fe4e46eed1f6a681e006a)
+  - [Data-file, convergence and near-duplicate checks](https://github.com/kaanksn1/banking77-intent-classification/commit/0f1358d5d561a71b820336b97821d8e0a5768492)
+  - [Regenerated report and contribution file](https://github.com/kaanksn1/banking77-intent-classification/commit/1a019b6adcd9d0f4f612de9ea7d42f8170e96cf7)
+  - [Three-model feature comparison with bigram-only ablation](https://github.com/kaanksn1/banking77-intent-classification/commit/906d57fb0e416f0c6782fc86e4f74d1ed52e14d4)
+  - [Feature comparison report and documentation](https://github.com/kaanksn1/banking77-intent-classification/commit/0ac43a0e162158334d53dca2ee3f3f34e63bba2e)
 - My pull request links: [#8 Shared model benchmark and validation comparison](https://github.com/kaanksn1/banking77-intent-classification/pull/8)
 
 ## Contribution to the presentation
