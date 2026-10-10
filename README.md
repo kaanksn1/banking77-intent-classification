@@ -28,6 +28,9 @@ Word2Vec CBOW/Skip-gram ve FastText'in tam validation deneyleri tamamlandı.
 Ekip katkısı olarak NB + CNN soft voting'in ağırlığı validation'da seçildi.
 [Yeni deneyler ve gerçek sonuçlar](results/NEURAL_VALIDATION.md),
 [yöntemler, kurulum ve komutlar](docs/NEURAL_BASELINES.md).
+Bu sekiz baseline ve NB + CNN, [testten önceki commit](https://github.com/kaanksn1/banking77-intent-classification/commit/2425ccc)
+ile sabitlenip resmî testte değerlendirildi: **NB + CNN accuracy %90.65,
+macro F1 0.9061**. [Nihai yeni-model çıktıları ve hata örnekleri](results/NEURAL_TEST.md).
 Slaytlarda adı geçen BERT-base, DistilBERT, RoBERTa-base ve ALBERT-base-v2
 için eğitim kodu hazır; tam eğitimleri henüz tamamlanmadı. WSL kurulumu
 Windows'un yeniden başlatılmasını bekliyor; GPU çalışması henüz doğrulanmadı.
@@ -347,6 +350,7 @@ yalnızca tekrar kontrolü içindir; model orijinal mesaj metnini alır.
 - [Klasik modellerin nihai test karşılaştırması](results/MODEL_COMPARISON_TEST.md)
 - [Neural/embedding yöntemleri ve GPU kurulum durumu](docs/NEURAL_BASELINES.md)
 - [Yeni baseline ve NB + CNN validation sonuçları](results/NEURAL_VALIDATION.md)
+- [Yeni baseline ve NB + CNN nihai test sonuçları](results/NEURAL_TEST.md)
 - [Unigram / bigram özellik karşılaştırması (üç model)](results/FEATURE_COMPARISON.md)
 - [2. kişiye veri/özellik devir talimatı](docs/HANDOFF_DATA.md)
 

@@ -75,6 +75,7 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
 - [Testten önce NB ayarlarını sabitleyen commit'im](https://github.com/kaanksn1/banking77-intent-classification/commit/29312bbcf591aca0073a88cc4121dae1d172ac0d)
 - [Nihai NB teslim PR'ım #10](https://github.com/kaanksn1/banking77-intent-classification/pull/10)
 - [Özellik karşılaştırması entegrasyon incelemesi #9](https://github.com/kaanksn1/banking77-intent-classification/pull/9)
+- [Yeni baseline ve NB + CNN ayarlarının test öncesi commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/2425ccc)
 
 ## 10 Ekim'de açıkça atanan ek kapsam
 
@@ -103,6 +104,11 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
   olasılık hizası. Opsiyonel neural CI işi ve GPU preflight hazırladım.
 - Kullanıcı onayıyla WSL 3.0.1 ve VirtualMachinePlatform kurulumunu başlattım;
   Windows yeniden başlatma istiyor. GPU runtime'ının çalıştığı henüz doğrulanmadı.
+- Sekiz baseline ve NB + CNN checkpoint'lerini testten önce ayrı commit'le sabitledim.
+  Resmî testte yeniden eğitim yapmadan değerlendirdim; 3.080 tahminin kimlik/metin/etiketlerini,
+  accuracy/macro F1 ve confusion matrix'i çıktı dosyalarından yeniden hesaplayarak doğruladım.
+  NB + CNN: accuracy %90.65, macro F1 0.9061. Standart çıktılar ve her yöntem için
+  üç gerçek hata örneği `results/NEURAL_TEST.md` ile `results/neural_test/` altında.
 
 ## Sunuma katkım
 

@@ -41,6 +41,9 @@ Sunum: 12 Ekim 2026 Pazartesi. Notun %50'si sunum, %50'si implementation repo.
 - [x] Yeni kapsamın neural/embedding eğitim, sabitleme ve test scriptleri.
 - [x] Sekiz yeni baseline'ın tam train/validation deneyleri; NB + CNN validation
   ağırlık taraması. [Kaydedilmiş sonuçlar](../results/NEURAL_VALIDATION.md).
+- [x] Sekiz baseline ve NB + CNN protokolleri testten önce `2425ccc` commit'inde
+  sabitlendi; seçilen checkpoint'lerle resmî test çalıştırıldı. [Yeni test çıktıları](../results/NEURAL_TEST.md).
+  NB + CNN: accuracy %90.65, macro F1 0.9061. Tahminler ve metrikler yeniden hesaplanarak doğrulandı.
 - [x] GloVe kaynak arşivi/vektör hash'leri; dört Transformer'ın sabit model
   repository/commit/lisans kayıtları. Büyük ağırlıklar Git dışında tutulur.
 - [x] CPU forward/backward, kısa Transformer geliştirme kontrolü; 52 yerel test
@@ -55,8 +58,6 @@ Sunum: 12 Ekim 2026 Pazartesi. Notun %50'si sunum, %50'si implementation repo.
 - [ ] Repo sahibi: dört Transformer'ın tam validation eğitimi; seçilmiş ayarları
   testten önce commit etme ve nihai test değerlendirmesi. Eğitim kodu hazır
   olması, bu deneylerin tamamlandığı anlamına gelmez.
-- [ ] Repo sahibi: tamamlanan yeni baseline ve NB + CNN protokollerini testten
-  önce commit etme, seçilmiş checkpoint'lerle nihai test çıktısını teslim etme.
 - [ ] 4. kişi: teknik nottaki Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme.
 - [ ] 5. kişi: özellik raporunda bigram-only ablation'ı ve seçilmeyen unigram
   SVM (`hinge`, `C=10`) adayının 10.000 iterasyon sınırına ulaştığını açıklama.

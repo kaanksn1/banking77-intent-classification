@@ -201,6 +201,8 @@ kullanılır; GloVe kodunun Apache lisansıyla vektörlerin lisansı karıştır
 
 Bu dosyadaki vanilla RNN/CNN/LSTM/Transformer'lar ders baseline'larıdır.
 NB + CNN katkısının validation deneyi ve iki uç ablation'ı tamamlandı.
+Sekiz baseline ve NB + CNN ayarları `2425ccc` ile testten önce sabitlendi;
+[nihai test ve gerçek hata örnekleri](../results/NEURAL_TEST.md) teslim edildi.
 Dört Transformer'ın tam eğitimleri bekliyor; kısa geliştirme kontrolü benchmark
 sonucu olarak sunulmaz. Tek seed sonuçları genelleme veya istatistiksel üstünlük
 kanıtı değildir. Yeni modellerin dahil olduğu eşleştirilmiş karşılaştırma henüz yapılmadı.
