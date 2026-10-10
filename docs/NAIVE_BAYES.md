@@ -65,7 +65,8 @@ hesaplanan F1'in eşit ağırlıklı ortalamasıdır. Biz 77 kategorinin her bir
 başarıya önem verdiğimiz için seçim metriği olarak macro F1 kullanıyoruz;
 accuracy de destekleyici olarak kaydedilir. BANKING77'nin ağır dengesiz olduğu
 iddia edilmez. Per-class support/F1 değerleri her run'ın classification report'undadır.
-Ekip çapındaki metrik gerekçesi ve karşılaştırma 5. kişi tarafından tamamlanacaktır.
+Ekip çapındaki metrik gerekçesi ve validation karşılaştırması
+[ortak raporda](../results/MODEL_COMPARISON.md) 5. kişi tarafından hazırlanmıştır.
 
 ## Üç gerçek validation hatasının yorumu
 
@@ -83,12 +84,16 @@ gösterir. Sadece toplam accuracy ile bu kategori farkları görülemez.
 
 ## Devir ve nihai test
 
-Bu çalışma mevcut ortak veri/özellik sürümü için hazırdır. 2. kişi veriyi veya
-özellik ayarını değiştirirse aynı NB benchmark'ı yeniden çalıştırılır; bu sayılar
-yeni veri/özellik ayarının sonucu diye kullanılamaz. Ortak ayarlar ve NB alpha
-kesinleşince model sahibi test çıktısını üretir. Resmî test eğitim/ayar seçimine
-katılmaz. Önceden raporlanan 7 train/test metin örtüşmesi ayrıca belirtilir;
-test çalıştırıcısı train ile örtüşmeyen altkümenin skorlarını da üretir.
+Mevcut veri ve unigram + bigram temsili korunmuştur. NB'nin `alpha=0.05`
+ayarı, [protokol kaydı](../results/naive_bayes_final_protocol.json) ile
+resmî test çalıştırılmadan önce ayrı commit'e alınmıştır. Nihai model yalnızca
+8.499 train mesajından öğrenir; validation eğitime eklenmez.
+
+3.080 resmî test mesajında accuracy **%84.74**, macro F1 **0.8458** ölçülmüştür.
+Normalize anahtara göre train ile örtüşen 7 mesaj çıkarılınca 3.073 mesajda
+accuracy **%84.71**, macro F1 **0.8454** olur. Teste bakarak ayar değiştirilmemiştir.
+Tam kayıt, confusion matrix ve gerçek test hataları
+[nihai test raporunda](../results/NAIVE_BAYES_TEST.md) bulunur.
 
 ## Teknik kaynaklar
 

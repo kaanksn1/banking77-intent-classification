@@ -18,9 +18,9 @@ Notun %50'si sunum, %50'si implementation repo.
   ders yöntemlerinin tamamının uygulanmasını zorunlu kılıp kılmadığı açık
   değildir; NB/LR/SVM planının tüm zorunlu kapsamı tamamladığı varsayılmaz.
 - JEV/Laya/AnyJev gibi yöntemler hocanın son mailinde isteğe bağlı yeni yöntem
-  olarak kabul edilmiştir. Eklenirse sorumlusu ayrıca belirlenmeli; kullanılan
-  model/sürüm, girdi tanımları, değerlendirme örnekleri ve çalıştırma koşulları
-  kaydedilmelidir. Ek puan garanti değildir.
+  olarak kabul edilmiştir. Repo sahibi 10 Ekim'de bu ekleri ve yeni veri ekleme
+  planını iptal etmiştir; mevcut BANKING77 ve üç baseline ile devam edilir.
+  Bu yöntemlere ilişkin ek puan iddiasında bulunulmaz.
 
 ## Repo kontrolü
 
@@ -34,21 +34,23 @@ Notun %50'si sunum, %50'si implementation repo.
 - [x] Naive Bayes teknik açıklaması ve üç gerçek validation hatasının yorumu mevcut.
 - [x] 2. kişinin kendi çalışması için devir adımları docs/HANDOFF_DATA.md'de.
 - [x] PR #2, #3 ve #5 main'e alındı; ortak README ve çalıştırma bağlantıları güncellendi.
-- [x] Birleşik kodda 21 yerel kontrol geçti; Naive Bayes validation çalışması doğrulandı.
+- [x] PR #7 ve #8 ana dala alındı; son benchmark revizyonundaki 15 validation çalıştırmasının skorları ve istatistikleri doğrulandı.
+- [x] Birleşik kodda 33 yerel kontrol geçti; Naive Bayes validation çalışması doğrulandı.
 - [x] Logistic Regression'ın 15 validation deneyi ve raporlanan skorları entegrasyonda doğrulandı.
 - [x] Linear SVM'nin 10 validation deneyi, veri hash'leri ve hata katkıları incelemede doğrulandı.
 - [x] Üç modelin seçilen ayarları aynı veriyle validation üzerinde çalıştırıldı; tek mesaj tahmin komutu NB ve SVM ile doğrulandı.
-- [ ] Beş üyenin kendi gerçek katkı dosyalarını, commit ve PR bağlantılarını eklemesi.
+- [x] Beş üyenin kendi gerçek katkı dosyaları ve GitHub kanıtları mevcut; repo sahibinin dosyası bu teslim PR'ında eklendi.
 - [x] 2. kişi: veri analizi, veri ön işleme pipeline dokümantasyonu, özellik deneyleri ve katkı dosyası.
 - [x] 3. kişi: Logistic Regression kodu, validation deneyleri ve katkı dosyası.
-- [ ] Ekip: nihai ortak özellik ayarını kararlaştırma; değişirse model sahiplerinin deneyleri yenilemesi.
-- [ ] 3. kişi: teknik notta Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme; train/validation örtüşme iddiasını normalize anahtara göre birebir örtüşme olarak netleştirme.
+- [x] Repo sahibi: mevcut veri ve ortak unigram + bigram temsilini koruma kararını deney protokolünde kaydetme.
+- [x] 3. kişi: Macro F1 ve train/validation örtüşme açıklamalarını PR #7 ile düzeltme.
 - [x] 4. kişi: Linear SVM kodu, validation deneyleri ve katkı dosyası.
 - [ ] 4. kişi: teknik notta Macro F1 farkını sabit mesaj sayısına çeviren ifadeyi düzeltme.
-- [ ] Her model sahibi: validation ile ayarlarını dondurma, sonra nihai test çıktısı.
-- [ ] 5. kişi: ortak benchmark, metrik gerekçesi ve validation karşılaştırması hazır
-  (`results/MODEL_COMPARISON.md`); nihai test karşılaştırması ve sunum açık.
-- [ ] Son repo kontrolü: komutlar çalışıyor; geçici ve gereksiz dosyalar dışarıda.
+- [x] Repo sahibi: NB ayarlarını testten önce ayrı commit ile sabitleme ve nihai test çıktısını yayımlama (`results/NAIVE_BAYES_TEST.md`).
+- [ ] 3. ve 4. kişi: kendi nihai ayar kayıtlarını ve test çıktılarını teslim etme.
+- [x] 5. kişi: ortak benchmark, metrik gerekçesi, validation karşılaştırması ve grafikler (`results/MODEL_COMPARISON.md`).
+- [ ] 5. kişi: nihai test karşılaştırması ve PPTX sunum.
+- [x] Bu entegrasyonun repo kontrolü: testler ve NB validation geçti; nihai NB tahminleri/metrikleri doğrulandı, geçici araçlar ve modeller Git dışında.
 
 Kişisel raporların ve başkalarının deneylerinin ilgili üye tarafından hazırlanması
 gerekir. Test seti ayar seçiminde kullanılmaz; örtüşme raporlama sözleşmesi
