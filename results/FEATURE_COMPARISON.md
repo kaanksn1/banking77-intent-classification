@@ -79,3 +79,5 @@ Not part of the owners' training functions; run with the same grids and selectio
 - One validation split of 1,500 messages; differences of this size are within sampling noise when the interval includes 0.
 - Times are single measurements from one machine, not medians of repeats.
 - Only two feature settings (unigram, unigram+bigram) are compared; no other feature engineering.
+- Convergence: of the 60 unigram and unigram+bigram runs, one did not converge. The unigram Linear SVM candidate `loss=hinge, C=10` stopped at the 10,000-iteration limit (run `linear_svm_validation_20261010T134605382109Z`, macro F1 0.8733). It is not a selected setting (the selected unigram SVM is `loss=squared_hinge, C=1`, 0.8941, which converged), so no conclusion of this report depends on it. The bigram-only ablation runs do not record convergence status.
+- The bigram-only ablation is a diagnostic, not a candidate for the shared feature setting: dropping the unigrams costs 0.046 to 0.063 macro F1 for every model, so bigrams are only useful here as an addition to unigrams.

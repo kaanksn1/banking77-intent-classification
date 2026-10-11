@@ -5,12 +5,16 @@ Repo sahibinin ek model çalışması ile ortak değerlendirme sorumluluğunu ay
 Veri, mevcut LR/SVM uygulamaları ve ortak benchmark kodları değiştirilmemiştir.
 Üç klasik, sekiz kelime/sinir ağı ve dört Transformer baseline'ı ile NB + CNN
 katkısının sonuçları hazırdır: toplam 15 baseline ve bir katkı yöntemi.
+5. kişinin [on altı yöntemlik test karşılaştırması](../results/ALL_MODELS_TEST.md),
+[tam JSON kaydı](../results/all_models_test.json) ve `results/figures/all_*.png`
+grafikleri hazırdır. Ortak değerlendirme sorumluluğu 5. kişide kalır;
+PPTX, sunum provası ve süre kontrolü beklemektedir.
 
 ## Kullanılacak çıktılar
 
 | Kapsam | Sonuç ve protokol | Satır bazlı çıktılar |
 | --- | --- | --- |
-| Seçilmiş klasik NB/LR/SVM | [Klasik test raporu](../results/MODEL_COMPARISON_TEST.md) | Mevcut klasik test çıktıları; NB için `results/naive_bayes_test/` |
+| Seçilmiş klasik NB/LR/SVM | [Klasik test raporu](../results/MODEL_COMPARISON_TEST.md) | `results/naive_bayes_test/`, `results/logistic_regression_test/`, `results/linear_svm_test/` |
 | RNN, CNN, LSTM, BiLSTM, GloVe, Word2Vec CBOW/Skip-gram, FastText | [Validation](../results/NEURAL_VALIDATION.md), [test](../results/NEURAL_TEST.md) | `results/neural_test/<model>/` |
 | Ekip katkısı: NB + CNN soft voting | Aynı neural raporlar; `results/nb_cnn_final_protocol.json` | `results/neural_test/nb_cnn/` |
 | BERT-base-uncased, DistilBERT-base-uncased, RoBERTa-base, ALBERT-base-v2 | [Validation](../results/TRANSFORMER_VALIDATION.md), [nihai test](../results/TRANSFORMER_TEST.md); protokoller testten önce `1e4ff66` ile sabitlendi | `results/transformer_test/<model>/` |
@@ -20,7 +24,10 @@ Her yayımlanan yeni model klasöründe `metrics.json`, `classification_report.j
 `results/runs/` çıktıları Git'e eklenmez. Tekrarlama ve ağırlık doğrulama adımları
 [neural protokolde](NEURAL_BASELINES.md) açıklanır.
 
-## Ortak karşılaştırmada yapılacaklar
+## Ortak karşılaştırma ve sunum kontrolleri
+
+Aşağıdaki kontroller tamamlanan karşılaştırmanın yeniden üretilmesinde ve
+sunuma aktarılmasında korunur; yeni model eğitimi veya testten ayar seçimi gerektirmez.
 
 1. Seçilmiş üç klasik model, sekiz kelime/sinir ağı baseline'ı, dört Transformer
    ve NB + CNN katkısını nihai test tablosunda birleştir. Eğitim tamamlanmamış
@@ -31,8 +38,11 @@ Her yayımlanan yeni model klasöründe `metrics.json`, `classification_report.j
 3. Ana metrik macro F1, destekleyici metrik accuracy olsun. Resmî test her sınıfta
    40 mesaj içerir; macro F1 gerekçesini her talep kategorisine eşit önem vermekle açıkla.
 4. Mevcut eşleştirilmiş istatistik yaklaşımını yeni tahminlere uygula; kullanılan
-   yöntem, seed ve varsa çoklu karşılaştırma düzeltmesini belirt. Tek seed sonucu
-   veya küçük skor farkını doğrudan anlamlı üstünlük diye sunma.
+   yöntem, seed ve çoklu karşılaştırma düzeltmesini belirt. McNemar + Holm mesaj
+   doğruluğunu/accuracy farkını sınar; macro F1 farkları eşleştirilmiş bootstrap
+   aralıklarıyla ayrı raporlanır. Anlamlı accuracy farkı saptanmaması eşitlik veya
+   eşdeğerlik kanıtı değildir. Tek seed sonucu veya küçük skor farkını doğrudan
+   anlamlı üstünlük diye sunma.
 5. Yedi normalize birebir train örtüşmesinin dışarıda bırakıldığı 3.073 mesajlık
    sonuçları ayrı göster. Yakın tekrarların tamamen temizlendiğini iddia etme.
 6. Süre tablosunda CPU ve AMD GPU ölçümlerini, dış ön eğitimi ve ölçüm kapsamını
@@ -49,8 +59,9 @@ resmî değerlendirmelerinden önce commit edilir.
 
 ## Teslim
 
-Ortak değerlendirme, grafikler ve PPTX değişikliklerini kendi branch/PR'ında yap;
-kendi katkı dosyanı gerçek commit/PR bağlantılarınla güncelle. Klasik model raporu
+Ortak değerlendirme ve grafikler `feature/all-model-comparison` branch/PR'ında
+hazırlandı. PPTX'i 5. kişi hazırlar; kendi katkı dosyasını gerçek commit/PR
+bağlantılarıyla günceller. Klasik model raporu
 `results/MODEL_COMPARISON_TEST.md` ve `results/model_comparison_test.json`
 içindeki komut alanının `--split test` içerdiğini de kontrol et. Neural ve
 Transformer çalıştırıcıları ise `test --protocol ...` alt komutunu kullanır.

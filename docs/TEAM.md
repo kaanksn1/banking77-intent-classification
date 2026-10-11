@@ -12,8 +12,9 @@ Repo sahibinin Naive Bayes çalışması, 2. kişinin veri/özellik çalışmas�
 3. kişinin Logistic Regression ve 4. kişinin Linear SVM çalışması kendi PR'larıyla
 `main` içine alınmıştır. 5. kişinin ortak validation değerlendirmesi ve
 grafikleri PR #8, klasik modellerin nihai test karşılaştırması PR #11 ile
-birleştirilmiştir. Yeni modelleri kapsayan karşılaştırma, PPTX ve sunum provası
-beklemektedir. Hocanın son e-postasındaki ek baseline işi repo sahibine açıkça
+birleştirilmiştir. Yeni modelleri kapsayan on altı yöntemlik karşılaştırma
+(`feature/all-model-comparison`) hazırlanmıştır; PPTX ve sunum provası sunumu yapacak kişiye
+aittir ve repoya eklenmez. Hocanın son e-postasındaki ek baseline işi repo sahibine açıkça
 atanmıştır; [kapsam ve durum](NEURAL_BASELINES.md) ayrı takip edilir.
 Herkes kendi bölümünün deneylerini, bulgularını, slayt taslağını ve açıklamasını
 hazırlar. Repo sahibi ortak README ve GitHub entegrasyonunu günceller.

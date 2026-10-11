@@ -1,5 +1,5 @@
 {
-  "command": "python -m banking77.benchmark_models",
+  "command": "python -m banking77.benchmark_models --split test",
   "evaluation_split": "test",
   "official_test_evaluated": true,
   "repeats": 3,

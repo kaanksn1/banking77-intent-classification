@@ -297,6 +297,11 @@ def class_balance():
     }
 
 
+def command_line(split):
+    """Raporda yazan komut, sonucu üreten komutla aynı olmalıdır."""
+    return "python -m banking77.benchmark_models" + (" --split test" if split == "test" else "")
+
+
 def build_summary(rounds, split="validation"):
     models = aggregate(rounds, split)
     predictions = {key: read_predictions(models[key]["run_id"]) for key in SELECTED_KEYS}
@@ -316,7 +321,7 @@ def build_summary(rounds, split="validation"):
         entry["macro_f1_difference"] = bootstrap_difference(true, coded[reference], coded[candidate], len(categories))
         comparisons.append(entry)
     return {
-        "command": "python -m banking77.benchmark_models",
+        "command": command_line(split),
         "evaluation_split": split,
         "official_test_evaluated": split == "test",
         "repeats": len(rounds),

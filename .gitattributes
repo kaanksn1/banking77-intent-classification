@@ -16,3 +16,7 @@
 # Preserve official-message bytes in the selected new-model outputs as well.
 /results/neural_test/*/*.csv -text whitespace=cr-at-eol
 /results/transformer_test/*/*.csv -text whitespace=cr-at-eol
+
+# Keep the published classical test outputs byte-identical to the runner as well.
+/results/logistic_regression_test/*.csv -text whitespace=cr-at-eol
+/results/linear_svm_test/*.csv -text whitespace=cr-at-eol

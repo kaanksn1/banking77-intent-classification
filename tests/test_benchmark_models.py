@@ -16,6 +16,10 @@ def fake_run(accuracy=0.9, macro_f1=0.89, fit=1.0, sha="abc", files="f1"):
 
 
 class BenchmarkModelsTest(unittest.TestCase):
+    def test_command_names_the_split_it_was_run_with(self):
+        self.assertEqual(bm.command_line("validation"), "python -m banking77.benchmark_models")
+        self.assertEqual(bm.command_line("test"), "python -m banking77.benchmark_models --split test")
+
     def test_configs_match_agreed_settings(self):
         by_key = {c.key: c for c in bm.CONFIGS}
         self.assertEqual(by_key["nb_initial"].kwargs, {"alpha": 1.0})
