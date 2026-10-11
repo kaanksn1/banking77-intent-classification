@@ -23,8 +23,12 @@ hazırdır. 5. kişinin LR/SVM dahil [nihai klasik model karşılaştırması](r
 PR #11 ile ana dala alınmıştır; entegrasyonda skorlar ve istatistikler yeniden
 doğrulanmıştır. On altı yöntemin (üç klasik, sekiz kelime/sinir ağı, dört Transformer ve NB + CNN)
 ortak test karşılaştırması [results/ALL_MODELS_TEST.md](results/ALL_MODELS_TEST.md) içindedir:
-RoBERTa-base en yüksek macro F1'e sahiptir ve diğer 15 yöntemden ayrışır; NB + CNN
-BERT-base, DistilBERT ve ALBERT'ten ayrışmaz.
+RoBERTa-base gözlenen en yüksek macro F1'e sahiptir. Mesajların doğru/yanlış
+sınıflandırılmasına uygulanan McNemar + Holm testleri, diğer 15 yönteme göre
+daha yüksek accuracy'sini destekler; bunlar macro F1 anlamlılık testleri değildir.
+NB + CNN ile BERT-base, DistilBERT ve ALBERT arasında bu testlerle accuracy farkı
+saptanmadı; bu sonuç eşitlik veya eşdeğerlik kanıtı değildir. Macro F1 farklarının
+eşleştirilmiş bootstrap aralıkları ayrıca raporlanır.
 
 Repo sahibine ayrıca atanan yeni kapsamda CNN, RNN, LSTM, BiLSTM, GloVe,
 Word2Vec CBOW/Skip-gram ve FastText'in tam validation deneyleri tamamlandı.
@@ -40,7 +44,8 @@ ve resmî testleri tamamlandı. Seçilmiş checkpoint protokolleri
 [testten önceki `1e4ff66` commit'i](https://github.com/kaanksn1/banking77-intent-classification/commit/1e4ff66d49e7d184d3dbe1548fa7b038b79833c2)
 ile sabitlendi. Dört Transformer içinde en yüksek test skoru RoBERTa-base'te:
 **accuracy %93.02, macro F1 0.9301**. [Nihai test raporu ve hata örnekleri](results/TRANSFORMER_TEST.md),
-[tam metrik kaydı](results/transformer_test.json). Eşleştirilmiş anlamlılık testleri
+[tam metrik kaydı](results/transformer_test.json). Accuracy için McNemar + Holm
+testleri ve macro F1 için eşleştirilmiş bootstrap aralıkları
 [on altı yöntemlik karşılaştırmadadır](results/ALL_MODELS_TEST.md).
 Windows yeniden başlatıldı; Ubuntu 24.04.5 WSL2 üzerinde ROCm 7.2.1,
 ROCDXG 1.2.0 ve AMD PyTorch 2.9.1 ortamı kuruldu. RX 7800 XT'de GPU matris
@@ -293,8 +298,12 @@ resmî test tahminlerini tek tabloda karşılaştırmak için:
 ```
 
 Komut hiçbir model eğitmez ve ayar seçmez (birkaç saniye): `results/` altındaki kayıtlı
-`predictions.csv` dosyalarını okur, mesaj kimlik/metin/etiketlerini ve dosya hash'lerini
-doğrular, skorları yeniden hesaplar. [results/ALL_MODELS_TEST.md](results/ALL_MODELS_TEST.md),
+`predictions.csv` dosyalarını okur; kimlik/metin/etiketleri resmî test CSV'siyle,
+veri hash'lerini çalıştırma kayıtlarıyla karşılaştırır. Train örtüşmelerini yeniden
+hesaplar ve skorları doğrular. Neural/Transformer çıktı hash'leri ilk yayımlama
+kaydından; klasik model çıktı hash'leri [test sonrası entegrasyon manifestinden](results/classical_test_output_manifest.json)
+gelir. Klasik hash'ler ilk tahmin anında kaydedilmiş gibi sunulmaz.
+[results/ALL_MODELS_TEST.md](results/ALL_MODELS_TEST.md),
 `results/all_models_test.json` ve `results/figures/all_*.png` dosyalarını üretir.
 
 ## Yapı

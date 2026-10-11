@@ -74,9 +74,13 @@ Sunum: 12 Ekim 2026 Pazartesi. Notun %50'si sunum, %50'si implementation repo.
 - [x] 5. kişi: on altı yöntemin ortak test karşılaştırması, eşleştirilmiş istatistikler
   (McNemar + Holm, seed'li bootstrap) ve grafikler:
   [rapor](../results/ALL_MODELS_TEST.md), [tam kayıt](../results/all_models_test.json).
-  RoBERTa-base en yüksek macro F1 (0.9301) ve diğer 15 yöntemden Holm düzeltmesiyle ayrışır;
-  NB + CNN (0.9061) CNN, LR ve SVM'den ayrışır; BERT, DistilBERT ve ALBERT'ten ayrışmaz,
-  RoBERTa-base'in altındadır. Yeni bir mimari veya Transformer üstünlüğü iddia edilmez.
+  RoBERTa-base gözlenen en yüksek macro F1'e (0.9301) sahiptir. Mesajların doğru/yanlış
+  sınıflandırılmasına uygulanan McNemar + Holm testleri, diğer 15 yönteme göre
+  daha yüksek accuracy'sini destekler; bu testler macro F1 anlamlılığını ölçmez.
+  Aynı testler NB + CNN'nin CNN, LR ve SVM'ye göre daha yüksek accuracy'sini destekler;
+  BERT, DistilBERT ve ALBERT ile accuracy farkı saptanmaması eşitlik veya eşdeğerlik
+  kanıtı değildir. Macro F1 farklarının eşleştirilmiş bootstrap aralıkları ayrı verilir.
+  Yeni bir mimari veya Transformer üstünlüğü iddia edilmez.
 - [ ] 5. kişi: PPTX, sunum provası ve süre kontrolü.
 - [ ] Tüm üyeler: kendi katkı dosyalarını son gerçek işleri ve kendi commit/PR'larıyla güncelleme.
 - [ ] Ödev sistemine hem PPTX hem public GitHub URL'sini yükleme.

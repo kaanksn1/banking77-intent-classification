@@ -79,7 +79,7 @@ def cost_figure(summary):
     ax.set_xlim(0.06, 1800)
     ax.set_xlabel("Fit time in seconds (log scale; device and scope differ, see report)", color=INK_SECONDARY)
     ax.set_ylabel("Macro F1 on the official test", color=INK_SECONDARY)
-    ax.set_title("Accuracy against training cost", loc="left", color=INK, fontsize=12)
+    ax.set_title("Macro F1 against recorded training time", loc="left", color=INK, fontsize=12)
     _legend(ax, "lower right")
     fig.tight_layout()
     fig.savefig(FIGURES / "all_cost.png", dpi=160, facecolor=SURFACE)

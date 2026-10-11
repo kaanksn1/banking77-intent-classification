@@ -1,0 +1,42 @@
+{
+  "recorded_stage": "post_test_integration_review",
+  "recorded_date": "2026-10-11",
+  "recorded_at_prediction_time": false,
+  "reviewed_commit": "fff550b9594957798b09913b0c0f509356ccc9b7",
+  "verification": "Official test identity and overlap flags checked; scores recomputed; LR/SVM predictions, confusion matrices and classification reports matched previous independent local reproductions. Hashes anchor the reviewed published exports from this integration onward, not their original creation time.",
+  "runs": [
+    {
+      "key": "nb",
+      "output_directory": "results/naive_bayes_test",
+      "run_id": "naive_bayes_test_20261010T134914397317Z",
+      "output_sha256": {
+        "metrics.json": "858315677667252860f4fd1eeeb33eb6e443cb2f0bd5850ded40f64cfd4fb172",
+        "predictions.csv": "7a2682e148d4f384d05cffb4d463df4a2ef2a63b128e87996f2c6e9644982e25",
+        "confusion_matrix.csv": "80278f2c9cd82229b8fa3686101d9aa2896ad0de7f8732756d872aaa5b682df7",
+        "classification_report.json": "e492847f646842632b2ef824df12ed116f230cee9b2470c8f783868f0cafcaf6"
+      }
+    },
+    {
+      "key": "lr",
+      "output_directory": "results/logistic_regression_test",
+      "run_id": "logistic_regression_test_20261010T140342162665Z",
+      "output_sha256": {
+        "metrics.json": "cb629d99eaa68e2d45ba387f168004e5ea4c2e6dcee2fad3697f474690b4ed52",
+        "predictions.csv": "c94da6477fe992a54113bfa9509838a9c0e7e52b4e6217a8c896786c11f2faa5",
+        "confusion_matrix.csv": "979e94b46ecbbf281dab97ca2d9d9c07e4493f18fa5910f826ef14e1f557b8d7",
+        "classification_report.json": "b3a2de744e151f71b6ce1076d485895f53f3e63c6bdbb6fa7a83ed751c46027a"
+      }
+    },
+    {
+      "key": "svm",
+      "output_directory": "results/linear_svm_test",
+      "run_id": "linear_svm_test_20261010T140342648415Z",
+      "output_sha256": {
+        "metrics.json": "e5291e542641a24437dd4e36ee0e358b73beed8f47fb9ffb28d4fc0b34f4ff5c",
+        "predictions.csv": "36915f327c2be188ab85c546fa79e6d3bb8123246715a96e28703b21f2d5e58c",
+        "confusion_matrix.csv": "a3d7917f1a363ba915e8e6bc1a704642f24a4b7341552cb9437eb454f68b1a03",
+        "classification_report.json": "9399e5f181570989edbc6d11f1a356b583fad8d6c8ac92ddff457216e2af22fe"
+      }
+    }
+  ]
+}

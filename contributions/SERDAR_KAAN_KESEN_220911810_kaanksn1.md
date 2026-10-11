@@ -129,6 +129,14 @@ PPTX hazırlama ve sunma görevi 5. kişidedir.
   `results/TRANSFORMER_TEST.md` sonuçları ve gerçek hata örneklerini içerir.
   RoBERTa-base: test accuracy %93.02, macro F1 0.9301. Yeni ortak karşılaştırma,
   eşleştirilmiş istatistikler ve grafikler 5. kişinin işi olarak bırakıldı.
+- 5. kişinin 16 yöntemlik PR'ını inceleyip kullanıcı tarafından açıkça atanan
+  entegrasyon düzeltmelerini yaptım: resmî test kimliği ve veri hash'leriyle
+  eşleştirme, tüm modellerin normalize train örtüşmelerinin doğrulanması,
+  klasik çıktıların test sonrası manifesti ve bu kontroller için regresyon testleri.
+  Raporun McNemar/accuracy ile macro-F1 bootstrap ayrımını, eşitlik iddiasını ve
+  kategori bazındaki minimum hata oranı açıklamasını düzelttim. Klasik manifestin
+  ilk tahmin anında kaydedildiği iddia edilmez. Mevcut modeller, ayarlar ve
+  tahmin dosyaları değiştirilmedi; ortak karşılaştırmanın asıl çalışması 5. kişinindir.
 
 ## Sunuma katkım
 

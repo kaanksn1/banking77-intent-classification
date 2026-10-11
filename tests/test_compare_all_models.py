@@ -1,4 +1,7 @@
+import copy
+import json
 import unittest
+from pathlib import Path
 from unittest import mock
 
 import numpy as np
@@ -83,6 +86,130 @@ class CompareAllModelsTest(unittest.TestCase):
         with mock.patch.object(cam, "read_rows", corrupted):
             with self.assertRaises(ValueError):
                 cam.load_predictions(cam.load_sources())
+
+    def test_collectively_shifted_messages_are_rejected_against_official_test(self):
+        original = cam.read_rows
+
+        def shifted(directory):
+            rows = [dict(row) for row in original(directory)]
+            rows[0]["text"] += " changed in every method"
+            return rows
+
+        # Agreement between all prediction files cannot establish official-test identity.
+        with mock.patch.object(cam, "read_rows", shifted):
+            with self.assertRaises(ValueError):
+                cam.load_predictions(cam.load_sources())
+
+    def test_flipped_training_overlap_is_rejected_for_each_family(self):
+        original = cam.read_rows
+        for key in ("nb", "cnn", "bert"):
+            directory = cam.BY_KEY[key].directory
+
+            def flipped(name):
+                rows = original(name)
+                if name == directory:
+                    rows = [dict(row) for row in rows]
+                    flag = rows[0]["overlaps_training"]
+                    rows[0]["overlaps_training"] = "False" if flag == "True" else "True"
+                return rows
+
+            with self.subTest(method=key), mock.patch.object(cam, "read_rows", flipped):
+                with self.assertRaises(ValueError):
+                    cam.load_predictions(cam.load_sources())
+
+    def test_malformed_training_overlap_is_rejected(self):
+        original = cam.read_rows
+        for value in ("false", "0", ""):
+
+            def malformed(directory):
+                rows = original(directory)
+                if directory == cam.BY_KEY["nb"].directory:
+                    rows = [dict(row) for row in rows]
+                    row = next(row for row in rows if row["overlaps_training"] == "False")
+                    row["overlaps_training"] = value
+                return rows
+
+            with self.subTest(value=value), mock.patch.object(cam, "read_rows", malformed):
+                with self.assertRaises(ValueError):
+                    cam.load_predictions(cam.load_sources())
+
+    def test_current_prepared_data_hash_must_match_recorded_provenance(self):
+        original = cam.sha256
+        for filename in ("train.csv", "test.csv", "summary.json", "categories.json"):
+            target = cam.ROOT / "data/processed" / filename
+
+            def changed(path):
+                return "0" * 64 if Path(path) == target else original(path)
+
+            with self.subTest(file=filename), mock.patch.object(cam, "sha256", changed):
+                with self.assertRaises(ValueError):
+                    cam.load_predictions(cam.load_sources())
+
+    def test_source_dataset_provenance_must_match_current_data(self):
+        for key in ("nb", "cnn"):
+            for field in ("dataset_files_sha256", "dataset_summary_sha256"):
+                sources = copy.deepcopy(cam.load_sources())
+                method = cam.BY_KEY[key]
+                record = cam.source_run(sources, method)
+                metadata = record if method.source == "classical" else record["metrics"]
+                if field == "dataset_files_sha256":
+                    metadata[field]["test.csv"] = "0" * 64
+                else:
+                    metadata[field] = "0" * 64
+                with self.subTest(method=key, field=field):
+                    with self.assertRaises(ValueError):
+                        cam.load_predictions(sources)
+
+    def test_published_dataset_provenance_must_match_current_data(self):
+        original = Path.read_text
+        for key in ("nb", "cnn", "bert"):
+            target = cam.RESULTS / cam.BY_KEY[key].directory / "metrics.json"
+            for field in ("dataset_files_sha256", "dataset_summary_sha256"):
+
+                def changed(path, *args, **kwargs):
+                    text = original(path, *args, **kwargs)
+                    if path == target:
+                        metadata = json.loads(text)
+                        if field == "dataset_files_sha256":
+                            metadata[field]["test.csv"] = "0" * 64
+                        else:
+                            metadata[field] = "0" * 64
+                        return json.dumps(metadata)
+                    return text
+
+                with self.subTest(method=key, field=field), mock.patch.object(Path, "read_text", changed):
+                    with self.assertRaises(ValueError):
+                        cam.load_predictions(cam.load_sources())
+
+    def test_source_scores_and_settings_must_match_predictions(self):
+        for field in ("accuracy", "settings"):
+            sources = copy.deepcopy(cam.load_sources())
+            metadata = cam.source_run(sources, cam.BY_KEY["cnn"])["metrics"]
+            if field == "accuracy":
+                metadata[field] += 0.01
+            else:
+                metadata[field]["seed"] += 1
+            with self.subTest(field=field):
+                with self.assertRaises(ValueError):
+                    cam.load_predictions(sources)
+
+    def test_classical_source_must_describe_test_split(self):
+        sources = copy.deepcopy(cam.load_sources())
+        sources["classical"]["evaluation_split"] = "validation"
+        with self.assertRaises(ValueError):
+            cam.load_predictions(sources)
+
+    def test_classical_prediction_hash_mismatch_is_rejected(self):
+        original = cam.sha256
+        for key in ("nb", "lr", "svm"):
+            target = cam.RESULTS / cam.BY_KEY[key].directory / "predictions.csv"
+
+            def changed(path):
+                return "0" * 64 if Path(path) == target else original(path)
+
+            with self.subTest(method=key), mock.patch.object(cam, "sha256", changed):
+                with self.assertRaises(ValueError):
+                    cam.load_predictions(cam.load_sources())
 
     def test_summary_matches_recorded_scores(self):
         summary = cam.build_summary()

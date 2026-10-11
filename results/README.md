@@ -53,6 +53,9 @@ Mevcut raporlar:
   Klasik LR ve SVM'in test tahminleri bu karşılaştırma için `logistic_regression_test/` ve
   `linear_svm_test/` altına, `naive_bayes_test/` ile aynı dört standart dosyayla eklendi
   (`model_comparison_test.json` içindeki run kimlikleriyle aynı çalıştırmalar).
+  Entegrasyonda resmî veri kimliği, tüm modellerin örtüşme bayrakları ve çıktı hash'leri
+  ayrıca doğrulanır. [Klasik çıktı manifesti](classical_test_output_manifest.json)
+  test sonrası incelemede kaydedilmiştir; tahmin anında kaydedildiği iddia edilmez.
 - [Ortak model karşılaştırması](MODEL_COMPARISON.md): 5. kişinin çalışması;
   `python -m banking77.benchmark_models` ile üretilir, grafikler `figures/` altındadır.
 

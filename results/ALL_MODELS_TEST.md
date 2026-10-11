@@ -2,13 +2,13 @@
 
 Sixteen methods on the same 3080 official test messages (77 categories, 40 messages each). Every setting was frozen on validation before the official test; nothing in this report selects a setting, a checkpoint or a weight.
 Command: `python -m banking77.compare_all_models`. Dataset summary SHA-256: `468f55025cf719656d2351996fd0eb5b36b1ae4666a1c57d28743d9c565cadb5`.
-The script trains nothing: it reads the committed `predictions.csv` of each method, checks that all files contain the same message ids, texts and true labels, recomputes accuracy and macro F1, and compares the file hashes with the records written when the predictions were produced.
+The script trains nothing: it verifies each prediction file's message ids, texts and true labels against the official test CSV, checks run metadata against the current data hashes, derives normalised train overlaps, and recomputes accuracy and macro F1. All four output hashes are checked for every method. Neural/Transformer hashes come from their original publication records; classical hashes come from the [post-test integration manifest](classical_test_output_manifest.json), created after independent output review. The classical hashes were not recorded at prediction time.
 
 ## Results
 
-Sorted by macro F1. The interval is a paired bootstrap 95% interval (1000 resamples of test messages, seed 42, the same resamples for every method). The last column is the exact McNemar test against the best method with Holm correction over all 120 method pairs.
+Sorted by macro F1. The interval is a paired bootstrap 95% interval (1000 resamples of test messages, seed 42, the same resamples for every method). The last column is the exact McNemar test of message correctness/accuracy against the model with the highest observed macro F1, with Holm correction over all 120 pairs. McNemar p-values do not test macro F1. Macro-F1 intervals are pointwise and are not adjusted for multiple comparisons.
 
-| # | Method | Family | Accuracy | Macro F1 [95% interval] | Macro F1 without 7 overlapping messages | only method right / only best right | Holm p |
+| # | Method | Family | Accuracy | Macro F1 [95% interval] | Macro F1 without 7 overlapping messages | only method right / only best right | Holm p (accuracy) |
 | ---: | --- | --- | ---: | --- | ---: | ---: | ---: |
 | 1 | RoBERTa-base | Pretrained Transformers (fine-tuned) | 93.02% | 0.9301 [0.9202, 0.9382] | 0.9300 | best | - |
 | 2 | NB + CNN soft voting | Team contribution | 90.65% | 0.9061 [0.8949, 0.9158] | 0.9059 | 65 / 138 | 1.0e-05 |
@@ -27,20 +27,20 @@ Sorted by macro F1. The interval is a paired bootstrap 95% interval (1000 resamp
 | 15 | GloVe (frozen) + mean + linear | Embeddings + linear head | 71.01% | 0.7093 [0.6917, 0.7221] | 0.7090 | 39 / 717 | 2.2e-160 |
 | 16 | RNN | Neural networks trained from scratch | 68.99% | 0.6852 [0.6666, 0.6990] | 0.6849 | 38 / 778 | 2.0e-178 |
 
-Reading the table: RoBERTa-base has the highest macro F1 (0.9301). 15 of the other 15 methods are separable from it (Holm-adjusted p < 0.05).
-Methods that are close to each other in macro F1 are compared pair by pair below; a single test split does not give a firm ranking when the intervals overlap.
+Reading the table: RoBERTa-base has the highest macro F1 (0.9301). 15 of the other 15 methods differ from it in the paired correctness/accuracy test (Holm-adjusted p < 0.05).
+For macro-F1 comparisons, use the paired difference intervals below. Overlap between two individual intervals does not decide whether their paired difference excludes zero. Failure to reject an accuracy difference does not establish equal or equivalent methods.
 
-## Pre-specified paired comparisons
+## Selected paired comparisons
 
-Chosen before looking at the pairwise results; they answer the questions the presentation asks. "Fixed" counts messages the candidate gets right and the reference gets wrong.
+These descriptive contrasts address the presentation's questions; test results were already public, so they are not presented as preregistered hypotheses. "Fixed" counts messages the candidate gets right and the reference gets wrong. Macro-F1 difference intervals are unadjusted pointwise 95% intervals; the p-values separately concern accuracy, with Holm adjustment over all 120 pairs.
 
-| Reference | Candidate | Why this pair | Fixed / broken | Macro F1 difference [95% interval] | p | Holm p |
+| Reference | Candidate | Why this pair | Fixed / broken | Macro F1 difference [95% interval] | McNemar p (accuracy) | Holm p (accuracy) |
 | --- | --- | --- | ---: | --- | ---: | ---: |
-| Linear SVM | RoBERTa-base | best Transformer vs best classical TF-IDF model | 213 / 78 | +0.0436 [+0.0330, +0.0544] (excludes 0) | 1.2e-15 | 5.3e-14 |
+| Linear SVM | RoBERTa-base | validation-selected Transformer vs validation-selected classical reference | 213 / 78 | +0.0436 [+0.0330, +0.0544] (excludes 0) | 1.2e-15 | 5.3e-14 |
 | NB + CNN soft voting | RoBERTa-base | best Transformer vs team contribution | 138 / 65 | +0.0240 [+0.0147, +0.0336] (excludes 0) | 3.3e-07 | 1.0e-05 |
 | CNN | RoBERTa-base | best Transformer vs best network trained from scratch | 169 / 50 | +0.0384 [+0.0295, +0.0483] (excludes 0) | 2.7e-16 | 1.3e-14 |
 | Logistic Regression | Linear SVM | the two linear classical models | 24 / 28 | -0.0013 [-0.0057, +0.0028] (includes 0) | 0.678 | 1.000 |
-| Linear SVM | CNN | best classical model vs CNN | 146 / 130 | +0.0052 [-0.0054, +0.0153] (includes 0) | 0.367 | 1.000 |
+| Linear SVM | CNN | validation-selected classical reference vs CNN | 146 / 130 | +0.0052 [-0.0054, +0.0153] (includes 0) | 0.367 | 1.000 |
 | CNN | NB + CNN soft voting | team contribution vs its stronger component | 94 / 48 | +0.0144 [+0.0074, +0.0221] (excludes 0) | 1.4e-04 | 0.004 |
 | Naive Bayes | NB + CNN soft voting | team contribution vs its weaker component | 223 / 41 | +0.0603 [+0.0511, +0.0706] (excludes 0) | 1.8e-31 | 1.1e-29 |
 | DistilBERT-base | RoBERTa-base | distilled vs robustly pre-trained Transformer | 140 / 35 | +0.0340 [+0.0264, +0.0429] (excludes 0) | 4.5e-16 | 2.1e-14 |
@@ -73,7 +73,7 @@ The CNN weight (0.4; Naive Bayes 0.6) was chosen on validation macro F1 from a g
 
 The two components make different mistakes: both correct 2477, only Naive Bayes correct 133, only CNN correct 269, both wrong 201. An oracle that always picks the right component would reach 93.47% accuracy; the ensemble recovers part of that gap (2 messages that both components got wrong are right in the ensemble, 89 messages that at least one component had right are wrong in the ensemble). The ensemble is a team-built combination of two standard baselines; it is not a new architecture, and it does not reach the best Transformer.
 
-Against every other method (exact McNemar, Holm-adjusted over all 120 pairs, p < 0.05): NB + CNN is better than Naive Bayes, Logistic Regression, Linear SVM, GloVe (frozen) + mean + linear, Word2Vec CBOW + mean + LR, Word2Vec Skip-gram + mean + LR, FastText + mean + LR, RNN, CNN, LSTM, BiLSTM; it is not separable from BERT-base, DistilBERT-base, ALBERT-base-v2; it is worse than RoBERTa-base.
+In message correctness/accuracy (exact McNemar, Holm-adjusted over all 120 pairs, p < 0.05), NB + CNN is higher than Naive Bayes, Logistic Regression, Linear SVM, GloVe (frozen) + mean + linear, Word2Vec CBOW + mean + LR, Word2Vec Skip-gram + mean + LR, FastText + mean + LR, RNN, CNN, LSTM, BiLSTM; no accuracy difference is detected from BERT-base, DistilBERT-base, ALBERT-base-v2; it is lower than RoBERTa-base. Non-rejection is not evidence of equality or equivalence, and these p-values are not macro-F1 significance tests.
 
 ## Cost
 
@@ -101,17 +101,17 @@ Training and prediction time are not comparable across rows without the device a
 ## Where the methods fail
 
 - 58 of 3080 test messages are wrong for all 16 methods; 145 are wrong for all four Transformers.
-- Hardest categories (share of the 40 test messages that a method gets wrong, averaged over the 16 methods; the best method's own error rate in brackets):
-  - `contactless_not_working`: 38.9% (best method 10.0%)
-  - `virtual_card_not_working`: 38.1% (best method 10.0%)
-  - `compromised_card`: 33.6% (best method 10.0%)
-  - `pending_transfer`: 33.0% (best method 17.5%)
-  - `balance_not_updated_after_bank_transfer`: 31.4% (best method 17.5%)
-  - `topping_up_by_card`: 31.2% (best method 17.5%)
-  - `why_verify_identity`: 30.2% (best method 12.5%)
-  - `transfer_not_received_by_recipient`: 27.0% (best method 10.0%)
-  - `declined_transfer`: 26.6% (best method 15.0%)
-  - `card_acceptance`: 26.1% (best method 10.0%)
+- Hardest categories (share of the 40 test messages that a method gets wrong, averaged over the 16 methods; the lowest category error rate across the 16 methods in brackets. A different model may supply the minimum in each category; it is not necessarily RoBERTa's rate):
+  - `contactless_not_working`: 38.9% (category minimum 10.0%)
+  - `virtual_card_not_working`: 38.1% (category minimum 10.0%)
+  - `compromised_card`: 33.6% (category minimum 10.0%)
+  - `pending_transfer`: 33.0% (category minimum 17.5%)
+  - `balance_not_updated_after_bank_transfer`: 31.4% (category minimum 17.5%)
+  - `topping_up_by_card`: 31.2% (category minimum 17.5%)
+  - `why_verify_identity`: 30.2% (category minimum 12.5%)
+  - `transfer_not_received_by_recipient`: 27.0% (category minimum 10.0%)
+  - `declined_transfer`: 26.6% (category minimum 15.0%)
+  - `card_acceptance`: 26.1% (category minimum 10.0%)
 
 Most frequent confusions of RoBERTa-base:
 
@@ -136,7 +136,7 @@ Real messages that every method gets wrong (first six in file order; examples, n
 
 ## Sensitivity to overlap with the training data
 
-7 test messages are exact normalised copies of training messages; the macro F1 column in the results table excludes them. A looser check removes the 197 test messages (6.4%) whose character 3-5-gram TF-IDF cosine similarity to a training message is at least 0.95.
+7 test messages are exact normalised copies of training messages; the separately labelled overlap-excluded macro-F1 column removes them. A looser check removes the 197 test messages (6.4%) whose character 3-5-gram TF-IDF cosine similarity to a training message is at least 0.95.
 
 | Method | Macro F1 (all) | Macro F1 (without near-duplicates) | Change |
 | --- | ---: | ---: | ---: |
@@ -164,4 +164,5 @@ Real messages that every method gets wrong (first six in file order; examples, n
 - The classical test results were seen before the neural scope was added, so the whole study is not a fully blind test; the new settings were frozen on validation before their official test.
 - Word2Vec and FastText vectors are trained on our 8,499 training messages only, GloVe is frozen and externally pre-trained, and the Transformers use large external pre-training; the families do not have the same information.
 - Times come from different devices and measurement scopes (see Cost) and are not a speed ranking.
+- McNemar/Holm tests concern accuracy; macro-F1 bootstrap intervals are pointwise, not family-wise significance claims. Non-rejection does not establish equivalence. See the [McNemar definition](https://www.statsmodels.org/stable/generated/statsmodels.stats.contingency_tables.mcnemar.html).
 - Hyper-parameter tuning for the classical models and the NB + CNN weight use validation; the validation set was not added to training for any method.

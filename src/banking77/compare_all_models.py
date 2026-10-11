@@ -27,7 +27,7 @@ from banking77.benchmark_models import (
     paired_comparison,
     subset_scores,
 )
-from banking77.data import ROOT, read_records
+from banking77.data import ROOT, normalize_text, read_records
 
 RESULTS = ROOT / "results"
 NEAR_DUPLICATE_THRESHOLD = 0.95
@@ -74,13 +74,14 @@ METHODS = (
 )
 BY_KEY = {method.key: method for method in METHODS}
 
-# Önceden belirlenmiş karşılaştırmalar: (referans, aday, neden)
+# Raporun açıklayıcı karşılaştırmaları: (referans, aday, neden).
+# Test sonuçları zaten yayımlanmıştır; bunlar ön kayıtlı hipotezler değildir.
 KEY_COMPARISONS = (
-    ("svm", "roberta", "best Transformer vs best classical TF-IDF model"),
+    ("svm", "roberta", "validation-selected Transformer vs validation-selected classical reference"),
     ("nb_cnn", "roberta", "best Transformer vs team contribution"),
     ("cnn", "roberta", "best Transformer vs best network trained from scratch"),
     ("lr", "svm", "the two linear classical models"),
-    ("svm", "cnn", "best classical model vs CNN"),
+    ("svm", "cnn", "validation-selected classical reference vs CNN"),
     ("cnn", "nb_cnn", "team contribution vs its stronger component"),
     ("nb", "nb_cnn", "team contribution vs its weaker component"),
     ("distilbert", "roberta", "distilled vs robustly pre-trained Transformer"),
@@ -113,6 +114,8 @@ def holm_adjust(p_values):
 def load_sources():
     return {
         "classical": json.loads((RESULTS / "model_comparison_test.json").read_text(encoding="utf-8")),
+        "classical_output_manifest": json.loads(
+            (RESULTS / "classical_test_output_manifest.json").read_text(encoding="utf-8")),
         "neural": json.loads((RESULTS / "neural_test.json").read_text(encoding="utf-8")),
         "transformer": json.loads((RESULTS / "transformer_test.json").read_text(encoding="utf-8")),
         "transformer_validation": json.loads(
@@ -170,24 +173,39 @@ def timing_record(sources, method):
 
 
 def expected_hash(sources, method):
-    """Kaynak JSON'da kayıtlı predictions.csv hash'i; klasik modeller için yok."""
+    """Tahmin hash'i; klasik modellerin kaydı test sonrası entegrasyonda oluşturuldu."""
     if method.source == "classical":
-        return None
+        runs = {run["key"]: run for run in sources["classical_output_manifest"]["runs"]}
+        return runs[method.key]["output_sha256"]["predictions.csv"]
     record = source_run(sources, method)
-    return record.get("output_sha256", {}).get("predictions.csv")
+    return record["output_sha256"]["predictions.csv"]
+
+
+def check_dataset_record(record, method, files):
+    """Her çalıştırmanın veri kimliğini mevcut hazırlanmış dosyalarla eşleştirir."""
+    if record.get("dataset_summary_sha256") != files["summary.json"]:
+        raise ValueError(f"{method.key}: dataset summary hash'i mevcut veriyle eşleşmiyor")
+    recorded = record.get("dataset_files_sha256", {})
+    if any(recorded.get(name) != digest for name, digest in files.items()):
+        raise ValueError(f"{method.key}: dataset dosya hash'leri mevcut veriyle eşleşmiyor")
 
 
 def load_predictions(sources):
     """Tüm yöntemlerin tahminlerini yükler, hizalamayı ve skorları doğrular."""
     tables, checks = {}, []
-    reference = None
+    official = read_records(ROOT / "data/processed/test.csv")
+    training = read_records(ROOT / "data/processed/train.csv")
+    reference = [(r["id"], r["text"], r["category"]) for r in official]
+    training_keys = {normalize_text(r["text"]) for r in training}
+    data_files = {name: sha256(ROOT / "data/processed" / name)
+                  for name in ("train.csv", "test.csv", "categories.json", "summary.json")}
+    if sources["classical"].get("evaluation_split") != "test":
+        raise ValueError("Classical source must describe the official test split")
     for method in METHODS:
         rows = read_rows(method.directory)
         identity = [(r["id"], r["text"], r["true_label"]) for r in rows]
-        if reference is None:
-            reference = identity
         if identity != reference:
-            raise ValueError(f"{method.key}: test mesajları veya etiketleri diğer yöntemlerle aynı değil")
+            raise ValueError(f"{method.key}: test mesajları veya etiketleri resmî test verisiyle aynı değil")
         file_hash = sha256(RESULTS / method.directory / "predictions.csv")
         wanted = expected_hash(sources, method)
         if wanted is not None and wanted != file_hash:
@@ -195,19 +213,53 @@ def load_predictions(sources):
         true = [r["true_label"] for r in rows]
         predicted = [r["predicted_label"] for r in rows]
         recorded = json.loads((RESULTS / method.directory / "metrics.json").read_text(encoding="utf-8"))
+        if recorded.get("evaluation_split") != "test" or recorded.get("evaluation_rows") != len(official):
+            raise ValueError(f"{method.key}: test bölümü veya satır sayısı tutarsız")
+        check_dataset_record(recorded, method, data_files)
+        source = source_run(sources, method)
+        source_metrics = source if method.source == "classical" else source["metrics"]
+        if recorded["settings"] != source_metrics.get("settings", recorded["settings"]):
+            raise ValueError(f"{method.key}: ayarlar kaynak kayıtla eşleşmiyor")
+        if method.source == "classical":
+            check_dataset_record(source_metrics, method, data_files)
+            manifest = next(run for run in sources["classical_output_manifest"]["runs"]
+                            if run["key"] == method.key)
+            if manifest["output_directory"] != f"results/{method.directory}" or manifest["run_id"] != recorded["run_id"]:
+                raise ValueError(f"{method.key}: klasik çıktı manifest kimliği eşleşmiyor")
+            for name, digest in manifest["output_sha256"].items():
+                if sha256(RESULTS / method.directory / name) != digest:
+                    raise ValueError(f"{method.key}: {name} hash'i entegrasyon manifestiyle eşleşmiyor")
+        else:
+            if source_metrics["run_id"] != recorded["run_id"]:
+                raise ValueError(f"{method.key}: çalıştırma kimliği kaynak kayıtla eşleşmiyor")
+            for name, digest in source["output_sha256"].items():
+                if sha256(RESULTS / method.directory / name) != digest:
+                    raise ValueError(f"{method.key}: {name} hash'i kaynak kayıtla eşleşmiyor")
+            if method.source == "neural":
+                check_dataset_record(source_metrics, method, data_files)
         accuracy = float(accuracy_score(true, predicted))
         macro = float(f1_score(true, predicted, average="macro", zero_division=0))
         if abs(accuracy - recorded["accuracy"]) > TOLERANCE or abs(macro - recorded["macro_f1"]) > TOLERANCE:
             raise ValueError(f"{method.key}: yeniden hesaplanan skor kayıtlı metrikle eşleşmiyor")
+        if abs(accuracy - source_metrics["accuracy"]) > TOLERANCE or abs(macro - source_metrics["macro_f1"]) > TOLERANCE:
+            raise ValueError(f"{method.key}: yeniden hesaplanan skor kaynak metrikle eşleşmiyor")
         for row in rows:
-            if (row["true_label"] == row["predicted_label"]) != (row["correct"] == "True"):
+            correct = str(row["true_label"] == row["predicted_label"])
+            overlap = str(normalize_text(row["text"]) in training_keys)
+            if row["correct"] != correct:
                 raise ValueError(f"{method.key}: correct sütunu etiketlerle tutarsız ({row['id']})")
+            if row["overlaps_training"] != overlap:
+                raise ValueError(f"{method.key}: overlaps_training sütunu train verisiyle tutarsız ({row['id']})")
         tables[method.key] = rows
         checks.append({
             "key": method.key,
             "rows": len(rows),
             "predictions_sha256": file_hash,
-            "hash_matches_source_record": wanted is not None,
+            "hash_matches_source_record": True,
+            "hash_record_stage": "post_test_integration_review" if method.source == "classical" else "original_publication",
+            "official_test_identity_verified": True,
+            "dataset_hashes_verified": True,
+            "overlap_flags_verified": True,
             "recomputed_accuracy": accuracy,
             "recomputed_macro_f1": macro,
         })
@@ -223,12 +275,13 @@ def encode(tables):
     predicted = {
         key: np.array([index[r["predicted_label"]] for r in rows]) for key, rows in tables.items()
     }
-    overlaps = np.array([r["overlaps_training"] == "True" for r in first])
+    training_keys = {normalize_text(r["text"]) for r in read_records(ROOT / "data/processed/train.csv")}
+    overlaps = np.array([normalize_text(r["text"]) in training_keys for r in first])
     return classes, true, predicted, overlaps
 
 
 def bootstrap_scores(true, predicted, classes, resamples=BOOTSTRAP_RESAMPLES, seed=BOOTSTRAP_SEED):
-    """Her yöntem için aynı yeniden örneklemelerle macro F1 ve accuracy %95 aralığı."""
+    """Her yöntem için aynı yeniden örneklemelerle macro F1 %95 aralığı."""
     rng = np.random.default_rng(seed)
     size, count = len(true), len(classes)
     macro = {key: np.empty(resamples) for key in predicted}
@@ -431,6 +484,11 @@ def build_summary():
         "dataset_summary_sha256": sha256(ROOT / "data/processed/summary.json"),
         "bootstrap": {"resamples": BOOTSTRAP_RESAMPLES, "seed": BOOTSTRAP_SEED},
         "alpha": ALPHA,
+        "statistical_scope": {
+            "mcnemar_holm": "message correctness / accuracy; Holm correction over all 120 pairs",
+            "macro_f1_intervals": "pointwise paired bootstrap intervals; not multiplicity-adjusted",
+            "non_rejection": "does not establish equality or equivalence",
+        },
         "best": best,
         "methods": methods,
         "integrity_checks": checks,
@@ -474,19 +532,24 @@ def render_markdown(summary):
         f"({summary['categories']} categories, 40 messages each). Every setting was frozen on validation "
         "before the official test; nothing in this report selects a setting, a checkpoint or a weight.",
         f"Command: `{summary['command']}`. Dataset summary SHA-256: `{summary['dataset_summary_sha256']}`.",
-        "The script trains nothing: it reads the committed `predictions.csv` of each method, checks that all "
-        "files contain the same message ids, texts and true labels, recomputes accuracy and macro F1, and "
-        "compares the file hashes with the records written when the predictions were produced.",
+        "The script trains nothing: it verifies each prediction file's message ids, texts and true labels "
+        "against the official test CSV, checks run metadata against the current data hashes, derives "
+        "normalised train overlaps, and recomputes accuracy and macro F1. All four output hashes are checked "
+        "for every method. Neural/Transformer hashes come from their original publication records; classical "
+        "hashes come from the [post-test integration manifest](classical_test_output_manifest.json), created "
+        "after independent output review. The classical hashes were not recorded at prediction time.",
         "",
         "## Results",
         "",
         "Sorted by macro F1. The interval is a paired bootstrap 95% interval "
         f"({summary['bootstrap']['resamples']} resamples of test messages, seed {summary['bootstrap']['seed']}, "
-        "the same resamples for every method). The last column is the exact McNemar test against the best "
-        "method with Holm correction over all 120 method pairs.",
+        "the same resamples for every method). The last column is the exact McNemar test of message "
+        "correctness/accuracy against the model with the highest observed macro F1, with Holm correction "
+        "over all 120 pairs. McNemar p-values do not test macro F1. Macro-F1 intervals are pointwise and "
+        "are not adjusted for multiple comparisons.",
         "",
         "| # | Method | Family | Accuracy | Macro F1 [95% interval] | Macro F1 without 7 overlapping messages "
-        "| only method right / only best right | Holm p |",
+        "| only method right / only best right | Holm p (accuracy) |",
         "| ---: | --- | --- | ---: | --- | ---: | ---: | ---: |",
     ]
     for m in methods:
@@ -505,21 +568,25 @@ def render_markdown(summary):
     lines += [
         "",
         f"Reading the table: {best['name']} has the highest macro F1 ({best['macro_f1']:.4f}). "
-        f"{len(methods) - 1 - len(inseparable)} of the other {len(methods) - 1} methods are separable from it "
+        f"{len(methods) - 1 - len(inseparable)} of the other {len(methods) - 1} methods differ from it "
+        "in the paired correctness/accuracy test "
         f"(Holm-adjusted p < {summary['alpha']})"
         + (
-            "; not separable from it: " + ", ".join(m["name"] for m in inseparable) + "."
+            "; no accuracy difference detected for: " + ", ".join(m["name"] for m in inseparable) + "."
             if inseparable else "."
         ),
-        "Methods that are close to each other in macro F1 are compared pair by pair below; a single test split "
-        "does not give a firm ranking when the intervals overlap.",
+        "For macro-F1 comparisons, use the paired difference intervals below. Overlap between two individual "
+        "intervals does not decide whether their paired difference excludes zero. Failure to reject an "
+        "accuracy difference does not establish equal or equivalent methods.",
         "",
-        "## Pre-specified paired comparisons",
+        "## Selected paired comparisons",
         "",
-        "Chosen before looking at the pairwise results; they answer the questions the presentation asks. "
-        "\"Fixed\" counts messages the candidate gets right and the reference gets wrong.",
+        "These descriptive contrasts address the presentation's questions; test results were already public, "
+        "so they are not presented as preregistered hypotheses. \"Fixed\" counts messages the candidate gets "
+        "right and the reference gets wrong. Macro-F1 difference intervals are unadjusted pointwise 95% "
+        "intervals; the p-values separately concern accuracy, with Holm adjustment over all 120 pairs.",
         "",
-        "| Reference | Candidate | Why this pair | Fixed / broken | Macro F1 difference [95% interval] | p | Holm p |",
+        "| Reference | Candidate | Why this pair | Fixed / broken | Macro F1 difference [95% interval] | McNemar p (accuracy) | Holm p (accuracy) |",
         "| --- | --- | --- | ---: | --- | ---: | ---: |",
     ]
     for c in summary["key_comparisons"]:
@@ -566,11 +633,12 @@ def render_markdown(summary):
         "wrong in the ensemble). The ensemble is a team-built combination of two standard baselines; it is "
         "not a new architecture, and it does not reach the best Transformer.",
         "",
-        "Against every other method (exact McNemar, Holm-adjusted over all 120 pairs, "
-        f"p < {summary['alpha']}): NB + CNN is better than "
-        + _names(a["position_vs_other_methods"]["better"]) + "; it is not separable from "
-        + _names(a["position_vs_other_methods"]["not_separable"]) + "; it is worse than "
-        + _names(a["position_vs_other_methods"]["worse"]) + ".",
+        "In message correctness/accuracy (exact McNemar, Holm-adjusted over all 120 pairs, "
+        f"p < {summary['alpha']}), NB + CNN is higher than "
+        + _names(a["position_vs_other_methods"]["better"]) + "; no accuracy difference is detected from "
+        + _names(a["position_vs_other_methods"]["not_separable"]) + "; it is lower than "
+        + _names(a["position_vs_other_methods"]["worse"]) + ". Non-rejection is not evidence of equality "
+        "or equivalence, and these p-values are not macro-F1 significance tests.",
         "",
         "## Cost",
         "",
@@ -597,11 +665,12 @@ def render_markdown(summary):
         f"- {d['wrong_for_all_methods']} of {summary['evaluation_rows']} test messages are wrong for all "
         f"{d['methods']} methods; {d['wrong_for_all_transformers']} are wrong for all four Transformers.",
         "- Hardest categories (share of the 40 test messages that a method gets wrong, averaged over the "
-        f"{d['methods']} methods; the best method's own error rate in brackets):",
+        f"{d['methods']} methods; the lowest category error rate across the {d['methods']} methods in brackets. "
+        "A different model may supply the minimum in each category; it is not necessarily RoBERTa's rate):",
     ]
     for item in d["hardest_categories"]:
         lines.append(
-            f"  - `{item['category']}`: {item['mean_error_rate']:.1%} (best method {item['best_error_rate']:.1%})"
+            f"  - `{item['category']}`: {item['mean_error_rate']:.1%} (category minimum {item['best_error_rate']:.1%})"
         )
     lines += ["", f"Most frequent confusions of {best['name']}:", "",
               "| True category | Predicted category | Messages |", "| --- | --- | ---: |"]
@@ -626,7 +695,7 @@ def render_markdown(summary):
         "## Sensitivity to overlap with the training data",
         "",
         f"{summary['overlapping_evaluation_rows']} test messages are exact normalised copies of training messages; "
-        "the macro F1 column in the results table excludes them. A looser check removes the "
+        "the separately labelled overlap-excluded macro-F1 column removes them. A looser check removes the "
         f"{near['flagged_messages']} test messages ({near['flagged_share']:.1%}) whose character 3-5-gram TF-IDF "
         f"cosine similarity to a training message is at least {near['threshold']:.2f}.",
         "",
@@ -651,6 +720,9 @@ def render_markdown(summary):
         "externally pre-trained, and the Transformers use large external pre-training; the families do not "
         "have the same information.",
         "- Times come from different devices and measurement scopes (see Cost) and are not a speed ranking.",
+        "- McNemar/Holm tests concern accuracy; macro-F1 bootstrap intervals are pointwise, not family-wise "
+        "significance claims. Non-rejection does not establish equivalence. See the "
+        "[McNemar definition](https://www.statsmodels.org/stable/generated/statsmodels.stats.contingency_tables.mcnemar.html).",
         "- Hyper-parameter tuning for the classical models and the NB + CNN weight use validation; the "
         "validation set was not added to training for any method.",
         "",
